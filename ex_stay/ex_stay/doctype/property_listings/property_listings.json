@@ -1,0 +1,134 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-02-11 10:12:36.792296",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "listing_info_section",
+  "title",
+  "description",
+  "property_photos_section",
+  "upload_images",
+  "column_break_ckta",
+  "image_eixe",
+  "location_section",
+  "address",
+  "country",
+  "column_break_ompq",
+  "city",
+  "pricing_section",
+  "price_per_night",
+  "property_type",
+  "column_break_yloo",
+  "available_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "listing_info_section",
+   "fieldtype": "Section Break",
+   "label": "Listing Info"
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Title"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text",
+   "label": "Description"
+  },
+  {
+   "fieldname": "location_section",
+   "fieldtype": "Section Break",
+   "label": "Location"
+  },
+  {
+   "fieldname": "address",
+   "fieldtype": "Data",
+   "label": "Address"
+  },
+  {
+   "fieldname": "country",
+   "fieldtype": "Data",
+   "label": "Country"
+  },
+  {
+   "fieldname": "column_break_ompq",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "city",
+   "fieldtype": "Data",
+   "label": "City"
+  },
+  {
+   "fieldname": "pricing_section",
+   "fieldtype": "Section Break",
+   "label": "Pricing"
+  },
+  {
+   "fieldname": "price_per_night",
+   "fieldtype": "Int",
+   "label": "Price per Night"
+  },
+  {
+   "fieldname": "column_break_yloo",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "available_from",
+   "fieldtype": "Date",
+   "label": "Available From"
+  },
+  {
+   "fieldname": "property_type",
+   "fieldtype": "Select",
+   "label": "Property Type",
+   "options": "\nHouse\nApartment\nCondominium(Condo)\nLoft\nTownhouse\nVilla\nMansion\nPenthouse\nCastle\nChalet\nBoutique Hotel\nHostel\nGuesthouse\nCabin\nCottage\nBungalow\nTiny Home\nTreehouse"
+  },
+  {
+   "fieldname": "property_photos_section",
+   "fieldtype": "Section Break",
+   "label": "Property Photos"
+  },
+  {
+   "fieldname": "upload_images",
+   "fieldtype": "Attach Image",
+   "label": "Upload Images"
+  },
+  {
+   "fieldname": "column_break_ckta",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "image_eixe",
+   "fieldtype": "Image"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-02-11 10:33:42.625276",
+ "modified_by": "Administrator",
+ "module": "ex_stay",
+ "name": "Property Listings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
