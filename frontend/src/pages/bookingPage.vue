@@ -98,7 +98,7 @@
 
           <!-- Guest Selection -->
           <div class="mb-15">
-            <label class="block text-sm text-gray-600">Guests</label>
+            <label class="block text-sm text-black">Guests</label>
             <div class="flex items-center w-full py-2">
             <GuestDropdown />
             </div>
