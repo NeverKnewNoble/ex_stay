@@ -9,7 +9,9 @@
       <div class="flex items-center gap-2">
         <!-- Desktop Menu -->
         <ul class="hidden md:flex mr-2">
-          <li class="inline-block px-2 hover:text-[#7ebd9c] cursor-pointer ">CATALOGS</li>
+          <router-link to="/catalogue">
+            <li class="inline-block px-2 hover:text-[#7ebd9c] cursor-pointer">CATALOGUE</li>
+          </router-link>
         </ul>
         <!-- Mobile Menu Button -->
         <button class="md:hidden p-2" @click="toggleMenu">
@@ -17,14 +19,16 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
           </svg>
         </button>
-        <!-- Login and Sign Up buttons -->
+        <!-- Login/Logout Button -->
         <button
-          @click="logout"
-          class="border px-6 py-2 rounded-sm cursor-pointer bg-[#7ebd9c] text-white transition-colors hover:bg-white hover:border-black  hover:text-black"
-        >Logout
+          @click="isLoggedIn ? logout() : login()"
+          class="border px-6 py-2 rounded-sm cursor-pointer transition-colors"
+          :class="isLoggedIn 
+            ? 'bg-[#7ebd9c] text-white hover:bg-white hover:border-black hover:text-black' 
+            : 'bg-white text-black border-black hover:border-[#7ebd9c] hover:bg-[#7ebd9c] hover:text-white'"
+        >
+          {{ isLoggedIn ? 'Logout' : 'Login' }}
         </button>
-        
-
       </div>
     </div>
     <!-- Mobile Menu -->
@@ -37,17 +41,23 @@
   </nav>
 </template>
 
-
-
 <script>
 import axios from 'axios';
+import { session } from '@/data/session'; // Assuming this tracks login state
 
 export default {
   name: 'NavBarComponent',
   data() {
     return {
       isMenuOpen: false,
+      isLoggedIn: session.isLoggedIn || false, // Get login state
     };
+  },
+  watch: {
+    // React to session changes dynamically
+    'session.isLoggedIn': function (newVal) {
+      this.isLoggedIn = newVal;
+    }
   },
   methods: {
     toggleMenu() {
@@ -55,23 +65,20 @@ export default {
     },
     async logout() {
       try {
-        // Call the Frappe logout API
         await axios.post('/api/method/logout', {}, { withCredentials: true });
-
-        // Clear stored authentication tokens
         localStorage.removeItem('token');
-        sessionStorage.clear(); // Clears session storage if used
-
-        // Redirect user to login page
+        sessionStorage.clear();
+        this.isLoggedIn = false;
         this.$router.push('/account/login');
-
-        // Force reload to ensure a clean session
         setTimeout(() => {
           window.location.reload();
         }, 100);
       } catch (error) {
         console.error('Logout failed:', error);
       }
+    },
+    login() {
+      this.$router.push('/account/login');
     },
   },
 };

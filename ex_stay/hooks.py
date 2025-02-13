@@ -24,6 +24,21 @@ app_license = "mit"
 # Includes in <head>
 # ------------------
 
+
+doc_events = {
+    "Doctype1": {
+        "on_update": "ex_stay.api.create_user.create_user"
+    },
+        "Doctype2": {
+        "on_update": "ex_stay.api.forgot_password.forgot_password"
+    }
+}
+
+
+
+
+
+
 # include js, css files in header of desk.html
 # app_include_css = "/assets/ex_stay/css/ex_stay.css"
 # app_include_js = "/assets/ex_stay/js/ex_stay.js"
