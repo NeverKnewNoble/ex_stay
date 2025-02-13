@@ -3,13 +3,13 @@
     <!-- Dropdown Trigger -->
     <div
       @click="toggleDropdown"
-      class="cursor-pointer p-3 h-[40px] bg-white border border-gray-200 rounded-sm shadow-sm hover:shadow-md transition-shadow duration-200 flex justify-between items-center !important"
+      class="cursor-pointer p-3 h-[35px] bg-white border border-gray-200 rounded-sm shadow-sm hover:border-[#6ea589] hover:border transition-shadow duration-200 flex justify-between items-center !important"
     >
       <input
         type="text"
         readonly
         :value="guestSummary"
-        class="bg-transparent focus:outline-none text-gray-700 font-medium w-[410px] focus:border-none outline-none !important"
+        class="bg-transparent focus:outline-none py-2 text-gray-700 font-medium w-[410px] focus:border-none outline-none !important"
       />
       <span class="text-gray-500 transform transition-transform duration-200 !important" :class="{ 'rotate-180': dropdownOpen }">
         &#9660;
