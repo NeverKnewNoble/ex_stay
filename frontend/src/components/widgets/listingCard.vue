@@ -5,10 +5,11 @@
     </div>
 
     <div class="p-4">
-      <h3 class="text-xl font-semibold text-gray-800">{{ location }}</h3>
-      <p class="text-gray-500 text-sm">{{ distance }} kilometers away</p>
+      <h3 class="text-xl font-semibold text-gray-800">{{ title }}</h3>
+      <p>{{ country }} <span class="text-gray-500">  | {{ location }}, {{ address }}</span></p>
+      <!-- <p class="text-gray-500 text-sm">{{ distance }} kilometers away</p> -->
       <div class="mt-2 flex items-center justify-between">
-        <p class="text-lg font-bold text-green-600">{{ price }} / night</p>
+        <p class="text-lg font-bold text-green-600">GH₵{{ price }} / night</p>
       </div>
     </div>
   </div>
@@ -18,7 +19,10 @@
 export default {
   name: "listingCard",
   props: {
+    title: String,
     location: String,
+    country: String,
+    address: String,
     distance: Number,
     price: String,
     imageUrl: String,

@@ -34,8 +34,8 @@
     <!-- Mobile Menu -->
     <div v-if="isMenuOpen" class="md:hidden bg-white shadow-md rounded-sm">
       <ul class="flex flex-col">
-        <li class="px-4 py-2 hover:text-[#7ebd9c] cursor-pointer font-semibold">HOME</li>
-        <li class="px-4 py-2 hover:text-[#7ebd9c] cursor-pointer font-semibold">CATALOGS</li>
+        <router-link to="/"><li class="px-4 py-2 hover:text-[#7ebd9c] cursor-pointer font-semibold">HOME</li></router-link>
+        <router-link to="/catalogue"><li class="px-4 py-2 hover:text-[#7ebd9c] cursor-pointer font-semibold">CATALOGS</li></router-link>
       </ul>
     </div>
   </nav>

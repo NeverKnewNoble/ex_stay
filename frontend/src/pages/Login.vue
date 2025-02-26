@@ -40,9 +40,9 @@
               type="text"
               required
               placeholder="johndoe@email.com"
-              class="w-[500px] border border-gray-400 shadow-md focus:shadow-md rounded-md py-2 pl-10 pr-3"
+              class="w-[500px] border border-gray-400 focus:border-gray-400 shadow-md focus:shadow-md rounded-md py-2 pl-10 pr-3"
             />
-            <font-awesome-icon :icon="['fas', 'envelope']" class="absolute left-3 top-9 transform -translate-y-1/2 text-gray-500" />
+            <font-awesome-icon :icon="['fas', 'envelope']" class="absolute left-3 top-10 transform -translate-y-1/2 text-gray-500" />
           </div>
 
           <div class="relative w-full">
@@ -52,9 +52,9 @@
               type="password"
               required
               placeholder="••••••"
-              class="w-[500px] border border-gray-400 shadow-md focus:shadow-md rounded-md py-2 pl-10 pr-3"
+              class="w-[500px] border border-gray-400 focus:border-gray-400 shadow-md focus:shadow-md rounded-md py-2 pl-10 pr-3"
             />
-            <font-awesome-icon :icon="['fas', 'lock']" class="absolute left-3 top-9 transform -translate-y-1/2 text-gray-500" />
+            <font-awesome-icon :icon="['fas', 'lock']" class="absolute left-3 top-10 transform -translate-y-1/2 text-gray-500" />
           </div>
 
           <button
@@ -111,10 +111,14 @@ async function submit() {
       email: email.value,
       password: password.value,
     });
+
+  
   } catch (error) {
     handleLoginError(error);
   }
 }
+
+
 
 function handleLoginError(error) {
   if (error.response && error.response.data) {
