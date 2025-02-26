@@ -31,7 +31,13 @@ doc_events = {
     },
         "Doctype2": {
         "on_update": "ex_stay.api.forgot_password.forgot_password"
-    }
+    },
+        "Doctype3": {
+        "on_update": "ex_stay.api.booking.book"
+    },
+        "Doctype4": {
+        "on_update": "ex_stay.api.countryList.countryInFrappe"
+    },
 }
 
 

@@ -15,25 +15,19 @@
       </div>
 
       <!-- Search Bar -->
-      <div class="absolute top-[500px] left-0 w-full flex items-center justify-center ">
+      <div class="absolute top-[500px] left-0 w-full flex items-center justify-center">
         <div class="relative">
-          <!-- Input Field -->
           <input
             type="text"
             id="search"
             name="search"
             placeholder="Search For Your Destination"
-            class="bg-gray-100 sm:w-[680px] md:w-[800px] lg:w-[950px] h-[36px] transition rounded-full pl-5 pr-12 focus:border-none outline-none !important"
-            
+            class="bg-gray-100 sm:w-[680px] md:w-[950px] lg:w-[950px] py-[12px] focus:bg-white border-none transition rounded-full pl-5 pr-12 focus:border-none "
           />
-
-          <!-- Search Button -->
           <button
             type="submit"
-            aria-label="Search"
             class="w-[42px] h-[42px] absolute right-[4px] top-1/2 transform -translate-y-1/2 bg-[#7ebd9c] rounded-full flex items-center justify-center hover:bg-[#6daa8b] transition-colors"
           >
-            <!-- Search Icon -->
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="h-5 w-5 text-white"
@@ -41,138 +35,113 @@
               viewBox="0 0 24 24"
               stroke="currentColor"
             >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-              />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
           </button>
         </div>
       </div>
     </section>
 
-    <!-- **Filters -->
-    <section class="flex bg-white justify-center items-center h-auto">
-      <div class="flex bg-gray-100 p-4 shadow-lg rounded-lg mt-10 h-auto">
-        <div class="flex items-center justify-center gap-2">
-          <div class="flex items-center">
-            <!-- **Naive UI Date Picker -->
-            <n-date-picker v-model:value="range" type="daterange" clearable class="text-black"/>
-          </div>
-          <div class="flex items-center">
-            <GuestDropdown />
-          </div>
-        </div>
-      </div>
-    </section>
-
     <!-- **Places -->
     <section class="w-full bg-white min-h-screen pt-10 px-15 pb-20">
+      <h2 class="text-[50px] mt-[100px] font-semibold text-center text-green-600 mb-10">
+        Experience Comfort Like Never Before
+      </h2>
+
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 lg:gap-x-2">
-        <!-- Listing 1 -->
-        <router-link to="/booking" class="cursor-pointer">
-          <listingCard
-            location="Accra, Ghana"
-            :distance="25"
-            price="GH₵499"
-            imageUrl="../../assets/images/savvana.jpg"
-          />
-        </router-link>
-        <!-- Listing 2 -->
         <listingCard
-          location="Accra, Ghana"
+          v-for="property in paginatedProperties"
+          :key="property.item_code"
+          :title="property.title"
+          :address="property.address"
+          :location="property.city"
+          :country="property.country"
           :distance="25"
-          price="GH₵499"
-          imageUrl="../../assets/images/sundown.jpg"
-        />
-        <!-- Listing 3 -->
-        <listingCard
-          location="Accra, Ghana"
-          :distance="25"
-          price="GH₵499"
-          imageUrl="../../assets/images/beachvue.jpg"
-        />
-        <!-- Listing 4 -->
-        <listingCard
-          location="Accra, Ghana"
-          :distance="25"
-          price="GH₵499"
-          imageUrl="../../assets/images/homebanner.jpg"
-        />
-        <!-- Listing 1 -->
-        <listingCard
-          location="Accra, Ghana"
-          :distance="25"
-          price="GH₵499"
-          imageUrl="../../assets/images/savvana.jpg"
-        />
-        <!-- Listing 2 -->
-        <listingCard
-          location="Accra, Ghana"
-          :distance="25"
-          price="GH₵499"
-          imageUrl="../../assets/images/savvana.jpg"
-        />
-        <!-- Listing 3 -->
-        <listingCard
-          location="Accra, Ghana"
-          :distance="25"
-          price="GH₵499"
-          imageUrl="../../assets/images/savvana.jpg"
-        />
-        <!-- Listing 4 -->
-        <listingCard
-          location="Accra, Ghana"
-          :distance="25"
-          price="GH₵499"
-          imageUrl="../../assets/images/savvana.jpg"
+          :price="`${property.rate || 'N/A'}`"
+          :imageUrl="getImageUrl(property.profile_picture)"
+          @click="goToBookingPage(property)"
         />
       </div>
+
+      <!-- Pagination -->
       <div class="flex items-center justify-center pt-15">
-        <n-pagination v-model:page="page" :page-count="100" />
+        <n-pagination v-model:page="page" :page-count="totalPages" />
       </div>
     </section>
 
     <!-- **Footer -->
     <FooterComponent />
-
   </div>
 </template>
 
-
 <script>
-import Navbar from '../components/elements/navbar.vue'; 
-import GuestDropdown from '../components/widgets/guests.vue'; 
-import listingCard from '../components/widgets/listingCard.vue';
-import FooterComponent from '../components/elements/footer.vue'
-import { defineComponent, ref } from "vue";
+import axios from "axios";
+import { ref, computed, onMounted } from "vue";
+import { useRouter } from "vue-router";
+import Navbar from "../components/elements/navbar.vue";
+import listingCard from "../components/widgets/listingCard.vue";
+import FooterComponent from "../components/elements/footer.vue";
 
-export default defineComponent({
-  name: 'HomePage',
+export default {
+  name: "HomePage",
   components: {
     Navbar,
-    GuestDropdown,
     listingCard,
-    FooterComponent
+    FooterComponent,
   },
   setup() {
-    const page = ref(2);
+    const properties = ref([]);
+    const page = ref(1);
+    const perPage = ref(8);
+    const router = useRouter();
 
+    const getImageUrl = (imagePath) => {
+      if (!imagePath) return "../assets/images/default-property.jpg";
+      if (imagePath.startsWith("/files")) {
+        return `http://127.0.0.1:8000${imagePath}`;
+      }
+      return imagePath;
+    };
+
+    const fetchProperties = async () => {
+      try {
+        const response = await axios.get(
+          "http://127.0.0.1:8000/api/method/ex_stay.api.property.get_property_details"
+        );
+        properties.value = response.data.message;
+      } catch (error) {
+        console.error("Error fetching properties:", error);
+      }
+    };
+
+    const paginatedProperties = computed(() => {
+      const start = (page.value - 1) * perPage.value;
+      return properties.value.slice(start, start + perPage.value);
+    });
+
+    const totalPages = computed(() => Math.ceil(properties.value.length / perPage.value));
+
+    const goToBookingPage = (property) => {
+      router.push({
+        name: "BookingPage",
+        query: {
+          title: property.title, // Pass only the title
+        },
+      });
+    };
+
+    onMounted(fetchProperties);
 
     return {
+      properties,
       page,
+      perPage,
+      totalPages,
+      paginatedProperties,
+      getImageUrl,
+      goToBookingPage,
     };
-  }
-});
-
+  },
+};
 </script>
-
-<style>
-html, body {
-  overflow-x: hidden;
-  margin: 0;
-  padding: 0;
-}
-</style>

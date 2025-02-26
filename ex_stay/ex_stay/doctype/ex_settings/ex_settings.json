@@ -1,0 +1,110 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-02-20 12:20:30.137809",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "welcome_to_ex_stay_settings",
+  "please_check_the_notification_functions_needed",
+  "welcome_to_ex_stay_settings_section",
+  "hotel_reservation",
+  "receipts",
+  "column_break_dibu",
+  "proforma",
+  "confirmation_letter",
+  "whatsapp_section",
+  "whatsapp_confirmation_letter",
+  "column_break_ilwt",
+  "whatsapp_proforma"
+ ],
+ "fields": [
+  {
+   "fieldname": "welcome_to_ex_stay_settings_section",
+   "fieldtype": "Section Break",
+   "label": "Email "
+  },
+  {
+   "default": "0",
+   "fieldname": "receipts",
+   "fieldtype": "Check",
+   "label": "Receipts Notifications"
+  },
+  {
+   "fieldname": "column_break_dibu",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "welcome_to_ex_stay_settings",
+   "fieldtype": "Heading",
+   "label": "Welcome To Ex Stay Settings"
+  },
+  {
+   "default": "0",
+   "fieldname": "hotel_reservation",
+   "fieldtype": "Check",
+   "label": "Hotel Reservation Application Notifications"
+  },
+  {
+   "default": "0",
+   "fieldname": "proforma",
+   "fieldtype": "Check",
+   "label": "Proforma To Guests Notifications"
+  },
+  {
+   "default": "0",
+   "fieldname": "confirmation_letter",
+   "fieldtype": "Check",
+   "label": "Confirmation Letter To Guests Notifications"
+  },
+  {
+   "fieldname": "please_check_the_notification_functions_needed",
+   "fieldtype": "Heading",
+   "label": "Please check the notification functions needed"
+  },
+  {
+   "fieldname": "whatsapp_section",
+   "fieldtype": "Section Break",
+   "label": "WhatsApp"
+  },
+  {
+   "default": "0",
+   "fieldname": "whatsapp_confirmation_letter",
+   "fieldtype": "Check",
+   "label": "Confirmation Letter To Guests Notifications "
+  },
+  {
+   "fieldname": "column_break_ilwt",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "whatsapp_proforma",
+   "fieldtype": "Check",
+   "label": "Proforma To Guests Notifications "
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2025-02-20 12:35:31.861659",
+ "modified_by": "Administrator",
+ "module": "ex_stay",
+ "name": "Ex Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

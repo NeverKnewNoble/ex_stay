@@ -1,32 +1,7 @@
 @import './assets/Inter/inter.css';
 @import 'frappe-ui/src/style.css';
 
-/* @layer base {
-  [type='text'],
-  [type='email'],
-  [type='url'],
-  [type='password'],
-  [type='number'],
-  [type='date'],
-  [type='datetime-local'],
-  [type='month'],
-  [type='search'],
-  [type='tel'],
-  [type='time'],
-  [type='week'],
-  [multiple],
-  textarea,
-  select {
-    appearance: none;
-    border: none;
-    background: transparent;
-    outline: none;
-    box-shadow: none;
-    padding: 0;
-    margin: 0;
-    all: unset;
-  }
-} */
+
 
 
 @layer base {
@@ -46,13 +21,11 @@
   textarea,
   select {
     appearance: none;
-    border: none;
     background: transparent;
     outline: none;
     box-shadow: none;
     padding: 0;
     margin: 0;
-    all: unset;
 
     /* Disable focus ring and shadow */
     &:focus {
@@ -68,16 +41,13 @@
   }
 }
 
-
-
-
-/* get back frappe-ui */
+/* Ensure .frappe-input is properly styled */
 .frappe-input {
-  all: unset;
+  all: revert; /* Reset inherited styles from all: unset */
   appearance: auto;
   border: 1px solid var(--border-color, #d1d5db); /* Default Frappe border */
   background-color: var(--background-color, white);
-  padding: 0.5rem 1rem;
+  padding: 0.7rem 1rem;
   border-radius: 4px;
   font-size: 1rem;
   color: var(--text-color, black);

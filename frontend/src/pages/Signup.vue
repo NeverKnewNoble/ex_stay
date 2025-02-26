@@ -38,7 +38,7 @@
                 type="text"
                 required
                 placeholder="Enter your first name"
-                class="w-[500px] border border-gray-400 shadow-md rounded-md py-2"
+                class="w-[500px] border border-gray-400 focus:border-gray-400 shadow-md rounded-md py-2"
                 />
             </div>
             <div class="relative w-full">
@@ -48,7 +48,7 @@
                 type="text"
                 required
                 placeholder="Enter your last name"
-                class="w-[500px] border border-gray-400 shadow-md rounded-md py-2"
+                class="w-[500px] border border-gray-400 focus:border-gray-400 shadow-md rounded-md py-2"
                 />
             </div>
             <div class="relative w-full">
@@ -58,7 +58,7 @@
                 type="email"
                 required
                 placeholder="Enter your email"
-                class="w-[500px] border border-gray-400 shadow-md rounded-md py-2"
+                class="w-[500px] border border-gray-400 focus:border-gray-400 shadow-md rounded-md py-2"
                 />
             </div>
             <div class="relative w-full">
@@ -68,7 +68,7 @@
                 type="password"
                 required
                 placeholder="Enter your password"
-                class="w-[500px] border border-gray-400 shadow-md rounded-md py-2"
+                class="w-[500px] border border-gray-400 focus:border-gray-400 shadow-md rounded-md py-2"
                 />
             </div>
 

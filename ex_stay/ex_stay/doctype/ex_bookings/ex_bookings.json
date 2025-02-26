@@ -1,0 +1,295 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:ExB-{#####}",
+ "creation": "2025-02-20 12:37:55.359978",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "booking_details_section",
+  "email",
+  "section_break_upmn",
+  "posting_date",
+  "guest_country",
+  "column_break_gtfl",
+  "first_name",
+  "phone",
+  "column_break_pgcz",
+  "last_name",
+  "section_break_ojjr",
+  "check_in",
+  "no_of_nights",
+  "column_break_hkgy",
+  "check_out",
+  "guests",
+  "estimated_pricing_section",
+  "estimated_pricing",
+  "price_per_night",
+  "total_price",
+  "column_break_door",
+  "nights_x_price_per_night",
+  "levies",
+  "vat_frontend",
+  "section_break_uhch",
+  "please_select_a_tax_category",
+  "tax_category",
+  "property_information_tab",
+  "code",
+  "column_break_wjxz",
+  "title",
+  "section_break_dzjm",
+  "profile_picture",
+  "profile_picture_import",
+  "section_break_gtsm",
+  "country",
+  "column_break_amqw",
+  "location",
+  "column_break_mmve",
+  "city",
+  "section_break_jssi",
+  "rate"
+ ],
+ "fields": [
+  {
+   "fieldname": "booking_details_section",
+   "fieldtype": "Section Break",
+   "label": "Booking Details"
+  },
+  {
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "Email"
+  },
+  {
+   "fieldname": "property_information_tab",
+   "fieldtype": "Tab Break",
+   "label": "Property Information"
+  },
+  {
+   "fieldname": "code",
+   "fieldtype": "Link",
+   "label": "Code",
+   "options": "Item"
+  },
+  {
+   "fieldname": "section_break_upmn",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "first_name",
+   "fieldtype": "Data",
+   "label": "First Name"
+  },
+  {
+   "fieldname": "guest_country",
+   "fieldtype": "Data",
+   "label": "Guest Country"
+  },
+  {
+   "fieldname": "column_break_pgcz",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "last_name",
+   "fieldtype": "Data",
+   "label": "Last Name"
+  },
+  {
+   "fieldname": "phone",
+   "fieldtype": "Data",
+   "label": "Phone"
+  },
+  {
+   "fieldname": "section_break_ojjr",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "check_in",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Check In"
+  },
+  {
+   "fieldname": "guests",
+   "fieldtype": "Data",
+   "label": "Guests"
+  },
+  {
+   "fieldname": "column_break_hkgy",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "check_out",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Check Out"
+  },
+  {
+   "fieldname": "column_break_wjxz",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "code.title",
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Title"
+  },
+  {
+   "fieldname": "section_break_dzjm",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "profile_picture",
+   "fieldtype": "Image",
+   "label": "Profile Picture",
+   "options": "profile_picture_import"
+  },
+  {
+   "fetch_from": "code.profile_picture",
+   "fieldname": "profile_picture_import",
+   "fieldtype": "Attach Image",
+   "label": "Profile Picture Import"
+  },
+  {
+   "fieldname": "section_break_gtsm",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fetch_from": "code.country",
+   "fieldname": "country",
+   "fieldtype": "Data",
+   "label": "Country"
+  },
+  {
+   "fetch_from": "code.city",
+   "fieldname": "city",
+   "fieldtype": "Data",
+   "label": "City"
+  },
+  {
+   "fieldname": "column_break_mmve",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "code.address",
+   "fieldname": "location",
+   "fieldtype": "Data",
+   "label": "Address"
+  },
+  {
+   "fieldname": "no_of_nights",
+   "fieldtype": "Int",
+   "label": "No. Of Nights"
+  },
+  {
+   "fieldname": "section_break_jssi",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "rate",
+   "fieldtype": "Currency",
+   "label": "Rate"
+  },
+  {
+   "fieldname": "column_break_amqw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "estimated_pricing_section",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "price_per_night",
+   "fieldtype": "Currency",
+   "label": "Price per Night"
+  },
+  {
+   "fieldname": "total_price",
+   "fieldtype": "Currency",
+   "label": "Total Price"
+  },
+  {
+   "fieldname": "column_break_door",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "nights_x_price_per_night",
+   "fieldtype": "Currency",
+   "label": "Nights x Price per Night"
+  },
+  {
+   "fieldname": "levies",
+   "fieldtype": "Currency",
+   "label": "Levies (16%)"
+  },
+  {
+   "fieldname": "vat_frontend",
+   "fieldtype": "Currency",
+   "label": "VAT (15%)"
+  },
+  {
+   "fieldname": "estimated_pricing",
+   "fieldtype": "Heading",
+   "label": "Estimated Pricing"
+  },
+  {
+   "fieldname": "section_break_uhch",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "tax_category",
+   "fieldtype": "Link",
+   "label": "Tax Category",
+   "options": "Tax Category"
+  },
+  {
+   "fieldname": "please_select_a_tax_category",
+   "fieldtype": "Heading",
+   "label": "Please select a Tax category"
+  },
+  {
+   "fieldname": "posting_date",
+   "fieldtype": "Date",
+   "label": "Posting Date"
+  },
+  {
+   "fieldname": "column_break_gtfl",
+   "fieldtype": "Column Break"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [
+  {
+   "link_doctype": "Sales Order",
+   "link_fieldname": "custom_booking_link"
+  },
+  {
+   "link_doctype": "Sales Invoice",
+   "link_fieldname": "custom_booking_link"
+  }
+ ],
+ "modified": "2025-02-25 18:30:11.888537",
+ "modified_by": "Administrator",
+ "module": "ex_stay",
+ "name": "Ex Bookings",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
