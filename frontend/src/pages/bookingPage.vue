@@ -232,11 +232,11 @@
             <div>
               <label class="block text-gray-700 font-medium">Country</label>
               <select 
-                v-model="country"
+                v-model="selectedCountry"
                 class="w-full py-2 px-4 border border-gray-300 rounded-md focus:border-green-600 focus:ring-2 focus:ring-green-400 transition">
                 <option value="">Select A Country</option>
-                <option v-for="country in countries" :key="country.country_name" :value="country.country_name">
-                  {{ country.country_name }}
+                <option v-for="country in countries" :key="country.value" :value="country.value">
+                  {{ country.label }}
                 </option>
               </select>
             </div>
@@ -292,7 +292,7 @@ import FooterComponent from "../components/elements/footer.vue";
 import NavBar from "../components/elements/navbar.vue";
 import GuestDropdown from "../components/widgets/guests.vue";
 import { session } from '../data/session';
-import { DatePicker } from "frappe-ui";
+import { DatePicker, createResource } from "frappe-ui";
 
 export default {
   name: "BookingPage",
@@ -310,7 +310,7 @@ export default {
     const showReservationForm = ref(false); 
     const checkIn = ref("");  // ✅ Stores selected check-in date
     const checkOut = ref(""); // ✅ Stores selected check-out date
-    const countries = ref([]);
+ 
 
 
     // ? POST FIELDS FOR BOOKING
@@ -464,95 +464,91 @@ export default {
     });
 
 
-    // ? Fetch Countries from Frappe API
-    const fetchCountries = async () => {
-      try {
-        const countryResponse = await axios.get(
-          "http://127.0.0.1:8000/api/method/ex_stay.api.countryList.countryInFrappe"
-        );
+    //country fetch
+    const countriesResource = createResource({
+      url: 'frappe.client.get_list',
+      params: {
+        doctype: 'Country',
+        fields: ['name'],
+        limit_page_length: 300
+      },
+    });
 
-        // ✅ Ensure response contains data before updating state
-        if (countryResponse.data.message && countryResponse.data.message.status === "success") {
-          countries.value = countryResponse.data.message.data;
+    // Country options for the dropdown
+    const countries = ref([]);
+
+    // Fetch the country list when the component is mounted
+    onMounted(async () => {
+      try {
+        console.log("Fetching country list...");
+        const response = await countriesResource.fetch();
+
+        // Ensure the response contains an array of country names
+        if (Array.isArray(response)) {
+          countries.value = response.map(country => ({
+            label: country.name,
+            value: country.name,
+          }));
+          console.log("✅ Fetched Countries:", countries.value);
         } else {
-          console.log("No countries found.");
+          console.error("❌ No countries found or invalid response format.");
         }
-      } catch (err) {
-        console.log("Unable to fetch countries", err);
+      } catch (error) {
+        console.error("🚨 Unable to fetch countries:", error);
       }
-    };
+    });
+
+
+
 
     // ? API Call to Book Reservation
     const book = async () => {
-      console.log("📢 Book function called!");
+  try {
+    console.log("Preparing booking data...");
 
-      // Debugging: Log all form values before validation
-      console.log("First Name:", firstName.value);
-      console.log("Last Name:", lastName.value);
-      console.log("User Email:", userEmail.value);
-      console.log("Country:", country.value);
-      console.log("Phone Number:", telephoneNumber.value);
-      console.log("Check-In Date:", checkIn.value);
-      console.log("Check-Out Date:", checkOut.value);
-      console.log("Number of Nights:", numberOfNights.value);
-      console.log("Guest Count:", guestCount.value);
-      console.log("Property Code:", property.value?.item_code);
-      console.log("Property Rate:", property.value?.rate);
-
-      // Validation: Ensure no empty values
-      if (!firstName.value || !lastName.value || !userEmail.value || !country.value || !telephoneNumber.value || !checkIn.value || !checkOut.value || !guestCount.value) {
-        console.error("❌ Missing required fields for booking.");
-        alert("Please fill in all required fields.");
-        return;
-      }
-
-      try {
-        console.log("🚀 Sending request to API...");
-
-        const bookResponse = await axios.post(
-          "http://127.0.0.1:8000/api/method/ex_stay.api.booking.book",
-          {
-            email: userEmail.value,
-            first_name: firstName.value,
-            last_name: lastName.value,
-            guest_country: country.value,
-            phone: telephoneNumber.value,
-            check_in: checkIn.value,
-            check_out: checkOut.value,
-            no_of_nights: numberOfNights.value,
-            guests: guestCount.value,
-            code: property.value?.item_code,
-            rate: property.value?.rate,
-            price_per_night: property.value?.rate,
-            total_price: parseFloat(totalPrice.value.replace(/,/g, "")),  // ✅ Convert to raw number
-            nights_x_price_per_night: parseFloat(plusNights.value.replace(/,/g, "")),  // ✅ Convert to raw number
-            levies: parseFloat(levy.value.replace(/,/g, "")),  // ✅ Convert to raw number
-            vat_frontend: parseFloat(vat15.value.replace(/,/g, "")),  // ✅ Convert to raw number
-          },
-          {
-            headers: { "Content-Type": "application/json" },
-          }
-        );
-
-        console.log("📩 API Response:", bookResponse.data);
-
-        if (bookResponse.status === 200) {
-          console.log("✅ Booking successful!", bookResponse.data);
-          alert("🎉 Booking successful!");
-          showReservationForm.value = false; // Close modal
-        } else {
-          console.error("❌ Booking failed:", bookResponse);
-          alert("Booking failed. Please try again.");
-        }
-      } catch (err) {
-        console.error("🚨 Unable to book reservation", err);
-      }
+    const bookingData = {
+      doctype: "Ex Bookings",
+      first_name: firstName.value || "",
+      last_name: lastName.value || "",
+      country: country.value || "",
+      telephone_number: telephoneNumber.value || "",
+      guest_count: guestCount.value || "",
+      check_in: checkIn.value || "",
+      check_out: checkOut.value || "",
+      email: userEmail.value || "",
     };
+
+    console.log("📩 Booking Payload:", bookingData);
+
+    const bookResponse = await createResource({
+      url: 'frappe.client.insert',
+      params: {
+        doc: bookingData,  // Ensure it's wrapped inside 'doc'
+      },
+    }).fetch();
+
+    console.log("📩 API Response:", bookResponse);
+
+    if (bookResponse && bookResponse.name) {
+      console.log("✅ Booking successful!", bookResponse);
+      alert(`🎉 Booking successful! Booking ID: ${bookResponse.name}`);
+      showReservationForm.value = false; // Close modal
+    } else {
+      console.error("❌ Booking failed:", bookResponse);
+      alert("Booking failed. Please try again.");
+    }
+  } catch (err) {
+    console.error("🚨 Unable to book reservation", err);
+    alert("An error occurred. Please check the console for details.");
+  }
+};
+
+
 
 
 
     // ? Fetch when component mounts
-    onMounted(fetchCountries);
+
     onMounted(fetchPropertyDetails);
 
     return { showReservationForm, userEmail, 
