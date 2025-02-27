@@ -9,10 +9,11 @@
 
     <!-- Loader -->
     <div v-if="!property" class="flex justify-center items-center h-screen">
-      <p class="text-gray-700 text-xl">Loading property details...</p>
+      <!-- <p class="text-gray-700 text-xl">Loading property details...</p> -->
+      <HouseLoading />
     </div>
 
-    <div v-else class="pt-20 px-6 md:px-[150px]">
+    <div v-else class="pt-5 px-6 md:px-[150px]">
       <!-- **Image Gallery -->
       <section class="w-full relative overflow-hidden py-10 ">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -93,7 +94,30 @@
 
           <!-- Reviews -->
           <div>
-            <h2 class="font-bold text-xl mb-3">Guest Reviews</h2>
+            <div>
+            <p>Leave A Comment</p>
+            <div class="mb-2 flex items-center gap-2">
+              <input
+                v-model="comment"
+                type="text"
+                class="w-full px-4 rounded-md border-gray-300 focus:border-green-600 focus:ring-2 focus:ring-green-400 transition"
+                placeholder="Place A Comment"
+              />
+              <button 
+                @click="submitComment"
+                class="bg-green-700 px-3 py-2 rounded-md flex items-center justify-center"
+                aria-label="Submit Comment"
+              >
+                <img 
+                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAAXNSR0IArs4c6QAAAuVJREFUSEvtllmIzWEYxn+PLURZbiyJ4sJWkpKLkTVXRJQQQ1lupixZQsnYZWmGssUVyQXFBRe2UpqihBskYS7IbnKBsb7+7/Sd6Zu/OXPOzDmaG+/V/3zb8z7v+3zPd0QrhVoJl//ARau8mfUB1gLLgIfAOElfMgBFL7WZDQI2AKVAu4jJGEm3iw5sZiOBjcBMoE0jpRsmyZnXRcGMzWwSsA6YkgJzdk+BeWG8l6Q3BQGbmSc8A1gPjE4BXgV2SrphZl7ynWG+o6RvLQI2M+/Z/MBwSARowPmkp9sl3cuMm9meILBaSZ3iBPMqtZn5JlfnaqBfdMBP4DSwS9LjdF/N7DiwBHglyVVeH00Cm1k3YDmwEuge7fOSnQB2S3oRMRwi6VH0+xwwC3ggaXhOYDPrDawJLLtEGz4Bh4EKSe8igIGAl/W+pG3R+HVgIlAlqSQrcLiDLpgFiSg6RAvfApUOKsnB68LMeiY3Y0tI0M2hr6TP0fxdwK/ZRUnTGgU2s/HANaBttOAlsA84Kqk2OtB7vioYRaYi6yTtjQ83s+fAAOCkpIXZgL2PFdHkL2ATcEzSx8DQjWFx8l0OxGLxigyQ9DUFXJNUynVSmVTKE/1bXGbWHpgTlDsiWvMdOAN4v9woGogkrFsp6UAK1Cv3I5jUZklb8xHXhFDKqXm422ugvyRPsD5C/9+HgRWSDuYEjnrphu8lWpSotnO8Mfouk+RKbxBBqE/CYKmkU3kDRwn0AD5kAXbQ/ZKepRiPAu6EsamSLjUbOAjLbTFb+NwV4BBwSdJvM/NH43LYUCKp6l8Ax2dW+/VLWuT3/UiYGBo7mo/l5dU5GLthnE3+ZcxuQge9JbkI66NQ4FvAXEnVZtYVcJMoAwanetLgSSyEsfd0R3JAuSQ3mrSiJ4cEpgefHpte0xLG/hrNk3SzCbHVTZmZ22VN7O+ZPc0FvuB3urGDciVRCOOlkvxhL0rkzbgoaC1RdbGB/wCh9gUuioQc1QAAAABJRU5ErkJggg=="
+                  alt="Submit"
+                  class="w-5 h-5"
+                />
+              </button>
+
+            </div>
+          </div>
+            <h2 class="font-bold mt-4 text-xl mb-3">Guest Reviews</h2>
             <div class="space-y-4">
               <div class="flex items-start gap-4">
                 <img src="../assets/images/user-pin-solid-24.png" class="w-8 h-8 rounded-full" alt="User Avatar" />
@@ -136,7 +160,7 @@
             <!-- Date Pickers -->
             <div class="mb-4">
               <label class="block">Check-In Date</label>
-              <DatePicker placeholder="Select Check In Date" v-model="checkIn" clearable class="w-full text-[15px]  rounded-sm focus:border-green-800" />
+              <DatePicker   placeholder="Select Check In Date" v-model="checkIn" clearable class="w-full text-[15px]  rounded-sm focus:border-green-800" />
 
               <label class="block mt-3">Check-Out Date</label>
               <DatePicker placeholder="Select Check Out Date" v-model="checkOut" clearable class="w-full text-[15px]  rounded-sm  focus:border-green-800" />
@@ -221,7 +245,7 @@
                 v-model="firstName"
                 type="text"
                 class="w-full py-2 px-4 border border-gray-300 rounded-md focus:border-green-600 focus:ring-2 focus:ring-green-400 transition"
-                placeholder="First Name"
+                placeholder="First Name">
             </div>
             
             <div>
@@ -230,7 +254,7 @@
                 v-model="lastName" 
                 type="text" 
                 class="w-full py-2 px-4 border border-gray-300 rounded-md focus:border-green-600 focus:ring-2 focus:ring-green-400 transition"
-                placeholder="Last Name" 
+                placeholder="Last Name">
             </div>
 
             <div>
@@ -296,7 +320,8 @@ import FooterComponent from "../components/elements/footer.vue";
 import NavBar from "../components/elements/navbar.vue";
 import GuestDropdown from "../components/widgets/guests.vue";
 import { session } from '../data/session';
-import { DatePicker, createResource } from "frappe-ui";
+import { DatePicker, createResource, Rating } from "frappe-ui";
+import HouseLoading from "../components/elements/houseLoading.vue"
 
 export default {
   name: "BookingPage",
@@ -305,15 +330,15 @@ export default {
     FooterComponent,
     GuestDropdown,
     DatePicker,
+    HouseLoading,
   },
   setup() {
     const route = useRoute();
     const propertyTitle = route.query.title || "";
-    // const property = ref(null);
-    // const images = ref([]);
     const showReservationForm = ref(false); 
     const checkIn = ref("");  // ✅ Stores selected check-in date
     const checkOut = ref(""); // ✅ Stores selected check-out date
+    const comment = ref("")
  
 
 
@@ -657,6 +682,7 @@ export default {
         alert("An error occurred. Please check the console for details.");
       }
     };
+
 
 
     return { showReservationForm, userEmail, 

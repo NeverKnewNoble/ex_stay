@@ -32,7 +32,7 @@ const routes = [
     name: 'CatalogPage',
     path: '/catalogue',
     component: () => import('@/pages/Catalogs.vue'),
-  },
+  }
 ]
 
 let router = createRouter({
