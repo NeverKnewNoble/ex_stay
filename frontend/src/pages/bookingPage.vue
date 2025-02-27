@@ -476,7 +476,7 @@ export default {
             params: {
               doctype: "Item Price",
               filters: { item_code: ["in", itemCodes] },
-              fields: ["item_code", "price_list_rate", "currency", "vat_inclusion"],
+              fields: ["item_code", "price_list_rate", "currency"],
             },
           });
 
