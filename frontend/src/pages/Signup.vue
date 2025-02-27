@@ -110,7 +110,8 @@
 <script setup>
     import { ref } from 'vue'
     import { useRouter } from 'vue-router'
-    import axios from 'axios'
+    import { session } from "../data/session"
+    import { createResource } from "frappe-ui";
     import { library } from '@fortawesome/fontawesome-svg-core'
     import { faUser, faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons'
     import { faFacebook, faTwitter, faGoogle, faLinkedin } from '@fortawesome/free-brands-svg-icons'
@@ -134,57 +135,47 @@
 
     async function submitForm() {
     loading.value = true;
-    errorMessage.value = "";
+    errorMessage.value = '';
     showSuccessPopup.value = false;
 
     try {
-        const response = await axios.post(
-            'http://127.0.0.1:8000/api/method/ex_stay.api.create_user.create_user',
-            {
-                first_name: firstName.value,
-                last_name: lastName.value,
-                email: email.value,
-                password: password.value,
-                enabled: 1,
-                send_welcome_email: 1,
-            },
-            {
-                headers: {
-                    'Authorization': `token 03b7b8298a2fa69:dc6dc06a43facb3`,
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
-            }
-        );
+        console.log('Submitting signup form...');
 
-        if (response.status === 200) {
-            showSuccessPopup.value = true;
-            firstName.value = "";
-            lastName.value = "";
-            email.value = "";
-            password.value = "";
+        const response = await session.signup.fetch({
+        firstName: firstName.value,
+        lastName: lastName.value,
+        email: email.value,
+        password: password.value,
+        });
+
+        if (response && response.status === 'success') {
+        showSuccessPopup.value = true;
+
+        // Clear form fields
+        firstName.value = '';
+        lastName.value = '';
+        email.value = '';
+        password.value = '';
+
+        // Redirect to login page after success
+        setTimeout(() => {
+            router.push('/account/login');
+        }, 2000);
+        } else {
+        errorMessage.value = response.message || 'Failed to create user. Please try again.';
         }
     } catch (error) {
-        if (error.response && error.response.data) {
-            console.log(error)
-            if (typeof error.response.data === "object") {
-                errorMessage.value = error.response.data.message || "An unexpected error occurred.";
-                
-            } else {
-                errorMessage.value = error.response.data.message; // If it's a string, display it directly
-            }
-        } else {
-            errorMessage.value = "Failed to create user. Please try again.";
-        }
+        console.error('🚨 Unable to create user:', error);
+        errorMessage.value = error.message || 'An unexpected error occurred.';
     } finally {
         loading.value = false;
     }
-}
-
-
-    // Redirect to login page
-    function goToLogin() {
-    showSuccessPopup.value = false
-    router.push('/account/login')
     }
+
+
+// Redirect to login page
+function goToLogin() {
+    showSuccessPopup.value = false;
+    router.push("/account/login");
+}
 </script>

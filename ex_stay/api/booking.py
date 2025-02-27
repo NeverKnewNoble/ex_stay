@@ -12,7 +12,7 @@ def book(**kwargs):
             "email", "first_name", "last_name", "guest_country",
             "phone", "check_in", "check_out", "no_of_nights",
             "guests", "code", "rate", "price_per_night", "total_price", "nights_x_price_per_night",
-            "levies", "vat_frontend"
+            "levies"
         ]
         
         missing_fields = [field for field in required_fields if not data.get(field)]
@@ -37,7 +37,7 @@ def book(**kwargs):
             "total_price": data.total_price,
             "nights_x_price_per_night": data.nights_x_price_per_night,
             "levies": data.levies,
-            "vat_frontend": data.vat_frontend
+            
         })
         
         booking.insert(ignore_permissions=True)

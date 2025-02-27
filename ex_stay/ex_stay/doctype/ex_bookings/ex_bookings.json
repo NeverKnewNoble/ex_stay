@@ -33,6 +33,8 @@
   "section_break_uhch",
   "please_select_a_tax_category",
   "tax_category",
+  "taxes_and_charges",
+  "column_break_zotv",
   "property_information_tab",
   "code",
   "column_break_wjxz",
@@ -129,7 +131,7 @@
    "fieldtype": "Column Break"
   },
   {
-   "fetch_from": "code.title",
+   "fetch_from": "code.custom_title",
    "fieldname": "title",
    "fieldtype": "Data",
    "in_list_view": 1,
@@ -146,7 +148,7 @@
    "options": "profile_picture_import"
   },
   {
-   "fetch_from": "code.profile_picture",
+   "fetch_from": "code.custom_profile_picture",
    "fieldname": "profile_picture_import",
    "fieldtype": "Attach Image",
    "label": "Profile Picture Import"
@@ -156,13 +158,13 @@
    "fieldtype": "Section Break"
   },
   {
-   "fetch_from": "code.country",
+   "fetch_from": "code.custom_country",
    "fieldname": "country",
    "fieldtype": "Data",
    "label": "Country"
   },
   {
-   "fetch_from": "code.city",
+   "fetch_from": "code.custom_city",
    "fieldname": "city",
    "fieldtype": "Data",
    "label": "City"
@@ -172,10 +174,10 @@
    "fieldtype": "Column Break"
   },
   {
-   "fetch_from": "code.address",
+   "fetch_from": "code.custom_location",
    "fieldname": "location",
    "fieldtype": "Data",
-   "label": "Address"
+   "label": "Location"
   },
   {
    "fieldname": "no_of_nights",
@@ -256,6 +258,16 @@
   {
    "fieldname": "column_break_gtfl",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "taxes_and_charges",
+   "fieldtype": "Link",
+   "label": "Taxes and Charges",
+   "options": "Sales Taxes and Charges Template"
+  },
+  {
+   "fieldname": "column_break_zotv",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
@@ -269,7 +281,7 @@
    "link_fieldname": "custom_booking_link"
   }
  ],
- "modified": "2025-02-25 18:30:11.888537",
+ "modified": "2025-02-27 13:44:33.727902",
  "modified_by": "Administrator",
  "module": "ex_stay",
  "name": "Ex Bookings",

@@ -6,11 +6,9 @@ def get_property_details():
         # Fetch all items where "is_ex_stay_property" is checked
         properties = frappe.get_all(
             "Item",
-            filters={"is_ex_stay_property": 1},
+            filters={"custom_is_ex_stay_property": 1},
             fields=[
-                "item_code", "item_name", "title", "property_description",
-                "address", "city", "country", "property_type", "available_from", "image",
-                "profile_picture", "2nd_image", "3rd_image", "4th_image", "property_category"
+                "item_code", "item_name", "custom_title", 
             ]
         )
 
@@ -39,12 +37,16 @@ def get_property_details():
 
         # Fetch apartment_offers (child table data)
         for prop in properties:
-            apartment_offers = frappe.get_all(
+            custom_apartment_offers = frappe.get_all(
                 "Apartment Offers",
-                filters={"parent": prop["item_code"], "parenttype": "Item"},
+                filters={
+                    "parent": prop["item_code"],
+                    "parenttype": "Item",
+                    "parentfield": "custom_apartment_offers"  # Ensure it matches the child table fieldname in Item
+                },
                 fields=["offer"]
             )
-            prop["apartment_offers"] = [offer["offer"] for offer in apartment_offers]  # Store as a list
+            prop["custom_apartment_offers"] = [offer["offer"] for offer in custom_apartment_offers]  # Store as a list
             
             # Attach pricing details
             price_data = price_dict.get(prop["item_code"], {})

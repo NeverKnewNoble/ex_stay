@@ -109,6 +109,7 @@ def create_sales_order_from_event(event_name):
             'custom_booking_link': event_doc.name,
             'delivery_date': frappe.utils.nowdate(),
             'tax_category': event_doc.tax_category,
+            'taxes_and_charges': event_doc.taxes_and_charges,
             'items': [{
                 'item_code': event_doc.code,
                 'qty': event_doc.guests,
@@ -151,6 +152,7 @@ def create_sales_invoice_from_event(event_name):
             'custom_booking_link': event_doc.name,
             'posting_date': frappe.utils.nowdate(),
             'tax_category': event_doc.tax_category,
+            'taxes_and_charges': event_doc.taxes_and_charges,
             'items': [{
                 'item_code': event_doc.code,
                 'qty': event_doc.guests,

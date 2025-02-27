@@ -2,10 +2,7 @@
   <div class="w-full min-h-screen bg-white text-black">
     <!-- Navbar -->
     <div
-      :class="[
-        isScrollingDown ? '-translate-y-full' : 'translate-y-0',
-        'fixed top-0 w-full transition-transform duration-500 ease-in-out z-50 bg-white shadow-lg border-b border-gray-200',
-      ]"
+     
     >
       <NavBar />
     </div>
@@ -66,12 +63,12 @@
 
       <!-- **Property Information -->
       <section class="bg-white shadow-md rounded-lg p-8 mt-6">
-        <h1 class="text-3xl font-bold mb-3">{{ property.title }}</h1>
-        <p class="text-gray-600 text-lg">{{ property.country }} · {{ property.city }} · {{ property.address }}</p>
+        <h1 class="text-3xl font-bold mb-3">{{ property.custom_title }}</h1>
+        <p class="text-gray-600 text-lg">{{ property.custom_country }} · {{ property.custom_city }} · {{ property.custom_location }}</p>
         <hr class="my-4" />
         <div class="text-gray-700">
           <h3 class="text-xl font-semibold mb-2">Description</h3>
-          <p>{{ property.property_description }}</p>
+          <p class="whitespace-pre-line">{{ property.custom_property_description }}</p>
         </div>
       </section>
 
@@ -81,10 +78,17 @@
         <section class="bg-white w-full lg:w-[65%] rounded-lg shadow-md p-6">
           <h2 class="font-bold text-xl mb-4">What This Place Offers</h2>
           <div class="grid grid-cols-2 text-gray-700">
-            <p v-for="(offer, index) in property.apartment_offers" :key="index" class="flex items-center gap-1 mb-4">
-              <img src="../assets/images/check-regular-24.png"> {{ offer }}
-            </p>
+            <template v-if="property && property.custom_apartment_offers && property.custom_apartment_offers.length > 0">
+              <p v-for="(offer, index) in property.custom_apartment_offers" 
+                :key="index" 
+                class="flex items-center gap-1 mb-4 text-gray-700">
+                <img src="../assets/images/check-regular-24.png" alt="Check Icon"> 
+                {{ offer }}
+              </p>
+            </template>
+            <p v-else class="text-gray-500 italic">No offers available</p>
           </div>
+
           <hr class="mb-10" />
 
           <!-- Reviews -->
@@ -142,11 +146,11 @@
             <div class="grid grid-cols-2 gap-4 items-center text-gray-700">
               <p class="text-lg font-semibold">Price per Night</p>
               <span class="text-lg font-bold text-green-600 text-right">
-                {{ property.currency }} {{ (property.rate).toFixed(2) }}
+                {{ property.currency }} {{ property.price_list_rate }}
               </span>
 
 
-              <p class="text-lg">{{ numberOfNights }} Nights × {{ property.currency }} {{ property.rate }}</p>
+              <p class="text-lg">{{ numberOfNights }} Nights × {{ property.currency }} {{ property.price_list_rate }}</p>
               <span class="text-lg font-semibold text-right">
                 {{ property.currency }} {{ plusNights }}
               </span>
@@ -232,11 +236,11 @@
             <div>
               <label class="block text-gray-700 font-medium">Country</label>
               <select 
-                v-model="country"
+                v-model="selectedCountry"
                 class="w-full py-2 px-4 border border-gray-300 rounded-md focus:border-green-600 focus:ring-2 focus:ring-green-400 transition">
                 <option value="">Select A Country</option>
-                <option v-for="country in countries" :key="country.country_name" :value="country.country_name">
-                  {{ country.country_name }}
+                <option v-for="country in countries" :key="country.value" :value="country.value">
+                  {{ country.label }}
                 </option>
               </select>
             </div>
@@ -292,7 +296,7 @@ import FooterComponent from "../components/elements/footer.vue";
 import NavBar from "../components/elements/navbar.vue";
 import GuestDropdown from "../components/widgets/guests.vue";
 import { session } from '../data/session';
-import { DatePicker } from "frappe-ui";
+import { DatePicker, createResource } from "frappe-ui";
 
 export default {
   name: "BookingPage",
@@ -305,12 +309,12 @@ export default {
   setup() {
     const route = useRoute();
     const propertyTitle = route.query.title || "";
-    const property = ref(null);
-    const images = ref([]);
+    // const property = ref(null);
+    // const images = ref([]);
     const showReservationForm = ref(false); 
     const checkIn = ref("");  // ✅ Stores selected check-in date
     const checkOut = ref(""); // ✅ Stores selected check-out date
-    const countries = ref([]);
+ 
 
 
     // ? POST FIELDS FOR BOOKING
@@ -319,19 +323,20 @@ export default {
     const country = ref("")
     const telephoneNumber = ref("")
     const guestCount = ref("")
+    const selectedCountry = ref("");
 
 
     // ? Assigning computations to varaibles
     const plusNights = computed(() => {
-      if (property.value && property.value.rate && numberOfNights.value > 0) {
-        return formatCurrency(property.value.rate * numberOfNights.value);
+      if (property.value && property.value.price_list_rate && numberOfNights.value > 0) {
+        return formatCurrency(property.value.price_list_rate * numberOfNights.value);
       }
       return formatCurrency(0);
     });
 
     const levy = computed(() => {
-      if (property.value && property.value.rate && numberOfNights.value > 0) {
-        return formatCurrency(property.value.rate * numberOfNights.value * 0.16);
+      if (property.value && property.value.price_list_rate && numberOfNights.value > 0) {
+        return formatCurrency(property.value.price_list_rate * numberOfNights.value * 0.16);
       }
       return formatCurrency(0);
     });
@@ -354,7 +359,7 @@ export default {
 
 
     const totalPrice = computed(() => {
-      if (!property.value || !property.value.rate || numberOfNights.value <= 0) {
+      if (!property.value || !property.value.price_list_rate || numberOfNights.value <= 0) {
         return formatCurrency(0);
       }
 
@@ -363,6 +368,23 @@ export default {
       const vatAmount = parseFloat(vat15.value.replace(/,/g, ""));
 
       return formatCurrency(basePrice + additionalLevy + vatAmount);
+    });
+
+    // ! Computed Property: Calculates Number of Nights
+    const numberOfNights = computed(() => {
+      if (checkIn.value && checkOut.value) {
+        const start = new Date(checkIn.value);
+        const end = new Date(checkOut.value);
+
+        if (isNaN(start) || isNaN(end)) {
+          return 0; // Prevent calculation if dates are invalid
+        }
+
+        const nights = (end - start) / (1000 * 60 * 60 * 24);
+
+        return nights > 0 ? Math.floor(nights) : 0;
+      }
+      return 0;
     });
 
     // ? Money Formatting
@@ -403,142 +425,228 @@ export default {
       lightboxIndex.value = (lightboxIndex.value + 1) % images.value.length;
     };
 
-    const fetchPropertyDetails = async () => {
+
+
+
+    // ! Trial TO GET PROPERTY DETAILS
+    const propertiesResource = createResource({
+      url: "frappe.client.get_list",
+      params: {
+        doctype: "Item",
+        fields: [
+          "item_code", "item_name", "custom_title", "custom_property_description",
+          "custom_location", "custom_city", "custom_country",
+          "custom_profile_picture", "custom_2nd_image", "custom_3rd_image",
+          "custom_4th_image", "custom_property_category", "custom_apartment_offers"
+        ],
+        filters: { custom_is_ex_stay_property: 1 }, // ✅ Fetch only properties with this flag
+        limit_page_length: 100,
+      },
+    });
+
+    const properties = ref([]);
+    const property = ref(null);
+    const images = ref([]);
+
+    onMounted(async () => {
       try {
+        console.log("Fetching properties...");
+        const response = await propertiesResource.fetch();
+
+        if (Array.isArray(response) && response.length > 0) {
+          properties.value = response;
+          console.log("✅ Fetched Properties:", properties.value);
+
+             // **Find Property by Title**
+
+
+          // Process child table: Extract `offer` values from `custom_apartment_offers`
+          properties.value.forEach((prop) => {
+            prop.custom_apartment_offers = prop.custom_apartment_offers
+              ? prop.custom_apartment_offers.map((offer) => offer.offer)
+              : [];
+          });
+
+          // Extract all item_codes for price lookup
+          const itemCodes = properties.value.map((p) => p.item_code);
+
+          // **Create a new resource to fetch item prices**
+          const pricesResource = createResource({
+            url: "frappe.client.get_list",
+            params: {
+              doctype: "Item Price",
+              filters: { item_code: ["in", itemCodes] },
+              fields: ["item_code", "price_list_rate", "currency", "vat_inclusion"],
+            },
+          });
+
+          // Fetch Prices
+          console.log("Fetching Item Prices...");
+          const pricesResponse = await pricesResource.fetch();
+
+          // Convert price list to a dictionary for quick lookup
+          const priceDict = {};
+          if (Array.isArray(pricesResponse)) {
+            pricesResponse.forEach((price) => {
+              priceDict[price.item_code] = {
+                price_list_rate: price.price_list_rate,
+                currency: price.currency,
+                vat_inclusion: price.vat_inclusion,
+              };
+            });
+          }
+
+          // Attach prices to properties
+          properties.value.forEach((prop) => {
+            prop.price_list_rate = priceDict[prop.item_code]?.price_list_rate || null;
+            prop.currency = priceDict[prop.item_code]?.currency || null;
+            prop.vat_inclusion = priceDict[prop.item_code]?.vat_inclusion || null;
+          });
+
+          // **Find Property by Title**
+          const matchedProperty = properties.value.find((p) => p.custom_title === propertyTitle);
+
+          if (matchedProperty) {
+            property.value = matchedProperty;
+
+            // **Ensure Valid Images**
+            const getValidImage = (image, fallback) => (image && image !== "null" ? image : fallback);
+
+            images.value = [
+              getValidImage(matchedProperty.custom_profile_picture, "../assets/images/default-property.jpg"),
+              getValidImage(matchedProperty.custom_2nd_image, matchedProperty.custom_profile_picture),
+              getValidImage(matchedProperty.custom_3rd_image, matchedProperty.custom_profile_picture),
+              getValidImage(matchedProperty.custom_4th_image, matchedProperty.custom_profile_picture),
+            ];
+
+            // Fetch property offers only after property is assigned
+            await fetchPropertyOffers();
+          } else {
+            console.error("Property not found for title:", propertyTitle);
+          }
+        } else {
+          console.error("❌ No properties found or invalid response format.");
+        }
+      } catch (error) {
+        console.error("🚨 Unable to fetch properties:", error);
+      }
+    });
+
+
+    // ! Fetch Property Offers
+    const fetchPropertyOffers = async () => {
+      try {
+        console.log("Fetching property offers...");
         const response = await axios.get(
           "http://127.0.0.1:8000/api/method/ex_stay.api.property.get_property_details"
         );
 
-        const matchedProperty = response.data.message.find((p) => p.title === propertyTitle);
+        console.log("🔍 Full API Response:", response);
 
-        if (matchedProperty) {
-          property.value = matchedProperty;
+        // Handle "message" wrapper
+        const offersData = response.data?.message || response.data;
 
-          const getValidImage = (image, fallback) => image && image !== "null" ? image : fallback;
+        if (Array.isArray(offersData)) {
+          console.log("✅ Offers Fetched:", offersData);
 
-          images.value = [
-            getValidImage(matchedProperty.profile_picture, "../assets/images/default-property.jpg"),
-            getValidImage(matchedProperty["2nd_image"], matchedProperty.profile_picture),
-            getValidImage(matchedProperty["3rd_image"], matchedProperty.profile_picture),
-            getValidImage(matchedProperty["4th(_image"], matchedProperty.profile_picture),
-          ];
+          // Convert response to dictionary for quick lookup
+          const offersDict = {};
+          offersData.forEach((property) => {
+            offersDict[property.item_code] = property.custom_apartment_offers || [];
+          });
+
+          // Ensure property is defined before assigning
+          if (property.value) {
+            property.value.custom_apartment_offers = offersDict[property.value.item_code] || [];
+            console.log("✅ Updated Property with Offers:", property.value.custom_apartment_offers);
+          } else {
+            console.warn("⚠️ Property is null, delaying offer assignment...");
+          }
         } else {
-          console.error("Property not found for title:", propertyTitle);
+          console.error("❌ Invalid response format for offers.", response.data);
         }
       } catch (error) {
-        console.error("Error fetching properties:", error);
+        console.error("🚨 Error fetching property offers:", error);
       }
     };
 
 
-    // ✅ Computed Property: Calculates Number of Nights
-    const numberOfNights = computed(() => {
-      if (checkIn.value && checkOut.value) {
-        const start = new Date(checkIn.value);
-        const end = new Date(checkOut.value);
 
-        if (isNaN(start) || isNaN(end)) {
-          return 0; // Prevent calculation if dates are invalid
-        }
 
-        const nights = (end - start) / (1000 * 60 * 60 * 24);
-
-        return nights > 0 ? Math.floor(nights) : 0;
-      }
-      return 0;
+    // ! country fetch
+    const countriesResource = createResource({
+      url: 'frappe.client.get_list',
+      params: {
+        doctype: 'Country',
+        fields: ['name'],
+        limit_page_length: 300
+      },
     });
 
+    // Country options for the dropdown
+    const countries = ref([]);
 
-    // ✅ Debugging: Watch for Date Selection Changes
-    watch([checkIn, checkOut, userEmail], ([newCheckIn, newCheckOut]) => {
-      checkIn.value = newCheckIn ? new Date(newCheckIn).toISOString().split("T")[0] : "";
-      checkOut.value = newCheckOut ? new Date(newCheckOut).toISOString().split("T")[0] : "";
-      console.log("Updated Check-In:", checkIn.value);
-      console.log("Updated Check-Out:", checkOut.value);
-      console.log("Updated Email:", userEmail.value);
-    });
-
-
-    watch(numberOfNights, (newValue) => {
-      console.log("Computed Number of Nights:", newValue);
-    });
-
-
-    // ? Fetch Countries from Frappe API
-    const fetchCountries = async () => {
+    // Fetch the country list when the component is mounted
+    onMounted(async () => {
       try {
-        const countryResponse = await axios.get(
-          "http://127.0.0.1:8000/api/method/ex_stay.api.countryList.countryInFrappe"
-        );
+        console.log("Fetching country list...");
+        const response = await countriesResource.fetch();
 
-        // ✅ Ensure response contains data before updating state
-        if (countryResponse.data.message && countryResponse.data.message.status === "success") {
-          countries.value = countryResponse.data.message.data;
+        // Ensure the response contains an array of country names
+        if (Array.isArray(response)) {
+          countries.value = response.map(country => ({
+            label: country.name,
+            value: country.name,
+          }));
+          console.log("✅ Fetched Countries:", countries.value);
         } else {
-          console.log("No countries found.");
+          console.error("❌ No countries found or invalid response format.");
         }
-      } catch (err) {
-        console.log("Unable to fetch countries", err);
+      } catch (error) {
+        console.error("🚨 Unable to fetch countries:", error);
       }
-    };
+    });
 
-    // ? API Call to Book Reservation
+
+    // ! API Call to Book Reservation
     const book = async () => {
-      console.log("📢 Book function called!");
-
-      // Debugging: Log all form values before validation
-      console.log("First Name:", firstName.value);
-      console.log("Last Name:", lastName.value);
-      console.log("User Email:", userEmail.value);
-      console.log("Country:", country.value);
-      console.log("Phone Number:", telephoneNumber.value);
-      console.log("Check-In Date:", checkIn.value);
-      console.log("Check-Out Date:", checkOut.value);
-      console.log("Number of Nights:", numberOfNights.value);
-      console.log("Guest Count:", guestCount.value);
-      console.log("Property Code:", property.value?.item_code);
-      console.log("Property Rate:", property.value?.rate);
-
-      // Validation: Ensure no empty values
-      if (!firstName.value || !lastName.value || !userEmail.value || !country.value || !telephoneNumber.value || !checkIn.value || !checkOut.value || !guestCount.value) {
-        console.error("❌ Missing required fields for booking.");
-        alert("Please fill in all required fields.");
-        return;
-      }
-
       try {
-        console.log("🚀 Sending request to API...");
+        console.log("Preparing booking data...");
 
-        const bookResponse = await axios.post(
-          "http://127.0.0.1:8000/api/method/ex_stay.api.booking.book",
-          {
-            email: userEmail.value,
-            first_name: firstName.value,
-            last_name: lastName.value,
-            guest_country: country.value,
-            phone: telephoneNumber.value,
-            check_in: checkIn.value,
-            check_out: checkOut.value,
-            no_of_nights: numberOfNights.value,
-            guests: guestCount.value,
-            code: property.value?.item_code,
-            rate: property.value?.rate,
-            price_per_night: property.value?.rate,
-            total_price: parseFloat(totalPrice.value.replace(/,/g, "")),  // ✅ Convert to raw number
-            nights_x_price_per_night: parseFloat(plusNights.value.replace(/,/g, "")),  // ✅ Convert to raw number
-            levies: parseFloat(levy.value.replace(/,/g, "")),  // ✅ Convert to raw number
-            vat_frontend: parseFloat(vat15.value.replace(/,/g, "")),  // ✅ Convert to raw number
+        const bookingData = {
+          doctype: "Ex Bookings",
+          email: userEmail.value || "",
+          first_name: firstName.value || "",
+          last_name: lastName.value || "",
+          guest_country: selectedCountry.value || "",
+          phone: telephoneNumber.value || "",
+          guests: guestCount.value || "",
+          check_in: checkIn.value || "",
+          check_out: checkOut.value || "",
+          no_of_nights: numberOfNights.value,
+          code: property.value?.item_code,
+          rate: property.value?.price_list_rate,
+          price_per_night: property.value?.price_list_rate,
+          total_price: parseFloat(totalPrice.value.replace(/,/g, "")),  // ✅ Convert to raw number
+          nights_x_price_per_night: parseFloat(plusNights.value.replace(/,/g, "")),  // ✅ Convert to raw number
+          levies: parseFloat(levy.value.replace(/,/g, "")),  // ✅ Convert to raw number
+          vat_frontend: parseFloat(vat15.value.replace(/,/g, "")),  // ✅ Convert to raw number
+        };
+
+        console.log("📩 Booking Payload:", bookingData);
+
+        const bookResponse = await createResource({
+          url: 'frappe.client.insert',
+          params: {
+            doc: bookingData,  // Ensure it's wrapped inside 'doc'
           },
-          {
-            headers: { "Content-Type": "application/json" },
-          }
-        );
+        }).fetch();
 
-        console.log("📩 API Response:", bookResponse.data);
+        console.log("📩 API Response:", bookResponse);
 
-        if (bookResponse.status === 200) {
-          console.log("✅ Booking successful!", bookResponse.data);
-          alert("🎉 Booking successful!");
+        if (bookResponse && bookResponse.name) {
+          console.log("✅ Booking successful!", bookResponse);
+          alert(`🎉 Booking successful! Booking ID: ${bookResponse.name}`);
           showReservationForm.value = false; // Close modal
         } else {
           console.error("❌ Booking failed:", bookResponse);
@@ -546,14 +654,10 @@ export default {
         }
       } catch (err) {
         console.error("🚨 Unable to book reservation", err);
+        alert("An error occurred. Please check the console for details.");
       }
     };
 
-
-
-    // ? Fetch when component mounts
-    onMounted(fetchCountries);
-    onMounted(fetchPropertyDetails);
 
     return { showReservationForm, userEmail, 
       property, images,checkIn, countries,
@@ -565,7 +669,7 @@ export default {
       firstName,
       lastName,
       country,
-      telephoneNumber,
+      telephoneNumber, selectedCountry,
       guestCount, };
   },
 };
