@@ -69,7 +69,7 @@
         <hr class="my-4" />
         <div class="text-gray-700">
           <h3 class="text-xl font-semibold mb-2">Description</h3>
-          <p class="whitespace-pre-line">{{ property.custom_property_description }}</p>
+          <p class="whitespace-pre-line font-sans">{{ property.custom_property_description }}</p>
         </div>
       </section>
 
@@ -83,7 +83,7 @@
               <p v-for="(offer, index) in property.custom_apartment_offers" 
                 :key="index" 
                 class="flex items-center gap-1 mb-4 text-gray-700">
-                <img src="../assets/images/check-regular-24.png" alt="Check Icon"> 
+                <img src="../assets/images/checklist.png" alt="Check Icon"> 
                 {{ offer }}
               </p>
             </template>
@@ -104,8 +104,8 @@
                 placeholder="Place A Comment"
               />
               <button 
-                @click="submitComment"
-                class="bg-green-700 px-3 py-2 rounded-md flex items-center justify-center"
+                @click="sendCommnent"
+                class="bg-green-700 px-3 py-2 rounded-md hover:bg-black flex items-center justify-center"
                 aria-label="Submit Comment"
               >
                 <img 
@@ -117,36 +117,27 @@
 
             </div>
           </div>
-            <h2 class="font-bold mt-4 text-xl mb-3">Guest Reviews</h2>
+            <h2 class="font-bold mt-8 text-xl mb-3">Guest Reviews</h2>
             <div class="space-y-4">
-              <div class="flex items-start gap-4">
-                <img src="../assets/images/user-pin-solid-24.png" class="w-8 h-8 rounded-full" alt="User Avatar" />
-                <div>
-                  <p class="font-semibold">John Doe</p>
-                  <p class="text-gray-600 text-sm">"Great place! The location was perfect and the amenities were top-notch."</p>
+              <!-- ✅ Display comments only if they exist -->
+              <template v-if="comments.filter(c => c.item === property.item_code).length > 0">
+                <div 
+                  v-for="(comment, index) in comments.filter(c => c.item === property.item_code)" 
+                  :key="index" 
+                  class="flex items-center gap-2"
+                > 
+                  <div class="flex items-center justify-center">
+                  <img src="../assets/images/compic.png" class=" pt-3" alt="User Avatar" />
+                  </div>
+                  <div>
+                    <p class="text-gray-600 text-sm">{{ comment.full_name }}</p>
+                    <p class="font-semibold">{{ comment.comment }}</p>
+                  </div>
                 </div>
-              </div>
-              <div class="flex items-start gap-4">
-                <img src="../assets/images/user-pin-solid-24.png" class="w-8 h-8 rounded-full" alt="User Avatar" />
-                <div>
-                  <p class="font-semibold">John Doe</p>
-                  <p class="text-gray-600 text-sm">"Great place! The location was perfect and the amenities were top-notch."</p>
-                </div>
-              </div>
-              <div class="flex items-start gap-4">
-                <img src="../assets/images/user-pin-solid-24.png" class="w-8 h-8 rounded-full" alt="User Avatar" />
-                <div>
-                  <p class="font-semibold">John Doe</p>
-                  <p class="text-gray-600 text-sm">"Great place! The location was perfect and the amenities were top-notch."</p>
-                </div>
-              </div>
-              <div class="flex items-start gap-4">
-                <img src="../assets/images/user-pin-solid-24.png" class="w-8 h-8 rounded-full" alt="User Avatar" />
-                <div>
-                  <p class="font-semibold">John Doe</p>
-                  <p class="text-gray-600 text-sm">"Great place! The location was perfect and the amenities were top-notch."</p>
-                </div>
-              </div>
+              </template>
+
+              <!-- ✅ Correct condition for empty comments -->
+              <p v-else class="text-gray-500 italic">No Comments available</p>
             </div>
           </div>
 
@@ -160,10 +151,18 @@
             <!-- Date Pickers -->
             <div class="mb-4">
               <label class="block">Check-In Date</label>
-              <DatePicker   placeholder="Select Check In Date" v-model="checkIn" clearable class="w-full text-[15px]  rounded-sm focus:border-green-800" />
+              <DatePicker 
+              placeholder="Select Check In Date" 
+              v-model="checkIn" 
+              clearable 
+              class="w-full text-[15px] h-[40px] rounded-sm focus:border-green-800" />
 
               <label class="block mt-3">Check-Out Date</label>
-              <DatePicker placeholder="Select Check Out Date" v-model="checkOut" clearable class="w-full text-[15px]  rounded-sm  focus:border-green-800" />
+              <DatePicker 
+              placeholder="Select Check Out Date" 
+              v-model="checkOut" 
+              clearable 
+              class="w-full h-[40px] text-[15px] rounded-smfocus:border-green-800" />
             </div>
 
             <!-- Price Breakdown -->
@@ -313,15 +312,19 @@
 
 
 <script>
-import { ref, onMounted, computed, watch } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { useRoute } from "vue-router";
-import axios from "axios";
+import { DatePicker } from "frappe-ui";
 import FooterComponent from "../components/elements/footer.vue";
 import NavBar from "../components/elements/navbar.vue";
 import GuestDropdown from "../components/widgets/guests.vue";
-import { session } from '../data/session';
-import { DatePicker, createResource, Rating } from "frappe-ui";
-import HouseLoading from "../components/elements/houseLoading.vue"
+import HouseLoading from "../components/elements/houseLoading.vue";
+import { useLightbox } from "../components/utility/booking_page/lightbox";
+import { useBooking } from "../components/utility/booking_page/booking";
+import { useProperty } from "../components/utility/booking_page/property";
+import { useCountries } from "../components/utility/booking_page/countries";
+import { useSendComment } from "../components/utility/booking_page/sendcomment";
+import { getComments } from "../components/utility/booking_page/fetchcomments";
 
 export default {
   name: "BookingPage",
@@ -335,368 +338,49 @@ export default {
   setup() {
     const route = useRoute();
     const propertyTitle = route.query.title || "";
-    const showReservationForm = ref(false); 
-    const checkIn = ref("");  // ✅ Stores selected check-in date
-    const checkOut = ref(""); // ✅ Stores selected check-out date
-    const comment = ref("")
- 
+    const comment= ref("");
 
-
-    // ? POST FIELDS FOR BOOKING
-    const firstName = ref("")
-    const lastName = ref("")
-    const country = ref("")
-    const telephoneNumber = ref("")
-    const guestCount = ref("")
-    const selectedCountry = ref("");
-
-
-    // ? Assigning computations to varaibles
-    const plusNights = computed(() => {
-      if (property.value && property.value.price_list_rate && numberOfNights.value > 0) {
-        return formatCurrency(property.value.price_list_rate * numberOfNights.value);
-      }
-      return formatCurrency(0);
-    });
-
-    const levy = computed(() => {
-      if (property.value && property.value.price_list_rate && numberOfNights.value > 0) {
-        return formatCurrency(property.value.price_list_rate * numberOfNights.value * 0.16);
-      }
-      return formatCurrency(0);
-    });
-
-    const vat15 = computed(() => {
-      if (levy.value && plusNights.value) {
-        // Ensure levy and plusNights are properly converted back to numbers
-        const plusNightsValue = parseFloat((plusNights.value || "0").replace(/,/g, ""));
-        const levyValue = parseFloat((levy.value || "0").replace(/,/g, ""));
-
-        if (isNaN(plusNightsValue) || isNaN(levyValue)) {
-          return formatCurrency(0);
-        }
-
-        const total = plusNightsValue + levyValue;
-        return formatCurrency(total * 0.15);
-      }
-      return formatCurrency(0);
-    });
-
-
-    const totalPrice = computed(() => {
-      if (!property.value || !property.value.price_list_rate || numberOfNights.value <= 0) {
-        return formatCurrency(0);
-      }
-
-      const basePrice = parseFloat(plusNights.value.replace(/,/g, ""));
-      const additionalLevy = parseFloat(levy.value.replace(/,/g, ""));
-      const vatAmount = parseFloat(vat15.value.replace(/,/g, ""));
-
-      return formatCurrency(basePrice + additionalLevy + vatAmount);
-    });
-
-    // ! Computed Property: Calculates Number of Nights
-    const numberOfNights = computed(() => {
-      if (checkIn.value && checkOut.value) {
-        const start = new Date(checkIn.value);
-        const end = new Date(checkOut.value);
-
-        if (isNaN(start) || isNaN(end)) {
-          return 0; // Prevent calculation if dates are invalid
-        }
-
-        const nights = (end - start) / (1000 * 60 * 60 * 24);
-
-        return nights > 0 ? Math.floor(nights) : 0;
-      }
-      return 0;
-    });
-
-    // ? Money Formatting
-    const formatCurrency = (value) => {
-      return new Intl.NumberFormat("en-US", {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      }).format(value);
-    };
-
-
-    // ? Corrected computed property
-    const userEmail = computed(() => session.user || ""); // ✅ Ensures session.user is set
+    const { lightboxVisible, lightboxIndex, openLightbox, closeLightbox, prevLightbox, nextLightbox } = useLightbox();
+    const { property, images } = useProperty(propertyTitle); // Fetch property
+    const { showReservationForm, checkIn, checkOut, firstName, lastName, country, telephoneNumber, guestCount, selectedCountry, userEmail, numberOfNights, formatCurrency, plusNights, levy, vat15, totalPrice, book } = useBooking(property); // Pass property to useBooking
+    const { countries } = useCountries();
+    const { sendCommnent } = useSendComment(comment, property, userEmail);
+    const { comments, fetchComments } = getComments();
     
 
-
-    // Lightbox state
-    const lightboxVisible = ref(false);
-    const lightboxIndex = ref(0);
-
-    // Open lightbox
-    const openLightbox = (index) => {
-      lightboxIndex.value = index;
-      lightboxVisible.value = true;
-    };
-
-    // Close lightbox
-    const closeLightbox = () => {
-      lightboxVisible.value = false;
-    };
-
-    // Navigate in lightbox
-    const prevLightbox = () => {
-      lightboxIndex.value = (lightboxIndex.value - 1 + images.value.length) % images.value.length;
-    };
-
-    const nextLightbox = () => {
-      lightboxIndex.value = (lightboxIndex.value + 1) % images.value.length;
-    };
-
-
-
-
-    // ! Trial TO GET PROPERTY DETAILS
-    const propertiesResource = createResource({
-      url: "frappe.client.get_list",
-      params: {
-        doctype: "Item",
-        fields: [
-          "item_code", "item_name", "custom_title", "custom_property_description",
-          "custom_location", "custom_city", "custom_country",
-          "custom_profile_picture", "custom_2nd_image", "custom_3rd_image",
-          "custom_4th_image", "custom_property_category", "custom_apartment_offers"
-        ],
-        filters: { custom_is_ex_stay_property: 1 }, // ✅ Fetch only properties with this flag
-        limit_page_length: 100,
-      },
-    });
-
-    const properties = ref([]);
-    const property = ref(null);
-    const images = ref([]);
-
-    onMounted(async () => {
-      try {
-        console.log("Fetching properties...");
-        const response = await propertiesResource.fetch();
-
-        if (Array.isArray(response) && response.length > 0) {
-          properties.value = response;
-          console.log("✅ Fetched Properties:", properties.value);
-
-             // **Find Property by Title**
-
-
-          // Process child table: Extract `offer` values from `custom_apartment_offers`
-          properties.value.forEach((prop) => {
-            prop.custom_apartment_offers = prop.custom_apartment_offers
-              ? prop.custom_apartment_offers.map((offer) => offer.offer)
-              : [];
-          });
-
-          // Extract all item_codes for price lookup
-          const itemCodes = properties.value.map((p) => p.item_code);
-
-          // **Create a new resource to fetch item prices**
-          const pricesResource = createResource({
-            url: "frappe.client.get_list",
-            params: {
-              doctype: "Item Price",
-              filters: { item_code: ["in", itemCodes] },
-              fields: ["item_code", "price_list_rate", "currency"],
-            },
-          });
-
-          // Fetch Prices
-          console.log("Fetching Item Prices...");
-          const pricesResponse = await pricesResource.fetch();
-
-          // Convert price list to a dictionary for quick lookup
-          const priceDict = {};
-          if (Array.isArray(pricesResponse)) {
-            pricesResponse.forEach((price) => {
-              priceDict[price.item_code] = {
-                price_list_rate: price.price_list_rate,
-                currency: price.currency,
-                vat_inclusion: price.vat_inclusion,
-              };
-            });
-          }
-
-          // Attach prices to properties
-          properties.value.forEach((prop) => {
-            prop.price_list_rate = priceDict[prop.item_code]?.price_list_rate || null;
-            prop.currency = priceDict[prop.item_code]?.currency || null;
-            prop.vat_inclusion = priceDict[prop.item_code]?.vat_inclusion || null;
-          });
-
-          // **Find Property by Title**
-          const matchedProperty = properties.value.find((p) => p.custom_title === propertyTitle);
-
-          if (matchedProperty) {
-            property.value = matchedProperty;
-
-            // **Ensure Valid Images**
-            const getValidImage = (image, fallback) => (image && image !== "null" ? image : fallback);
-
-            images.value = [
-              getValidImage(matchedProperty.custom_profile_picture, "../assets/images/default-property.jpg"),
-              getValidImage(matchedProperty.custom_2nd_image, matchedProperty.custom_profile_picture),
-              getValidImage(matchedProperty.custom_3rd_image, matchedProperty.custom_profile_picture),
-              getValidImage(matchedProperty.custom_4th_image, matchedProperty.custom_profile_picture),
-            ];
-
-            // Fetch property offers only after property is assigned
-            await fetchPropertyOffers();
-          } else {
-            console.error("Property not found for title:", propertyTitle);
-          }
-        } else {
-          console.error("❌ No properties found or invalid response format.");
-        }
-      } catch (error) {
-        console.error("🚨 Unable to fetch properties:", error);
-      }
-    });
-
-
-    // ! Fetch Property Offers
-    const fetchPropertyOffers = async () => {
-      try {
-        console.log("Fetching property offers...");
-        const response = await axios.get(
-          "http://127.0.0.1:8000/api/method/ex_stay.api.property.get_property_details"
-        );
-
-        console.log("🔍 Full API Response:", response);
-
-        // Handle "message" wrapper
-        const offersData = response.data?.message || response.data;
-
-        if (Array.isArray(offersData)) {
-          console.log("✅ Offers Fetched:", offersData);
-
-          // Convert response to dictionary for quick lookup
-          const offersDict = {};
-          offersData.forEach((property) => {
-            offersDict[property.item_code] = property.custom_apartment_offers || [];
-          });
-
-          // Ensure property is defined before assigning
-          if (property.value) {
-            property.value.custom_apartment_offers = offersDict[property.value.item_code] || [];
-            console.log("✅ Updated Property with Offers:", property.value.custom_apartment_offers);
-          } else {
-            console.warn("⚠️ Property is null, delaying offer assignment...");
-          }
-        } else {
-          console.error("❌ Invalid response format for offers.", response.data);
-        }
-      } catch (error) {
-        console.error("🚨 Error fetching property offers:", error);
-      }
-    };
-
-
-
-
-    // ! country fetch
-    const countriesResource = createResource({
-      url: 'frappe.client.get_list',
-      params: {
-        doctype: 'Country',
-        fields: ['name'],
-        limit_page_length: 300
-      },
-    });
-
-    // Country options for the dropdown
-    const countries = ref([]);
-
-    // Fetch the country list when the component is mounted
-    onMounted(async () => {
-      try {
-        console.log("Fetching country list...");
-        const response = await countriesResource.fetch();
-
-        // Ensure the response contains an array of country names
-        if (Array.isArray(response)) {
-          countries.value = response.map(country => ({
-            label: country.name,
-            value: country.name,
-          }));
-          console.log("✅ Fetched Countries:", countries.value);
-        } else {
-          console.error("❌ No countries found or invalid response format.");
-        }
-      } catch (error) {
-        console.error("🚨 Unable to fetch countries:", error);
-      }
-    });
-
-
-    // ! API Call to Book Reservation
-    const book = async () => {
-      try {
-        console.log("Preparing booking data...");
-
-        const bookingData = {
-          doctype: "Ex Bookings",
-          email: userEmail.value || "",
-          first_name: firstName.value || "",
-          last_name: lastName.value || "",
-          guest_country: selectedCountry.value || "",
-          phone: telephoneNumber.value || "",
-          guests: guestCount.value || "",
-          check_in: checkIn.value || "",
-          check_out: checkOut.value || "",
-          no_of_nights: numberOfNights.value,
-          code: property.value?.item_code,
-          rate: property.value?.price_list_rate,
-          price_per_night: property.value?.price_list_rate,
-          total_price: parseFloat(totalPrice.value.replace(/,/g, "")),  // ✅ Convert to raw number
-          nights_x_price_per_night: parseFloat(plusNights.value.replace(/,/g, "")),  // ✅ Convert to raw number
-          levies: parseFloat(levy.value.replace(/,/g, "")),  // ✅ Convert to raw number
-          vat_frontend: parseFloat(vat15.value.replace(/,/g, "")),  // ✅ Convert to raw number
-        };
-
-        console.log("📩 Booking Payload:", bookingData);
-
-        const bookResponse = await createResource({
-          url: 'frappe.client.insert',
-          params: {
-            doc: bookingData,  // Ensure it's wrapped inside 'doc'
-          },
-        }).fetch();
-
-        console.log("📩 API Response:", bookResponse);
-
-        if (bookResponse && bookResponse.name) {
-          console.log("✅ Booking successful!", bookResponse);
-          alert(`🎉 Booking successful! Booking ID: ${bookResponse.name}`);
-          showReservationForm.value = false; // Close modal
-        } else {
-          console.error("❌ Booking failed:", bookResponse);
-          alert("Booking failed. Please try again.");
-        }
-      } catch (err) {
-        console.error("🚨 Unable to book reservation", err);
-        alert("An error occurred. Please check the console for details.");
-      }
-    };
-
-
-
-    return { showReservationForm, userEmail, 
-      property, images,checkIn, countries,
-      checkOut, book, plusNights, formatCurrency,
-      numberOfNights, vat15, levy,  totalPrice,
-      lightboxVisible, lightboxIndex, 
-      openLightbox, closeLightbox, 
-      prevLightbox, nextLightbox,
+    return {
+      showReservationForm,
+      userEmail,
+      comments,
+      property,
+      images,
+      checkIn,
+      checkOut,
+      book,
+      plusNights,
+      formatCurrency,
+      numberOfNights,
+      vat15,
+      levy,
+      totalPrice,
+      lightboxVisible,
+      lightboxIndex,
+      openLightbox,
+      closeLightbox,
+      prevLightbox,
+      nextLightbox,
       firstName,
       lastName,
       country,
-      telephoneNumber, selectedCountry,
-      guestCount, };
+      telephoneNumber,
+      selectedCountry,
+      guestCount,
+      countries,
+      comment,
+      sendCommnent,
+      fetchComments
+    };
   },
 };
+
 </script>

@@ -1,6 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "format:ExC-{#####}",
  "creation": "2025-02-27 17:19:14.018852",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -15,13 +16,14 @@
   {
    "fieldname": "item",
    "fieldtype": "Link",
-   "label": "Item",
+   "label": "Item Code",
    "options": "Item"
   },
   {
    "fieldname": "email",
-   "fieldtype": "Data",
-   "label": "Email"
+   "fieldtype": "Link",
+   "label": "Email",
+   "options": "User"
   },
   {
    "fieldname": "comment",
@@ -34,6 +36,7 @@
    "label": "Rating"
   },
   {
+   "fetch_from": "email.full_name",
    "fieldname": "full_name",
    "fieldtype": "Data",
    "label": "Full Name"
@@ -41,10 +44,11 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-02-27 18:32:24.827187",
+ "modified": "2025-02-28 09:51:25.924630",
  "modified_by": "Administrator",
  "module": "ex_stay",
  "name": "Property Comments",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {
