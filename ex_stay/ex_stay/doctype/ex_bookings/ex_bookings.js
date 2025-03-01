@@ -82,9 +82,62 @@ frappe.ui.form.on('Ex Bookings', {
 
 
 
-// --------------------------------------------------------------]
+// ******TAX CATEGORY SELECTION
+// frappe.ui.form.on('Ex Bookings', {
+//     onload: function(frm) {
+//         frm.fields_dict['taxes_and_charges'].get_query = function(doc, cdt, cdn) {
+//             var tax_cate = frappe.model.get_value(cdt, cdn, 'tax_category');
+//             var companyfield = frappe.defaults.get_user_default("Company");
+//             return {
+//                 filters: [
+//                     ['tax_category', '=', tax_cate],
+//                     ['company', '=', companyfield],
+//                     ['docstatus', '!=', 2]
+//                 ]
+//             };
+//         };
+//     },
+
+//     tax_category: function(frm) {
+//         if (frm.doc.tax_category) {
+//             frappe.call({
+//                 method: 'frappe.client.get_list',
+//                 args: {
+//                     doctype: 'Sales Taxes and Charges Template',
+//                     filters: {
+//                         tax_category: frm.doc.tax_category
+//                     },
+//                     fields: ['name']
+//                 },
+//                 callback: function(response) {
+//                     if (response && response.message && response.message.length > 0) {
+//                         frm.set_value('taxes_and_charges', response.message[0].name);
+//                     } else {
+//                         frm.set_value('taxes_and_charges', '');
+//                     }
+//                 }
+//             });
+//         }
+//     }
+// });
+
+
+// frappe.ui.form.on("Ex Bookings", {
+//     onload: function(frm) {
+//         frm.fields_dict['tax_category'].get_query = function(doc) {
+//             return {
+//                 filters: {
+//                     "custom_is_sales": 1,
+//                     "custom_is_purchases": 0,
+//                 }
+//             };
+//         };
+//     }
+// });
+
 frappe.ui.form.on('Ex Bookings', {
     onload: function(frm) {
+        // Set query for taxes_and_charges
         frm.fields_dict['taxes_and_charges'].get_query = function(doc, cdt, cdn) {
             var tax_cate = frappe.model.get_value(cdt, cdn, 'tax_category');
             var companyfield = frappe.defaults.get_user_default("Company");
@@ -96,6 +149,21 @@ frappe.ui.form.on('Ex Bookings', {
                 ]
             };
         };
+
+        // Set query for tax_category
+        frm.fields_dict['tax_category'].get_query = function(doc) {
+            return {
+                filters: {
+                    "custom_is_sales": 1,
+                    "custom_is_purchases": 0,
+                }
+            };
+        };
+
+        // Check if tax_category is already set, then trigger function
+        if (frm.doc.tax_category) {
+            frm.trigger("tax_category");
+        }
     },
 
     tax_category: function(frm) {
@@ -118,19 +186,5 @@ frappe.ui.form.on('Ex Bookings', {
                 }
             });
         }
-    }
-});
-
-
-frappe.ui.form.on("Ex Bookings", {
-    onload: function(frm) {
-        frm.fields_dict['tax_category'].get_query = function(doc) {
-            return {
-                filters: {
-                    "custom_is_sales": 1,
-                    "custom_is_purchases": 0,
-                }
-            };
-        };
     }
 });

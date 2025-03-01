@@ -31,10 +31,9 @@
   "levies",
   "vat_frontend",
   "section_break_uhch",
-  "please_select_a_tax_category",
   "tax_category",
+  "column_break_acyi",
   "taxes_and_charges",
-  "column_break_zotv",
   "property_information_tab",
   "code",
   "column_break_wjxz",
@@ -49,7 +48,9 @@
   "column_break_mmve",
   "city",
   "section_break_jssi",
-  "rate"
+  "item_price_name",
+  "column_break_xpde",
+  "item_price_rate"
  ],
  "fields": [
   {
@@ -189,11 +190,6 @@
    "fieldtype": "Section Break"
   },
   {
-   "fieldname": "rate",
-   "fieldtype": "Currency",
-   "label": "Rate"
-  },
-  {
    "fieldname": "column_break_amqw",
    "fieldtype": "Column Break"
   },
@@ -237,18 +233,14 @@
   },
   {
    "fieldname": "section_break_uhch",
-   "fieldtype": "Section Break"
+   "fieldtype": "Section Break",
+   "label": "Tax Section"
   },
   {
    "fieldname": "tax_category",
    "fieldtype": "Link",
    "label": "Tax Category",
    "options": "Tax Category"
-  },
-  {
-   "fieldname": "please_select_a_tax_category",
-   "fieldtype": "Heading",
-   "label": "Please select a Tax category"
   },
   {
    "fieldname": "posting_date",
@@ -266,8 +258,24 @@
    "options": "Sales Taxes and Charges Template"
   },
   {
-   "fieldname": "column_break_zotv",
+   "fieldname": "column_break_acyi",
    "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "item_price_name.price_list_rate",
+   "fieldname": "item_price_rate",
+   "fieldtype": "Data",
+   "label": "Item Rate"
+  },
+  {
+   "fieldname": "column_break_xpde",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "item_price_name",
+   "fieldtype": "Link",
+   "label": "Item Price Name",
+   "options": "Item Price"
   }
  ],
  "index_web_pages_for_search": 1,
@@ -281,7 +289,7 @@
    "link_fieldname": "custom_booking_link"
   }
  ],
- "modified": "2025-02-27 13:44:33.727902",
+ "modified": "2025-03-01 12:27:19.274322",
  "modified_by": "Administrator",
  "module": "ex_stay",
  "name": "Ex Bookings",
