@@ -38,6 +38,9 @@ doc_events = {
         "Doctype4": {
         "on_update": "ex_stay.api.countryList.countryInFrappe"
     },
+        "Doctype5": {
+        "on_update": "ex_stay.api.delete_comment.delete_comment"
+    },
 }
 
 
