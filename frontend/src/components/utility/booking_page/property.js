@@ -80,7 +80,7 @@ export function useProperty(propertyTitle) {
           params: {
             doctype: "Item Price",
             filters: { item_code: ["in", itemCodes] },
-            fields: ["item_code", "price_list_rate", "currency"],
+            fields: ["item_code", "price_list_rate", "currency", "name", "custom_tax_category"],
           },
         });
 
@@ -95,7 +95,8 @@ export function useProperty(propertyTitle) {
             priceDict[price.item_code] = {
               price_list_rate: price.price_list_rate,
               currency: price.currency,
-              vat_inclusion: price.vat_inclusion,
+              name: price.name,
+              tax: price.custom_tax_category,
             };
           });
         }
@@ -104,7 +105,8 @@ export function useProperty(propertyTitle) {
         properties.value.forEach((prop) => {
           prop.price_list_rate = priceDict[prop.item_code]?.price_list_rate || null;
           prop.currency = priceDict[prop.item_code]?.currency || null;
-          prop.vat_inclusion = priceDict[prop.item_code]?.vat_inclusion || null;
+          prop.name = priceDict[prop.item_code]?.name || null;
+          prop.tax = priceDict[prop.item_code]?.tax || null;
         });
 
         // Find Property by Title

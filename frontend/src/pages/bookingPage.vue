@@ -69,7 +69,7 @@
         <hr class="my-4" />
         <div class="text-gray-700">
           <h3 class="text-xl font-semibold mb-2">Description</h3>
-          <p class="whitespace-pre-line font-sans">{{ property.custom_property_description }}</p>
+          <p class="whitespace-pre-wrap font-sans">{{ property.custom_property_description }}</p>
         </div>
       </section>
 
@@ -100,12 +100,12 @@
               <input
                 v-model="comment"
                 type="text"
-                class="w-full px-4 rounded-md border-gray-300 focus:border-green-600 focus:ring-2 focus:ring-green-400 transition"
+                class="w-full px-4 rounded-sm border-gray-300 focus:border-green-600 focus:ring-2 focus:ring-green-400 transition"
                 placeholder="Place A Comment"
               />
               <button 
                 @click="sendCommnent"
-                class="bg-green-700 px-3 py-2 rounded-md hover:bg-black flex items-center justify-center"
+                class="bg-green-700 px-3 py-3 rounded-full hover:bg-black flex items-center justify-center"
                 aria-label="Submit Comment"
               >
                 <img 
@@ -129,10 +129,27 @@
                   <div class="flex items-center justify-center">
                   <img src="../assets/images/compic.png" class=" pt-3" alt="User Avatar" />
                   </div>
-                  <div>
-                    <p class="text-gray-600 text-sm">{{ comment.full_name }}</p>
-                    <p class="font-semibold">{{ comment.comment }}</p>
-                  </div>
+                  <div class="flex items-center justify-between w-full">
+                    <div>
+                      <p class="text-gray-600 text-sm">{{ comment.full_name }}</p>
+                      <p class="font-semibold">{{ comment.comment }}</p>
+                    </div>
+                    
+                    <template v-if="comment.email === userEmail">
+                      <button 
+                        @click="deleteComment.submit(comment.name)"
+                        class=" px-3 py-3  hover:border hover:rounded-lg flex items-center justify-center"
+                        aria-label="Delete Comment"
+                      >
+                        <img 
+                          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAAXNSR0IArs4c6QAAASFJREFUSEvtljFuwkAQRZ9FRUWOwBEQFwDOEIoUILgBEkqfUKcgRyAKDRKcAbgA4ggcASo6kozkjUYm9nrXlpxip/TOzNv9M+udiIosqoiLC7gGPAP1lM1egTfglucwLuB3YGJJOgemZYJHwCJPQuAJWNl8kyfuAltbkOd6D9iZ2H8DbgJjzxPZwqRUp7QT6+AW8GDLZlk/A8e/fLK6WurRKQje/9RV+ubOAlhLkpR6Fi+KdMkSiKTmqryoJKVIbcryCujkwpFNyXexrwAu2tVBaq1gaC6jRrjHv33h8kjIBCEm77WMQto+1GikJ5hSpPZ5Ib3Aa+DRh6ZiNkDf9c81AD4LgofA0hUs/u34CWw4buACiMyHtDiXgd6Rne1eGfgbWNpaHzl+XRoAAAAASUVORK5CYII="
+                          alt="delete"
+                          class="w-5 h-5"
+                        />
+                      </button>
+                    </template>
+                    <p v-else></p>
+                  </div>                  
                 </div>
               </template>
 
@@ -345,7 +362,7 @@ export default {
     const { showReservationForm, checkIn, checkOut, firstName, lastName, country, telephoneNumber, guestCount, selectedCountry, userEmail, numberOfNights, formatCurrency, plusNights, levy, vat15, totalPrice, book } = useBooking(property); // Pass property to useBooking
     const { countries } = useCountries();
     const { sendCommnent } = useSendComment(comment, property, userEmail);
-    const { comments, fetchComments } = getComments();
+    const { deleteComment, comments, fetchComments } = getComments();
     
 
     return {
@@ -378,7 +395,8 @@ export default {
       countries,
       comment,
       sendCommnent,
-      fetchComments
+      fetchComments,
+      deleteComment
     };
   },
 };

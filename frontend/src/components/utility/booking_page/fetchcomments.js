@@ -37,10 +37,32 @@ export function getComments() {
         }
     };
 
-    onMounted(fetchComments);
+
+    // Delete comment using createResource
+    const deleteComment = createResource({
+        url: "ex_stay.api.delete_comment.delete_comment", 
+        makeParams(commentName) {
+            return { name: commentName }; 
+        },
+        onSuccess(data) {
+            console.log("✅ Comment Deleted:", data);
+            alert("Comment deleted successfully.");
+            fetchComments(); // Refresh comments after deletion
+        },
+        onError(error) {
+            console.error("🚨 Unable to delete comment:", error);
+            alert("An error occurred while deleting the comment.");
+        },
+    });
+
+
+    onMounted(
+        fetchComments
+    );
 
     return {
         comments,
         fetchComments,
+        deleteComment
     };
 }
