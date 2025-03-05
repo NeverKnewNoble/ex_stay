@@ -3,6 +3,8 @@ import { createResource } from "frappe-ui";
 
 export function getComments() {
     const comments = ref([]);
+    const alertMessage = ref(null);
+    const alertType = ref(null);
 
     // Fetch comments for the selected property
     const commentResource = createResource({
@@ -46,12 +48,14 @@ export function getComments() {
         },
         onSuccess(data) {
             console.log("✅ Comment Deleted:", data);
-            alert("Comment deleted successfully.");
+            alertMessage.value = `Comment deleted successfully.`;
+            alertType.value = "success";
             fetchComments(); // Refresh comments after deletion
         },
         onError(error) {
             console.error("🚨 Unable to delete comment:", error);
-            alert("An error occurred while deleting the comment.");
+            alertMessage.value = "An error occurred while deleting the comment.";
+            alertType.value = "error";
         },
     });
 
@@ -63,6 +67,8 @@ export function getComments() {
     return {
         comments,
         fetchComments,
-        deleteComment
+        deleteComment,
+        alertMessage,
+        alertType
     };
 }

@@ -1,11 +1,34 @@
 <template>
   <div class="w-full min-h-screen bg-white text-black">
     <!-- Navbar -->
-    <div
-     
-    >
+    <div>
       <NavBar />
     </div>
+
+    <!-- Floating Notification -->
+    <div class="fixed top-5 right-5 z-50 w-100">
+      <transition name="fade">
+        <!-- Booking Alert -->
+        <n-alert v-if="bookingAlertMessage" :type="bookingAlertType" closable @close="bookingAlertMessage = null">
+          {{ bookingAlertMessage }}
+        </n-alert>
+      </transition>
+
+      <transition name="fade">
+        <!-- Comment Alert -->
+        <n-alert v-if="commentAlertMessage" :type="commentAlertType" closable @close="commentAlertMessage = null">
+          {{ commentAlertMessage }}
+        </n-alert>
+      </transition>
+
+      <transition name="fade">
+        <!-- Comment Alert -->
+        <n-alert v-if="commentdeleteAlertType" :type="commentdeleteAlertType" closable @close="commentdeleteAlertType = null">
+          {{ commentdeleteAlertMessage }}
+        </n-alert>
+      </transition>
+    </div>
+
 
     <!-- Loader -->
     <div v-if="!property" class="flex justify-center items-center h-screen">
@@ -168,18 +191,21 @@
             <!-- Date Pickers -->
             <div class="mb-4">
               <label class="block">Check-In Date</label>
+              
               <DatePicker 
               placeholder="Select Check In Date" 
               v-model="checkIn" 
               clearable 
-              class="w-full text-[15px] h-[40px] rounded-sm focus:border-green-800" />
-
+              class="w-full text-[15px] h-[40px] rounded-sm focus:border-green-800" 
+              />
+             
               <label class="block mt-3">Check-Out Date</label>
               <DatePicker 
               placeholder="Select Check Out Date" 
               v-model="checkOut" 
               clearable 
-              class="w-full h-[40px] text-[15px] rounded-smfocus:border-green-800" />
+              class="w-full h-[40px] text-[15px] rounded-sm focus:border-green-800" 
+              />
             </div>
 
             <!-- Price Breakdown -->
@@ -308,7 +334,7 @@
           <button 
           @click="book"
           class="w-full bg-green-600 text-white py-3 rounded-lg font-semibold shadow-md hover:bg-green-700 transform hover:scale-105 transition duration-300">
-            🔒 Secure Your Booking
+            ✈ Turn In Your Booking
           </button>
         </div>
       </div>
@@ -349,13 +375,18 @@ export default {
     const propertyTitle = route.query.title || "";
     const comment= ref("");
 
+
+
     const { lightboxVisible, lightboxIndex, openLightbox, closeLightbox, prevLightbox, nextLightbox } = useLightbox();
-    const { property, images } = useProperty(propertyTitle); // Fetch property
-    const { showReservationForm, checkIn, checkOut, passportNumber, firstName, lastName, country, telephoneNumber, guestCount, selectedCountry, userEmail, numberOfNights, formatCurrency, plusNights, book } = useBooking(property); // Pass property to useBooking
+    const { property, images } = useProperty(propertyTitle); 
+    const { showReservationForm, checkIn, checkOut, passportNumber, firstName, lastName, country, telephoneNumber, guestCount, selectedCountry, userEmail, numberOfNights, formatCurrency, plusNights, book,
+      alertMessage: bookingAlertMessage, alertType: bookingAlertType
+    } = useBooking(property); // Pass property to useBooking
+
     const { countries } = useCountries();
-    const { sendCommnent } = useSendComment(comment, property, userEmail);
-    const { deleteComment, comments, fetchComments } = getComments();
-    
+    const { sendCommnent, alertMessage: commentAlertMessage, alertType: commentAlertType} = useSendComment(comment, property, userEmail);
+    const { deleteComment, comments, fetchComments, alertMessage: commentdeleteAlertMessage, alertType: commentdeleteAlertType  } = getComments();
+  
 
     return {
       showReservationForm,
@@ -385,10 +416,17 @@ export default {
       countries,
       comment,
       sendCommnent,
-      fetchComments,
-      deleteComment
+      fetchComments, 
+      deleteComment,
+      bookingAlertMessage, 
+      bookingAlertType,
+      commentAlertMessage, 
+      commentAlertType,
+      commentdeleteAlertMessage,
+      commentdeleteAlertType
     };
   },
 };
 
 </script>
+

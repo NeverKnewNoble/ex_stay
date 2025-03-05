@@ -15,7 +15,12 @@ export function useBooking(property) { // Accept property as a parameter
   const selectedCountry = ref("");
   const passportNumber = ref("");
 
+  const alertMessage = ref(null);
+  const alertType = ref(null);
+
   const userEmail = computed(() => session.user || "");
+
+  
 
   const numberOfNights = computed(() => {
     if (checkIn.value && checkOut.value) {
@@ -52,6 +57,55 @@ export function useBooking(property) { // Accept property as a parameter
     try {
       console.log("Preparing booking data...");
 
+      // Validation
+      if (!firstName.value) {
+        alertMessage.value = "⚠️ First Name is required.";
+        alertType.value = "warning";
+        return;
+      }
+
+      if (!lastName.value) {
+          alertMessage.value = "⚠️ Last Name is required.";
+          alertType.value = "warning";
+          return;
+      }
+
+      if (!selectedCountry.value) {
+          alertMessage.value = "⚠️ Please select a Country.";
+          alertType.value = "warning";
+          return;
+      }
+
+      if (!telephoneNumber.value) {
+          alertMessage.value = "⚠️ Phone Number is required.";
+          alertType.value = "warning";
+          return;
+      }
+
+      if (!passportNumber.value) {
+          alertMessage.value = "⚠️ Passport Number is required.";
+          alertType.value = "warning";
+          return;
+      }
+
+      if (!checkIn.value) {
+          alertMessage.value = "⚠️ Check-in date is required.";
+          alertType.value = "warning";
+          return;
+      }
+
+      if (!checkOut.value) {
+          alertMessage.value = "⚠️ Check-out date is required.";
+          alertType.value = "warning";
+          return;
+      }
+
+      if (!guestCount.value || parseInt(guestCount.value) <= 0) {
+          alertMessage.value = "⚠️ Please enter a valid number of guests (greater than 0).";
+          alertType.value = "warning";
+          return;
+      }
+
       const bookingData = {
         doctype: "Ex Bookings",
         email: userEmail.value || "",
@@ -83,15 +137,16 @@ export function useBooking(property) { // Accept property as a parameter
 
       if (bookResponse && bookResponse.name) {
         console.log("✅ Booking successful!", bookResponse);
-        alert(`🎉 Booking successful! Booking ID: ${bookResponse.name}`);
+        alertMessage.value = `🎉 Booking successful! Booking ID: ${bookResponse.name}`;
+        alertType.value = "success";
         showReservationForm.value = false;
       } else {
         console.error("❌ Booking failed:", bookResponse);
-        alert("Booking failed. Please try again.");
+        alertMessage.value = "❌ Booking failed. Please try again.";
+        alertType.value = "error";
       }
     } catch (err) {
       console.error("🚨 Unable to book reservation", err);
-      alert("An error occurred. Please check the console for details.");
     }
   };
 
@@ -111,5 +166,11 @@ export function useBooking(property) { // Accept property as a parameter
     formatCurrency,
     plusNights,
     book,
+    alertMessage,
+    alertType, 
   };
 }
+
+
+
+
