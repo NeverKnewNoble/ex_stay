@@ -138,13 +138,13 @@
                     <template v-if="comment.email === userEmail">
                       <button 
                         @click="deleteComment.submit(comment.name)"
-                        class=" px-3 py-3  hover:border hover:rounded-lg flex items-center justify-center"
+                        class=" px-3 py-3 hover:opacity-100 hover:rounded-lg flex items-center justify-center"
                         aria-label="Delete Comment"
                       >
                         <img 
                           src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAAXNSR0IArs4c6QAAASFJREFUSEvtljFuwkAQRZ9FRUWOwBEQFwDOEIoUILgBEkqfUKcgRyAKDRKcAbgA4ggcASo6kozkjUYm9nrXlpxip/TOzNv9M+udiIosqoiLC7gGPAP1lM1egTfglucwLuB3YGJJOgemZYJHwCJPQuAJWNl8kyfuAltbkOd6D9iZ2H8DbgJjzxPZwqRUp7QT6+AW8GDLZlk/A8e/fLK6WurRKQje/9RV+ubOAlhLkpR6Fi+KdMkSiKTmqryoJKVIbcryCujkwpFNyXexrwAu2tVBaq1gaC6jRrjHv33h8kjIBCEm77WMQto+1GikJ5hSpPZ5Ib3Aa+DRh6ZiNkDf9c81AD4LgofA0hUs/u34CWw4buACiMyHtDiXgd6Rne1eGfgbWNpaHzl+XRoAAAAASUVORK5CYII="
                           alt="delete"
-                          class="w-5 h-5"
+                          class="w-5 h-5 opacity-25 "
                         />
                       </button>
                     </template>
@@ -194,19 +194,6 @@
               <span class="text-lg font-semibold text-right">
                 {{ property.currency }} {{ plusNights }}
               </span>
-
-              <p class="text-lg">Levies (16%)</p>
-              <span class="text-lg font-semibold text-right">
-                {{ property.currency }} {{ levy }}
-              </span>
-
-              <!-- VAT Calculation -->
-              <template v-if="property.vat_inclusion === 'VAT Standard (15%)'">
-                <p class="text-lg">VAT (15%)</p>
-                <span class="text-lg font-semibold text-right text-gray-700">
-                  {{ property.currency }} {{ vat15 }}
-                </span>
-              </template>
             </div>
 
 
@@ -215,16 +202,12 @@
               <div class="grid grid-cols-2 gap-4 items-center text-green-800 font-bold text-2xl">
                 <p>Total Price</p>
                 <span class="text-green-600 text-right">
-                  {{ property.currency }} {{ totalPrice }}
+                  {{ property.currency }} {{ plusNights }}
                 </span>
               </div>
-              <p v-if="property.vat_inclusion === 'VAT Standard (15%)' || property.vat_inclusion === 'VAT Flat (3%)'"
+              <p
                 class="text-sm text-gray-500 text-right">
-                Includes VAT and all charges
-              </p>
-              <p v-else 
-                class="text-sm text-gray-500 text-right">
-                No VAT with all charges included
+                No Taxes Included
               </p>
             </div>
 
@@ -295,6 +278,15 @@
             </div>
 
             <div>
+              <label class="block text-gray-700 font-medium">Passport Number</label>
+              <input 
+                v-model="passportNumber"
+                type="text"
+                class="w-full py-2 px-4 border border-gray-300 rounded-md focus:border-green-600 focus:ring-2 focus:ring-green-400 transition"
+                placeholder="Passport Number" />
+            </div>
+
+            <div>
               <label class="block text-gray-700 font-medium">Email</label>
               <input 
                 
@@ -359,7 +351,7 @@ export default {
 
     const { lightboxVisible, lightboxIndex, openLightbox, closeLightbox, prevLightbox, nextLightbox } = useLightbox();
     const { property, images } = useProperty(propertyTitle); // Fetch property
-    const { showReservationForm, checkIn, checkOut, firstName, lastName, country, telephoneNumber, guestCount, selectedCountry, userEmail, numberOfNights, formatCurrency, plusNights, levy, vat15, totalPrice, book } = useBooking(property); // Pass property to useBooking
+    const { showReservationForm, checkIn, checkOut, passportNumber, firstName, lastName, country, telephoneNumber, guestCount, selectedCountry, userEmail, numberOfNights, formatCurrency, plusNights, book } = useBooking(property); // Pass property to useBooking
     const { countries } = useCountries();
     const { sendCommnent } = useSendComment(comment, property, userEmail);
     const { deleteComment, comments, fetchComments } = getComments();
@@ -373,13 +365,11 @@ export default {
       images,
       checkIn,
       checkOut,
+      passportNumber,
       book,
       plusNights,
       formatCurrency,
       numberOfNights,
-      vat15,
-      levy,
-      totalPrice,
       lightboxVisible,
       lightboxIndex,
       openLightbox,

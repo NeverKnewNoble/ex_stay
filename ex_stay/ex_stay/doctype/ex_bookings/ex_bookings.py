@@ -88,6 +88,39 @@ class ExBookings(Document):
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # ***********FUNCTION TO CREATE SALES ORDER FROM EX BOOKINGS****************
 @frappe.whitelist()
 def create_sales_order_from_event(event_name):
@@ -112,7 +145,7 @@ def create_sales_order_from_event(event_name):
             'taxes_and_charges': event_doc.taxes_and_charges,
             'items': [{
                 'item_code': event_doc.code,
-                'qty': event_doc.guests,
+                'qty': event_doc.no_of_nights,
                 'rate': event_doc.price_per_night
             }]
         })
@@ -155,7 +188,7 @@ def create_sales_invoice_from_event(event_name):
             'taxes_and_charges': event_doc.taxes_and_charges,
             'items': [{
                 'item_code': event_doc.code,
-                'qty': event_doc.guests,
+                'qty': event_doc.no_of_nights,
                 'rate': event_doc.price_per_night
             }]
         })

@@ -41,6 +41,9 @@ doc_events = {
         "Doctype5": {
         "on_update": "ex_stay.api.delete_comment.delete_comment"
     },
+        "Doctype6": {
+        "on_update": "ex_stay.api.homeproperty.homeproperty"
+    },
 }
 
 

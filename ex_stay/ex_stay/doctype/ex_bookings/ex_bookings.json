@@ -16,20 +16,17 @@
   "phone",
   "column_break_pgcz",
   "last_name",
+  "passport_no",
   "section_break_ojjr",
   "check_in",
-  "no_of_nights",
   "column_break_hkgy",
   "check_out",
+  "column_break_ecqi",
   "guests",
   "estimated_pricing_section",
-  "estimated_pricing",
   "price_per_night",
-  "total_price",
-  "column_break_door",
-  "nights_x_price_per_night",
-  "levies",
-  "vat_frontend",
+  "column_break_sxon",
+  "no_of_nights",
   "section_break_uhch",
   "tax_category",
   "column_break_acyi",
@@ -115,7 +112,7 @@
   {
    "fieldname": "guests",
    "fieldtype": "Data",
-   "label": "Guests"
+   "label": "No. of Guests"
   },
   {
    "fieldname": "column_break_hkgy",
@@ -203,35 +200,6 @@
    "label": "Price per Night"
   },
   {
-   "fieldname": "total_price",
-   "fieldtype": "Currency",
-   "label": "Total Price"
-  },
-  {
-   "fieldname": "column_break_door",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "nights_x_price_per_night",
-   "fieldtype": "Currency",
-   "label": "Nights x Price per Night"
-  },
-  {
-   "fieldname": "levies",
-   "fieldtype": "Currency",
-   "label": "Levies (16%)"
-  },
-  {
-   "fieldname": "vat_frontend",
-   "fieldtype": "Currency",
-   "label": "VAT (15%)"
-  },
-  {
-   "fieldname": "estimated_pricing",
-   "fieldtype": "Heading",
-   "label": "Estimated Pricing"
-  },
-  {
    "fieldname": "section_break_uhch",
    "fieldtype": "Section Break",
    "label": "Tax Section"
@@ -276,6 +244,19 @@
    "fieldtype": "Link",
    "label": "Item Price Name",
    "options": "Item Price"
+  },
+  {
+   "fieldname": "column_break_ecqi",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_sxon",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "passport_no",
+   "fieldtype": "Data",
+   "label": "Passport No."
   }
  ],
  "index_web_pages_for_search": 1,
@@ -289,7 +270,7 @@
    "link_fieldname": "custom_booking_link"
   }
  ],
- "modified": "2025-03-01 12:27:19.274322",
+ "modified": "2025-03-01 15:02:09.740596",
  "modified_by": "Administrator",
  "module": "ex_stay",
  "name": "Ex Bookings",

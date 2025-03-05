@@ -55,10 +55,10 @@
           :key="property.item_code"
           :title="property.custom_title"
           :address="property.custom_location"
-          :location="property.custom_city"
-          :country="property.custom_country"
-          :distance="25"
-          :price="`${property.price_list_rate || 'N/A'}`"
+          :location="`${property.custom_city}`"
+          :country="`${property.custom_country}`"
+          :price="`${property.rate || 'N/A'}`"
+          :currency="`${property.currency || 'n/A'}`"
           :imageUrl="getImageUrl(property.custom_profile_picture)"
           @click="goToBookingPage(property)"
         />
@@ -75,10 +75,11 @@
   </div>
 </template>
 
+
+
 <script>
 import axios from "axios";
 import { ref, computed, onMounted } from "vue";
-import { createResource } from "frappe-ui";
 import { useRouter } from "vue-router";
 import Navbar from "../components/elements/navbar.vue";
 import listingCard from "../components/widgets/listingCard.vue";
@@ -92,6 +93,7 @@ export default {
     FooterComponent,
   },
   setup() {
+    const properties = ref([]);
     const page = ref(1);
     const perPage = ref(8);
     const router = useRouter();
@@ -104,86 +106,16 @@ export default {
       return imagePath;
     };
 
-    
-
-    // !Fetch properties from API
-    const propertiesResource = createResource({
-        url: "frappe.client.get_list",
-        params: {
-            doctype: "Item",
-            fields: [
-            "item_code", "item_name", "custom_title", "custom_property_description",
-            "custom_location", "custom_city", "custom_country",
-            "custom_profile_picture", "custom_2nd_image", "custom_3rd_image",
-            "custom_4th_image", "custom_property_category", "custom_apartment_offers"
-            ],
-            filters: { custom_is_ex_stay_property: 1 }, // ✅ Fetch only properties with this flag
-            limit_page_length: 100,
-        },
-    });
-
-    const properties = ref([]);
-    const property = ref(null);
-
-
-    onMounted(async () => {
-        try {
-            console.log("Fetching properties...");
-            const response = await propertiesResource.fetch();
-
-            if (Array.isArray(response) && response.length > 0) {
-                properties.value = response;
-                console.log("✅ Fetched Properties:", properties.value);
-
-                // Extract all item_codes for price lookup
-                const itemCodes = properties.value.map((p) => p.item_code);
-                if (itemCodes.length === 0) {
-                    console.warn("⚠️ No item codes found, skipping price fetch.");
-                    return;
-                }
-
-                // Fetch item prices
-                console.log("Fetching Item Prices...");
-                const pricesResource = createResource({
-                    url: "frappe.client.get_list",
-                    params: {
-                        doctype: "Item Price",
-                        filters: [["item_code", "in", itemCodes]], // Correct filter format
-                        fields: ["item_code", "price_list_rate", "currency"],
-                    },
-                });
-
-                const pricesResponse = await pricesResource.fetch();
-                console.log("✅ Fetched Prices:", pricesResponse);
-
-                // Convert price list to a dictionary for quick lookup
-                const priceDict = {};
-                if (Array.isArray(pricesResponse)) {
-                    pricesResponse.forEach((price) => {
-                        priceDict[price.item_code] = {
-                            price_list_rate: price.price_list_rate,
-                            currency: price.currency
-                        };
-                    });
-                }
-                console.log("✅ Price Mapping Dictionary:", priceDict);
-
-                // Attach prices to properties
-                properties.value.forEach((prop) => {
-                    prop.price_list_rate = priceDict[prop.item_code]?.price_list_rate || null;
-                    prop.currency = priceDict[prop.item_code]?.currency || null;
-                    prop.vat_inclusion = priceDict[prop.item_code]?.vat_inclusion || null;
-                });
-
-            } else {
-                console.warn("⚠️ No properties found.");
-            }
-
-        } catch (error) {
-            console.error("🚨 Unable to fetch properties:", error);
-        }
-    });
-
+    const fetchProperties = async () => {
+      try {
+        const response = await axios.get(
+          "http://127.0.0.1:8000/api/method/ex_stay.api.homeproperty.homeproperty"
+        );
+        properties.value = response.data.message;
+      } catch (error) {
+        console.error("Error fetching properties:", error);
+      }
+    };
 
     const paginatedProperties = computed(() => {
       const start = (page.value - 1) * perPage.value;
@@ -201,7 +133,7 @@ export default {
       });
     };
 
-   
+    onMounted(fetchProperties);
 
     return {
       properties,

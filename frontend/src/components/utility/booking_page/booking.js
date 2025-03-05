@@ -13,6 +13,7 @@ export function useBooking(property) { // Accept property as a parameter
   const telephoneNumber = ref("");
   const guestCount = ref("");
   const selectedCountry = ref("");
+  const passportNumber = ref("");
 
   const userEmail = computed(() => session.user || "");
 
@@ -45,39 +46,7 @@ export function useBooking(property) { // Accept property as a parameter
     return formatCurrency(0);
   });
 
-  const levy = computed(() => {
-    if (property.value && property.value.price_list_rate && numberOfNights.value > 0) {
-      return formatCurrency(property.value.price_list_rate * numberOfNights.value * 0.16);
-    }
-    return formatCurrency(0);
-  });
 
-  const vat15 = computed(() => {
-    if (levy.value && plusNights.value) {
-      const plusNightsValue = parseFloat((plusNights.value || "0").replace(/,/g, ""));
-      const levyValue = parseFloat((levy.value || "0").replace(/,/g, ""));
-
-      if (isNaN(plusNightsValue) || isNaN(levyValue)) {
-        return formatCurrency(0);
-      }
-
-      const total = plusNightsValue + levyValue;
-      return formatCurrency(total * 0.15);
-    }
-    return formatCurrency(0);
-  });
-
-  const totalPrice = computed(() => {
-    if (!property.value || !property.value.price_list_rate || numberOfNights.value <= 0) {
-      return formatCurrency(0);
-    }
-
-    const basePrice = parseFloat(plusNights.value.replace(/,/g, ""));
-    const additionalLevy = parseFloat(levy.value.replace(/,/g, ""));
-    const vatAmount = parseFloat(vat15.value.replace(/,/g, ""));
-
-    return formatCurrency(basePrice + additionalLevy + vatAmount);
-  });
 
   const book = async () => {
     try {
@@ -90,6 +59,7 @@ export function useBooking(property) { // Accept property as a parameter
         last_name: lastName.value || "",
         guest_country: selectedCountry.value || "",
         phone: telephoneNumber.value || "",
+        passport_no: passportNumber.value || "",
         guests: guestCount.value || "",
         check_in: checkIn.value || "",
         check_out: checkOut.value || "",
@@ -98,10 +68,6 @@ export function useBooking(property) { // Accept property as a parameter
         item_price_name:property.value?.name,
         tax_category: property.value?.tax,
         price_per_night: property.value?.price_list_rate,
-        total_price: parseFloat(totalPrice.value.replace(/,/g, "")),
-        nights_x_price_per_night: parseFloat(plusNights.value.replace(/,/g, "")),
-        levies: parseFloat(levy.value.replace(/,/g, "")),
-        vat_frontend: parseFloat(vat15.value.replace(/,/g, "")),
       };
 
       console.log("📩 Booking Payload:", bookingData);
@@ -133,6 +99,7 @@ export function useBooking(property) { // Accept property as a parameter
     showReservationForm,
     checkIn,
     checkOut,
+    passportNumber,
     firstName,
     lastName,
     country,
@@ -143,9 +110,6 @@ export function useBooking(property) { // Accept property as a parameter
     numberOfNights,
     formatCurrency,
     plusNights,
-    levy,
-    vat15,
-    totalPrice,
     book,
   };
 }

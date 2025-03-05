@@ -9,7 +9,7 @@
       <p>{{ country }} <span class="text-gray-500">  | {{ location }}, {{ address }}</span></p>
       <!-- <p class="text-gray-500 text-sm">{{ distance }} kilometers away</p> -->
       <div class="mt-2 flex items-center justify-between">
-        <p class="text-lg font-bold text-green-600">GH₵{{ price }} / night</p>
+        <p class="text-lg font-bold text-green-600">{{ currency }}{{ price }} / night</p>
       </div>
     </div>
   </div>
@@ -23,9 +23,10 @@ export default {
     location: String,
     country: String,
     address: String,
-    distance: Number,
+    // distance: Number,
     price: String,
     imageUrl: String,
+    currency: String,
   },
   computed: {
     imageSrc() {

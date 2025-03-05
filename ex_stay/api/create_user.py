@@ -70,7 +70,7 @@ def create_user(first_name, last_name, email, password):
             "new_password": password,
             "enabled": 1,
             "send_welcome_email": 1,
-            "roles": [{"role": "Ex Stay User"}],  # Assign role correctly
+            "roles": [{"role": "Ex Stay User"}],  
         })
         
         # Insert the user into the system
@@ -97,3 +97,12 @@ def create_user(first_name, last_name, email, password):
         frappe.log_error(frappe.get_traceback(), "User Creation Error")
         frappe.local.response.http_status_code = 500
         return {"status": "error", "message": str(e)}
+
+
+
+
+
+
+
+
+
