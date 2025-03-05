@@ -32,6 +32,11 @@ const routes = [
     name: 'CatalogPage',
     path: '/catalogue',
     component: () => import('@/pages/Catalogs.vue'),
+  },
+  {
+    name: 'myBookingPage',
+    path: '/my_bookings',
+    component: () => import('@/pages/myBookings.vue'),
   }
 ]
 

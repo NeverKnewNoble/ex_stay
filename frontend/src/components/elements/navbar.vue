@@ -6,12 +6,13 @@
           <img src="../../assets/images/logogreencp.png" alt="logo" class="w-[140px]">
         </router-link>
       </div>
-      <div class="flex items-center gap-2">
+      <div class="flex items-center justify-center ">
         <!-- Desktop Menu -->
-        <ul class="hidden md:flex mr-2">
-          <router-link to="/catalogue">
-            <li class="inline-block px-2 hover:text-[#7ebd9c] cursor-pointer">CATALOGUE</li>
-          </router-link>
+        <ul class="hidden md:flex">
+          <router-link to="/my_bookings"><li class="px-4 py-2 hover:text-[#7ebd9c] cursor-pointer font-semibold">MY BOOKINGS</li></router-link>
+        </ul>
+        <ul class="mr-2 ">
+          <router-link to="/catalogue"><li class="inline-block px-2 hover:text-[#7ebd9c] cursor-pointer">CATALOGUE</li></router-link>
         </ul>
         <!-- Mobile Menu Button -->
         <button class="md:hidden p-2" @click="toggleMenu">
@@ -35,7 +36,8 @@
     <div v-if="isMenuOpen" class="md:hidden bg-white shadow-md rounded-sm">
       <ul class="flex flex-col">
         <router-link to="/"><li class="px-4 py-2 hover:text-[#7ebd9c] cursor-pointer font-semibold">HOME</li></router-link>
-        <router-link to="/catalogue"><li class="px-4 py-2 hover:text-[#7ebd9c] cursor-pointer font-semibold">CATALOGS</li></router-link>
+        <router-link to="/my_bookings"><li class="px-4 py-2 hover:text-[#7ebd9c] cursor-pointer font-semibold">MY BOOKINGS</li></router-link>
+        <router-link to="/my_bookings"><li class="px-4 py-2 hover:text-[#7ebd9c] cursor-pointer font-semibold">MY BOOKINGS</li></router-link>
       </ul>
     </div>
   </nav>

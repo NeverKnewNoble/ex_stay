@@ -44,6 +44,9 @@ doc_events = {
         "Doctype6": {
         "on_update": "ex_stay.api.homeproperty.homeproperty"
     },
+        "Doctype7": {
+        "on_update": "ex_stay.api.cancel_booking.cancel_booking"
+    },
 }
 
 

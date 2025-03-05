@@ -99,8 +99,8 @@
                     :address="listing.custom_location"
                     :location="listing.custom_city"
                     :country="listing.custom_country"
-                    :distance="25"
                     :price="`${listing.price_list_rate || 'N/A'}`"
+                    :currency="`${listing.currency}`"
                     :imageUrl="getImageUrl(listing.custom_profile_picture)"
                     @click="goToBookingPage(listing)"
                 />

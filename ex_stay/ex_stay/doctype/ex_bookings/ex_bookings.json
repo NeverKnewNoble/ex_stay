@@ -8,6 +8,7 @@
  "field_order": [
   "booking_details_section",
   "email",
+  "status",
   "section_break_upmn",
   "posting_date",
   "guest_country",
@@ -257,6 +258,13 @@
    "fieldname": "passport_no",
    "fieldtype": "Data",
    "label": "Passport No."
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Pending\nConfirmed\nCancelled"
   }
  ],
  "index_web_pages_for_search": 1,
@@ -270,7 +278,7 @@
    "link_fieldname": "custom_booking_link"
   }
  ],
- "modified": "2025-03-01 15:02:09.740596",
+ "modified": "2025-03-05 16:59:26.990150",
  "modified_by": "Administrator",
  "module": "ex_stay",
  "name": "Ex Bookings",
