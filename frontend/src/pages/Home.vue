@@ -19,13 +19,12 @@
         <div class="relative">
           <input
             type="text"
-            id="search"
-            name="search"
+            v-model="searchQuery"
             placeholder="Search For Your Destination"
-            class="bg-gray-100 sm:w-[680px] md:w-[950px] lg:w-[950px] py-[12px] focus:bg-white border-none transition rounded-full pl-5 pr-12 focus:border-none "
+            class="bg-gray-100 sm:w-[680px] md:w-[950px] lg:w-[950px] py-[12px] focus:bg-white border-none transition rounded-full pl-5 pr-12 focus:border-none"
           />
           <button
-            type="submit"
+            @click="searchProperties"
             class="w-[42px] h-[42px] absolute right-[4px] top-1/2 transform -translate-y-1/2 bg-[#7ebd9c] rounded-full flex items-center justify-center hover:bg-[#6daa8b] transition-colors"
           >
             <svg
@@ -55,10 +54,10 @@
           :key="property.item_code"
           :title="property.custom_title"
           :address="property.custom_location"
-          :location="`${property.custom_city}`"
-          :country="`${property.custom_country}`"
-          :price="`${property.rate || 'N/A'}`"
-          :currency="`${property.currency || 'n/A'}`"
+          :location="property.custom_city"
+          :country="property.custom_country"
+          :price="property.rate || 'N/A'"
+          :currency="property.currency || 'N/A'"
           :imageUrl="getImageUrl(property.custom_profile_picture)"
           @click="goToBookingPage(property)"
         />
@@ -70,12 +69,39 @@
       </div>
     </section>
 
+    <!-- Search Results Modal -->
+    <div v-if="showSearchResults" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+      <div class="bg-white rounded-lg p-6 max-w-4xl w-full shadow-lg relative">
+        <button @click="closeSearchResults" class="absolute top-2 right-2 text-gray-600 hover:text-gray-900">
+          ✖
+        </button>
+        <h2 class="text-2xl font-semibold text-green-600 text-center mb-5">
+          Results for "{{ searchQuery }}"
+        </h2>
+        <div v-if="filteredProperties.length">
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            <listingCard
+              v-for="property in filteredProperties"
+              :key="property.item_code"
+              :title="property.custom_title"
+              :address="property.custom_location"
+              :location="property.custom_city"
+              :country="property.custom_country"
+              :price="property.rate || 'N/A'"
+              :currency="property.currency || 'N/A'"
+              :imageUrl="getImageUrl(property.custom_profile_picture)"
+              @click="goToBookingPage(property)"
+            />
+          </div>
+        </div>
+        <p v-else class="text-center text-gray-500">No results found.</p>
+      </div>
+    </div>
+
     <!-- **Footer -->
     <FooterComponent />
   </div>
 </template>
-
-
 
 <script>
 import axios from "axios";
@@ -97,6 +123,9 @@ export default {
     const page = ref(1);
     const perPage = ref(8);
     const router = useRouter();
+    const searchQuery = ref("");
+    const showSearchResults = ref(false);
+    const filteredProperties = ref([]);
 
     const getImageUrl = (imagePath) => {
       if (!imagePath) return "../assets/images/default-property.jpg";
@@ -128,9 +157,24 @@ export default {
       router.push({
         name: "BookingPage",
         query: {
-          title: property.custom_title, // Pass only the title
+          title: property.custom_title,
         },
       });
+    };
+
+    const searchProperties = () => {
+      const query = searchQuery.value.toLowerCase();
+      filteredProperties.value = properties.value.filter((property) =>
+        [property.custom_title, property.custom_location, property.custom_city, property.custom_country]
+          .some(field => field?.toLowerCase().includes(query))
+      );
+      showSearchResults.value = true;
+    };
+
+    const closeSearchResults = () => {
+      showSearchResults.value = false;
+      searchQuery.value = "";
+      filteredProperties.value = [];
     };
 
     onMounted(fetchProperties);
@@ -143,6 +187,11 @@ export default {
       paginatedProperties,
       getImageUrl,
       goToBookingPage,
+      searchQuery,
+      searchProperties,
+      filteredProperties,
+      showSearchResults,
+      closeSearchResults,
     };
   },
 };
