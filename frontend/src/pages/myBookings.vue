@@ -47,12 +47,13 @@
                     <div class="flex justify-between items-start">
                       <!-- Left Section -->
                       <div>
+                        <h2 class="text-xl font-semibold text-gray-500 mb-2">{{ booking.name }}</h2>
                         <h2 class="text-xl font-semibold">{{ booking.title }}</h2>
                         <p class="text-gray-600">{{ booking.country }} | {{ booking.city }} | {{ booking.location }}</p>
                         <p class="text-gray-700 mt-2">Guests: {{ booking.guests }}</p>
                         <p class="text-gray-700">Check-in: {{ booking.check_in }}</p>
                         <p class="text-gray-700">Check-out: {{ booking.check_out }}</p>
-                        <p class="text-gray-700">No. of Nights: {{ booking.no_of_nights }}</p>
+                        <p class="text-gray-700">Nights: {{ booking.no_of_nights }}</p>
                       </div>
   
                       <!-- Status & Cancel Button -->
@@ -81,10 +82,10 @@
                     <div class="mt-4 flex justify-end text-right">
                       <div>
                         <p class="text-gray-600 text-sm">
-                          Price per Night: <span class="font-semibold">${{ booking.price_per_night }}</span>
+                          <span class="font-semibold text-[20px]">{{ booking.currency }} {{ booking.price_per_night }}</span> night
                         </p>
                         <p class="text-green-600 text-lg font-semibold pt-3">
-                          Total Price: ${{ Number(booking.price_per_night) * Number(booking.no_of_nights) }}
+                          Total Price: {{ booking.currency }} {{ Number(booking.price_per_night) * Number(booking.no_of_nights) }}
                         </p>
                       </div>
                     </div>

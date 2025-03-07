@@ -6,13 +6,14 @@ def homeproperty():
         # Fetch all items where "is_ex_stay_property" is checked
         properties = frappe.get_all(
             "Item",
-            filters={"is_ex_stay_property": 1},
+            filters={"custom_is_ex_stay_property": 1},
             fields=[
              "item_code", "item_name", "custom_title",
             "custom_location", "custom_city", "custom_country",
             "custom_profile_picture",
             ]
         )
+
 
         if not properties:
             return {"message": "No properties found"}

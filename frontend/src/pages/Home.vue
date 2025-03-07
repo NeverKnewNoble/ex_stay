@@ -141,6 +141,7 @@ export default {
           "http://127.0.0.1:8000/api/method/ex_stay.api.homeproperty.homeproperty"
         );
         properties.value = response.data.message;
+        console.log(properties.value);
       } catch (error) {
         console.error("Error fetching properties:", error);
       }

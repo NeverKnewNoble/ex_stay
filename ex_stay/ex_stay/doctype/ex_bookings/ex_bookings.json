@@ -8,7 +8,10 @@
  "field_order": [
   "booking_details_section",
   "email",
+  "section_break_cnbo",
   "status",
+  "column_break_ofwz",
+  "property_category",
   "section_break_upmn",
   "posting_date",
   "guest_country",
@@ -32,6 +35,8 @@
   "tax_category",
   "column_break_acyi",
   "taxes_and_charges",
+  "section_break_clre",
+  "hotel_package_selected",
   "property_information_tab",
   "code",
   "column_break_wjxz",
@@ -47,6 +52,7 @@
   "city",
   "section_break_jssi",
   "item_price_name",
+  "currency",
   "column_break_xpde",
   "item_price_rate"
  ],
@@ -265,6 +271,35 @@
    "in_list_view": 1,
    "label": "Status",
    "options": "Pending\nConfirmed\nCancelled"
+  },
+  {
+   "fieldname": "section_break_cnbo",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_ofwz",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "property_category",
+   "fieldtype": "Data",
+   "label": "Property Category"
+  },
+  {
+   "fieldname": "section_break_clre",
+   "fieldtype": "Section Break"
+  },
+  {
+   "depends_on": "eval:doc.property_category == 'Hotel'",
+   "fieldname": "hotel_package_selected",
+   "fieldtype": "Data",
+   "label": "Hotel Package Selected"
+  },
+  {
+   "fetch_from": "item_price_name.currency",
+   "fieldname": "currency",
+   "fieldtype": "Data",
+   "label": "Currency"
   }
  ],
  "index_web_pages_for_search": 1,
@@ -278,7 +313,7 @@
    "link_fieldname": "custom_booking_link"
   }
  ],
- "modified": "2025-03-05 16:59:26.990150",
+ "modified": "2025-03-07 00:43:33.713963",
  "modified_by": "Administrator",
  "module": "ex_stay",
  "name": "Ex Bookings",
