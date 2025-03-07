@@ -14,6 +14,7 @@ export function useBooking(property) { // Accept property as a parameter
   const guestCount = ref("");
   const selectedCountry = ref("");
   const passportNumber = ref("");
+  const selectedPackage = ref("");
 
   const alertMessage = ref(null);
   const alertType = ref(null);
@@ -106,6 +107,12 @@ export function useBooking(property) { // Accept property as a parameter
           return;
       }
 
+      if (!selectedPackage.value && property.value?.custom_property_category === 'Hotel') {
+        alertMessage.value = "⚠️ Please select a package.";
+        alertType.value = "warning";
+        return;
+    }
+
       const bookingData = {
         doctype: "Ex Bookings",
         email: userEmail.value || "",
@@ -122,6 +129,8 @@ export function useBooking(property) { // Accept property as a parameter
         item_price_name:property.value?.name,
         tax_category: property.value?.tax,
         price_per_night: property.value?.price_list_rate,
+        property_category: property.value?.custom_property_category,
+        hotel_package_selected: selectedPackage.value || "",
       };
 
       console.log("📩 Booking Payload:", bookingData);
@@ -168,6 +177,7 @@ export function useBooking(property) { // Accept property as a parameter
     book,
     alertMessage,
     alertType, 
+    selectedPackage
   };
 }
 

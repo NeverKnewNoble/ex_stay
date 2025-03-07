@@ -55,6 +55,43 @@ export function useProperty(propertyTitle) {
     }
   };
 
+  const fetchHotelPackages = async () => {
+    try {
+      console.log("Fetching hotel packages...");
+      const response = await axios.get(
+        "http://127.0.0.1:8000/api/method/ex_stay.api.hotel_packages.get_hotel_packages"
+      );
+  
+      console.log("🔍 Full API Response:", response);
+  
+      // Extract data correctly
+      const hotelPackagesData = response.data?.message?.message || [];
+  
+      if (Array.isArray(hotelPackagesData)) {
+        console.log("✅ Hotel Packages Fetched:", hotelPackagesData);
+  
+        const packagesDict = {};
+        hotelPackagesData.forEach((price) => {
+          packagesDict[price.item_code] = price.custom_packages || [];
+        });
+  
+        // Attach packages to properties
+        properties.value.forEach((prop) => {
+          prop.custom_packages = packagesDict[prop.item_code] || [];
+        });
+  
+        console.log("✅ Updated Properties with Packages:", properties.value);
+      } else {
+        console.error("❌ Invalid response format for hotel packages.", response.data);
+      }
+    } catch (error) {
+      console.error("🚨 Error fetching hotel packages:", error);
+    }
+  };
+  
+  
+  
+
   onMounted(async () => {
     try {
       console.log("Fetching properties...");
@@ -80,7 +117,7 @@ export function useProperty(propertyTitle) {
           params: {
             doctype: "Item Price",
             filters: { item_code: ["in", itemCodes] },
-            fields: ["item_code", "price_list_rate", "currency", "name", "custom_tax_category"],
+            fields: ["item_code", "price_list_rate", "currency", "name", "custom_tax_category", "custom_packages"],
           },
         });
 
@@ -109,6 +146,9 @@ export function useProperty(propertyTitle) {
           prop.tax = priceDict[prop.item_code]?.tax || null;
         });
 
+        console.log("🔍 Full Prices Response:", pricesResponse);
+
+
         // Find Property by Title
         const matchedProperty = properties.value.find((p) => p.custom_title === propertyTitle);
 
@@ -127,6 +167,8 @@ export function useProperty(propertyTitle) {
 
           // Fetch property offers only after property is assigned
           await fetchPropertyOffers();
+          await fetchHotelPackages();
+
         } else {
           console.error("Property not found for title:", propertyTitle);
         }
@@ -143,3 +185,7 @@ export function useProperty(propertyTitle) {
     images,
   };
 }
+
+
+
+

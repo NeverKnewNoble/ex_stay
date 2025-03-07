@@ -1,6 +1,6 @@
 import { ref } from "vue";
 
-export function useLightbox() {
+export function useLightbox(images) {
   const lightboxVisible = ref(false);
   const lightboxIndex = ref(0);
 

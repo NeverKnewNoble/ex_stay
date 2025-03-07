@@ -23,8 +23,15 @@
 
       <transition name="fade">
         <!-- Comment Alert -->
-        <n-alert v-if="commentdeleteAlertType" :type="commentdeleteAlertType" closable @close="commentdeleteAlertType = null">
+        <n-alert v-if="commentdeleteAlertMessage" :type="commentdeleteAlertType" closable @close="commentdeleteAlertMessage = null">
           {{ commentdeleteAlertMessage }}
+        </n-alert>
+      </transition>
+
+      <transition name="fade">
+        <!-- Comment Alert -->
+        <n-alert v-if="packageAlertMessage" :type="packageAlertType" closable @close="packageAlertMessage = null">
+          {{ packageAlertMessage }}
         </n-alert>
       </transition>
     </div>
@@ -95,6 +102,78 @@
           <p class="whitespace-pre-wrap font-sans">{{ property.custom_property_description }}</p>
         </div>
       </section>
+
+
+      <!-- **Hotel Packages -->
+      <section v-if="property.custom_property_category === 'Hotel'">
+        <main class="flex-grow pt-20 pb-8">
+          <div class="w-full mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Hotel Packages Card -->
+            <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+              <!-- Header Section -->
+              <div class="p-6 bg-green-600 text-white">
+                <h1 class="text-2xl font-semibold">Hotel Packages</h1> 
+              </div>
+
+              <!-- Hotel Packages List -->
+              <div class="p-6">
+                <div v-if="!property || !property.custom_packages" class="text-center text-gray-500">
+                  <p>Loading packages...</p> 
+                </div>
+
+                <div v-else-if="sortedPackages.length === 0" class="text-center text-gray-500">
+                  <p>No packages found.</p> 
+                </div>
+
+                <div v-else>
+                  <div
+                    v-for="(packageItem, index) in sortedPackages"
+                    :key="index"
+                    class="mb-6 border-b pb-6 last:border-b-0 flex items-center gap-6"
+                  >
+                    <!-- Package Image -->
+                    <img
+                      :src="packageItem.package_image || '../assets/images/default-package.jpg'"
+                      alt="Package Image" 
+                      class="w-[200px] h-[200px] object-cover rounded-lg shadow-sm border"
+                    />
+
+                    <!-- Package Details -->
+                    <div class="flex-grow">
+                      <div class="flex justify-between items-start">
+                        <!-- Left Section -->
+                        <div>
+                          <h2 class="text-xl font-semibold">{{ packageItem.package_name }}</h2>
+                          <p class="text-gray-700 ">Max Guests: {{ packageItem.maximum_number_of_guests }}</p> 
+                        </div>
+                      </div>
+
+                      <div class="">
+                        <p class="whitespace-pre-wrap font-sans">{{ packageItem.package_description }}</p>
+                      </div>
+
+                      <!-- Price and Button -->
+                      <div class="mt-2 flex justify-between items-center">
+                        <p class="text-green-600 text-lg font-semibold">
+                          <span class="text-[20px]">{{ property.currency }} {{ packageItem.package_price }}</span> night
+                        </p>
+                        <button
+                          class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition"
+                          @click="choosePackage(packageItem)"
+                        >
+                          Choose This Package
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </main>
+      </section>
+
 
       <!-- **2 Side Sections -->
       <div class="flex flex-col lg:flex-row gap-6 mt-10 mb-15">
@@ -187,7 +266,7 @@
         <section class="bg-white w-full lg:w-[40%] rounded-3xl shadow-xl p-8 border border-gray-200">
           <h3 class="text-3xl font-extrabold text-green-600 text-center mb-6">Reserve Now!</h3>
 
-          <div class="space-y-6">
+          <div class="space-y-6 mb-5">
             <!-- Date Pickers -->
             <div class="mb-4">
               <label class="block">Check-In Date</label>
@@ -206,13 +285,24 @@
               clearable 
               class="w-full h-[40px] text-[15px] rounded-sm focus:border-green-800" 
               />
+
+              <div v-if="property.custom_property_category === 'Hotel'">
+                <label class="block mt-3 font-medium">Selected Package</label>
+                <input 
+                  v-model="selectedPackage"
+                  type="text"
+                  class="w-full py-2 px-4 border border-gray-400 rounded-sm focus:border-green-600 focus:ring-2 focus:ring-green-400 transition"
+                  placeholder="Select A Package above"
+                  readonly
+                />
+              </div>
             </div>
 
             <!-- Price Breakdown -->
             <div class="grid grid-cols-2 gap-4 items-center text-gray-700">
-              <p class="text-lg font-semibold">Price per Night</p>
-              <span class="text-lg font-bold text-green-600 text-right">
-                {{ property.currency }} {{ property.price_list_rate }}
+              <p class="text-lg font-semibold"></p>
+              <span class="text-[20px] font-bold text-green-600 text-right">
+                {{ property.currency }} {{ selectedPackagePrice ? selectedPackagePrice : property.price_list_rate }} night
               </span>
 
 
@@ -346,6 +436,14 @@
 </template>
 
 
+
+
+
+
+
+
+
+
 <script>
 import { ref, onMounted, computed } from "vue";
 import { useRoute } from "vue-router";
@@ -376,10 +474,10 @@ export default {
     const comment= ref("");
 
 
-
-    const { lightboxVisible, lightboxIndex, openLightbox, closeLightbox, prevLightbox, nextLightbox } = useLightbox();
+    
     const { property, images } = useProperty(propertyTitle); 
-    const { showReservationForm, checkIn, checkOut, passportNumber, firstName, lastName, country, telephoneNumber, guestCount, selectedCountry, userEmail, numberOfNights, formatCurrency, plusNights, book,
+    const { lightboxVisible, lightboxIndex, openLightbox, closeLightbox, prevLightbox, nextLightbox } = useLightbox(images);
+    const { showReservationForm, checkIn, selectedPackage, checkOut, passportNumber, firstName, lastName, country, telephoneNumber, guestCount, selectedCountry, userEmail, numberOfNights, formatCurrency, plusNights, book,
       alertMessage: bookingAlertMessage, alertType: bookingAlertType
     } = useBooking(property); // Pass property to useBooking
 
@@ -387,6 +485,49 @@ export default {
     const { sendCommnent, alertMessage: commentAlertMessage, alertType: commentAlertType} = useSendComment(comment, property, userEmail);
     const { deleteComment, comments, fetchComments, alertMessage: commentdeleteAlertMessage, alertType: commentdeleteAlertType  } = getComments();
   
+
+
+
+
+    // **Computed property to sort packages by price (lowest to highest)
+    const sortedPackages = computed(() => {
+      if (!property.value || !property.value.custom_packages) return [];
+      return [...property.value.custom_packages].sort((a, b) => a.package_price - b.package_price);
+    });
+
+    // !Hotel Package selection Logic
+    // **Hotel Package function
+    // const selectedPackage = ref(""); // Holds the selected package name
+    const selectedPackagePrice = ref(0); // Holds the selected package price
+
+    // Separate alert for package selection
+    const packageAlertMessage = ref(null);
+    const packageAlertType = ref(null);
+
+    const choosePackage = (packageItem) => {
+      try {
+        selectedPackage.value = packageItem.package_name; // Update package name
+        selectedPackagePrice.value = packageItem.package_price; // Store selected price
+        property.value.price_list_rate = packageItem.package_price; // Update displayed price
+
+        // Set package-specific alert
+        packageAlertMessage.value = `Package Selected: ${packageItem.package_name}`;
+        packageAlertType.value = "success";
+
+        // Auto-hide the alert after 3 seconds
+        setTimeout(() => {
+          packageAlertMessage.value = null;
+        }, 3000);
+      } catch (err) {
+        packageAlertMessage.value = "Failed To Select Package. Please try again.";
+        packageAlertType.value = "error";
+        
+        setTimeout(() => {
+          packageAlertMessage.value = null;
+        }, 3000);
+      }
+    };
+
 
     return {
       showReservationForm,
@@ -423,7 +564,14 @@ export default {
       commentAlertMessage, 
       commentAlertType,
       commentdeleteAlertMessage,
-      commentdeleteAlertType
+      commentdeleteAlertType,
+      choosePackage,
+      sortedPackages,
+      selectedPackage,
+      selectedPackagePrice,
+      packageAlertMessage,
+      packageAlertType,
+      
     };
   },
 };

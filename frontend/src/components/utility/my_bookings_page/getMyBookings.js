@@ -14,7 +14,7 @@ export function useFetchMyBookings() {
             fields: [
                 "name", "email", "status", "country", "location", "city", "check_in",
                 "check_out", "guests", "price_per_night", "no_of_nights",
-                "profile_picture_import", "title"
+                "profile_picture_import", "title", "currency"
             ],
             limit_page_length: 100,
         },

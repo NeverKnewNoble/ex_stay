@@ -10,10 +10,10 @@ export function useFetchProperties() {
     params: {
       doctype: "Item",
       fields: [
-        "item_code", "item_name", "custom_title", "custom_property_description",
+        "item_code", "item_name", "custom_property_category", "custom_title", "custom_property_description",
         "custom_location", "custom_city", "custom_country",
         "custom_profile_picture", "custom_2nd_image", "custom_3rd_image",
-        "custom_4th_image", "custom_property_category", "custom_apartment_offers"
+        "custom_4th_image", "custom_apartment_offers"
       ],
       filters: { custom_is_ex_stay_property: 1 },
       limit_page_length: 100,
@@ -24,6 +24,8 @@ export function useFetchProperties() {
     try {
       console.log("Fetching properties...");
       const response = await propertiesResource.fetch();
+
+      console.log(response.data);
 
       if (Array.isArray(response) && response.length > 0) {
         properties.value = response;
