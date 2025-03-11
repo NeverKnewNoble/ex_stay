@@ -6,13 +6,18 @@
           <img src="../../assets/images/logogreencp.png" alt="logo" class="w-[140px]">
         </router-link>
       </div>
-      <div class="flex items-center justify-center ">
+      <div class="flex items-center justify-center">
         <!-- Desktop Menu -->
         <ul class="hidden md:flex">
-          <router-link to="/my_bookings"><li class="px-4 py-2 hover:text-[#7ebd9c] cursor-pointer font-semibold">MY BOOKINGS</li></router-link>
+          <router-link to="/my_bookings">
+            <li class="px-4 py-2 hover:text-[#7ebd9c] cursor-pointer font-semibold">MY BOOKINGS</li>
+          </router-link>
         </ul>
-        <ul class="mr-2 ">
-          <router-link to="/catalogue"><li class="inline-block px-2 hover:text-[#7ebd9c] cursor-pointer">CATALOGUE</li></router-link>
+        <!-- Hide CATALOGUE on Mobile -->
+        <ul class="hidden md:flex mr-2">
+          <router-link to="/catalogue">
+            <li class="inline-block px-2 hover:text-[#7ebd9c] cursor-pointer">CATALOGUE</li>
+          </router-link>
         </ul>
         <!-- Mobile Menu Button -->
         <button class="md:hidden p-2" @click="toggleMenu">
@@ -23,7 +28,7 @@
         <!-- Login/Logout Button -->
         <button
           @click="isLoggedIn ? logout() : login()"
-          class="border px-6 py-2 rounded-sm cursor-pointer transition-colors"
+          class="border px-6 py-2 rounded-sm cursor-pointer transition-colors ml-2"
           :class="isLoggedIn 
             ? 'bg-[#7ebd9c] text-white hover:bg-white hover:border-black hover:text-black' 
             : 'bg-white text-black border-black hover:border-[#7ebd9c] hover:bg-[#7ebd9c] hover:text-white'"
@@ -33,11 +38,18 @@
       </div>
     </div>
     <!-- Mobile Menu -->
-    <div v-if="isMenuOpen" class="md:hidden bg-white shadow-md rounded-sm">
-      <ul class="flex flex-col">
-        <router-link to="/"><li class="px-4 py-2 hover:text-[#7ebd9c] cursor-pointer font-semibold">HOME</li></router-link>
-        <router-link to="/my_bookings"><li class="px-4 py-2 hover:text-[#7ebd9c] cursor-pointer font-semibold">MY BOOKINGS</li></router-link>
-        <router-link to="/my_bookings"><li class="px-4 py-2 hover:text-[#7ebd9c] cursor-pointer font-semibold">MY BOOKINGS</li></router-link>
+    <div v-if="isMenuOpen" class="md:hidden bg-white rounded-sm mt-2 shadow-lg">
+      <ul class="flex flex-col text-center">
+        <router-link to="/">
+          <li class="px-4 py-3 border-b hover:text-[#7ebd9c] cursor-pointer font-semibold">HOME</li>
+        </router-link>
+        <router-link to="/my_bookings">
+          <li class="px-4 py-3 border-b hover:text-[#7ebd9c] cursor-pointer font-semibold">MY BOOKINGS</li>
+        </router-link>
+        <!-- Catalogue is only shown in the mobile dropdown -->
+        <router-link to="/catalogue">
+          <li class="px-4 py-3 hover:text-[#7ebd9c] cursor-pointer">CATALOGUE</li>
+        </router-link>
       </ul>
     </div>
   </nav>

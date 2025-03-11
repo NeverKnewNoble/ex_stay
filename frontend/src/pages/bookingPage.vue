@@ -112,30 +112,30 @@
             <div class="bg-white shadow-lg rounded-lg overflow-hidden">
               <!-- Header Section -->
               <div class="p-6 bg-green-600 text-white">
-                <h1 class="text-2xl font-semibold">Hotel Packages</h1> 
+                <h1 class="text-2xl font-semibold">Hotel Packages</h1>
               </div>
 
               <!-- Hotel Packages List -->
               <div class="p-6">
                 <div v-if="!property || !property.custom_packages" class="text-center text-gray-500">
-                  <p>Loading packages...</p> 
+                  <p>Loading packages...</p>
                 </div>
 
                 <div v-else-if="sortedPackages.length === 0" class="text-center text-gray-500">
-                  <p>No packages found.</p> 
+                  <p>No packages found.</p>
                 </div>
 
                 <div v-else>
                   <div
                     v-for="(packageItem, index) in sortedPackages"
                     :key="index"
-                    class="mb-6 border-b pb-6 last:border-b-0 flex items-center gap-6"
+                    class="mb-6 border-b pb-6 last:border-b-0 flex flex-col sm:flex-row items-center gap-6"
                   >
                     <!-- Package Image -->
                     <img
                       :src="packageItem.package_image || '../assets/images/default-package.jpg'"
-                      alt="Package Image" 
-                      class="w-[200px] h-[200px] object-cover rounded-lg shadow-sm border"
+                      alt="Package Image"
+                      class="w-[200px] h-[200px] object-cover rounded-lg shadow-sm border mb-4 sm:mb-0"
                     />
 
                     <!-- Package Details -->
@@ -144,7 +144,7 @@
                         <!-- Left Section -->
                         <div>
                           <h2 class="text-xl font-semibold">{{ packageItem.package_name }}</h2>
-                          <p class="text-gray-700 ">Max Guests: {{ packageItem.maximum_number_of_guests }}</p> 
+                          <p class="text-gray-700">Max Guests: {{ packageItem.maximum_number_of_guests }}</p>
                         </div>
                       </div>
 
@@ -153,12 +153,12 @@
                       </div>
 
                       <!-- Price and Button -->
-                      <div class="mt-2 flex justify-between items-center">
+                      <div class="mt-2 flex flex-col sm:flex-row justify-between items-center">
                         <p class="text-green-600 text-lg font-semibold">
                           <span class="text-[20px]">{{ property.currency }} {{ packageItem.package_price }}</span> night
                         </p>
                         <button
-                          class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition"
+                          class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition mt-2 sm:mt-0"
                           @click="choosePackage(packageItem)"
                         >
                           Choose This Package
@@ -167,12 +167,14 @@
                     </div>
                   </div>
                 </div>
-
               </div>
+
             </div>
           </div>
         </main>
       </section>
+
+
 
 
       <!-- **2 Side Sections -->
@@ -340,35 +342,38 @@
 
 
       <!-- Reservation Form Modal -->
-      <div v-if="showReservationForm" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-        <div class="bg-white rounded-lg shadow-2xl p-8 w-full max-w-lg border relative transition-all duration-300 transform scale-100">
-          
+      <div v-if="showReservationForm" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4">
+        <div class="bg-white rounded-lg shadow-2xl p-6 sm:p-8 w-full max-w-lg border relative transition-all duration-300 transform scale-100">
+
           <!-- Close Button -->
-          <button @click="showReservationForm = false" class="absolute top-5 right-5 text-[25px] text-black text-5xl hover:text-green-600">
-          &times;
+          <button 
+            @click="showReservationForm = false" 
+            class="absolute top-4 right-4 text-[25px] text-black hover:text-green-600 sm:text-5xl"
+          >
+            &times;
           </button>
 
           <!-- Header -->
-          <h2 class="text-2xl font-bold text-gray-800 text-center mb-4">Reserve Your Stay</h2>
-          <p class="text-sm text-gray-500 text-center mb-6">Fill in the details to complete your reservation.</p>
+          <h2 class="text-xl sm:text-2xl font-bold text-gray-800 text-center mb-3 sm:mb-4">Reserve Your Stay</h2>
+          <p class="text-sm text-gray-500 text-center mb-5 sm:mb-6">Fill in the details to complete your reservation.</p>
 
           <!-- Form Fields -->
-          <div class="space-y-5">
+          <div class="space-y-4 sm:space-y-5">
             <div>
               <label class="block text-gray-700 font-medium">First Name</label>
               <input 
                 v-model="firstName"
                 type="text"
-                class="w-full py-2 px-4 border border-gray-300 rounded-md focus:border-green-600 focus:ring-2 focus:ring-green-400 transition"
+                class="w-full py-2 px-3 sm:py-2.5 sm:px-4 border border-gray-300 rounded-md focus:border-green-600 focus:ring-2 focus:ring-green-400 transition"
                 placeholder="First Name">
             </div>
-            
+
             <div>
               <label class="block text-gray-700 font-medium">Last Name</label>
               <input
                 v-model="lastName" 
                 type="text" 
-                class="w-full py-2 px-4 border border-gray-300 rounded-md focus:border-green-600 focus:ring-2 focus:ring-green-400 transition"
+                class="w-full py-2 px-3 sm:py-2.5 sm:px-4 border border-gray-300 rounded-md focus:border-green-600 focus:ring-2 focus:ring-green-400 transition"
                 placeholder="Last Name">
             </div>
 
@@ -376,7 +381,7 @@
               <label class="block text-gray-700 font-medium">Country</label>
               <select 
                 v-model="selectedCountry"
-                class="w-full py-2 px-4 border border-gray-300 rounded-md focus:border-green-600 focus:ring-2 focus:ring-green-400 transition">
+                class="w-full py-2 px-3 sm:py-2.5 sm:px-4 border border-gray-300 rounded-md focus:border-green-600 focus:ring-2 focus:ring-green-400 transition">
                 <option value="">Select A Country</option>
                 <option v-for="country in countries" :key="country.value" :value="country.value">
                   {{ country.label }}
@@ -389,7 +394,7 @@
               <input 
                 v-model="telephoneNumber"
                 type="tel"
-                class="w-full py-2 px-4 border border-gray-300 rounded-md focus:border-green-600 focus:ring-2 focus:ring-green-400 transition"
+                class="w-full py-2 px-3 sm:py-2.5 sm:px-4 border border-gray-300 rounded-md focus:border-green-600 focus:ring-2 focus:ring-green-400 transition"
                 placeholder="Phone Number" />
             </div>
 
@@ -398,17 +403,18 @@
               <input 
                 v-model="passportNumber"
                 type="text"
-                class="w-full py-2 px-4 border border-gray-300 rounded-md focus:border-green-600 focus:ring-2 focus:ring-green-400 transition"
+                class="w-full py-2 px-3 sm:py-2.5 sm:px-4 border border-gray-300 rounded-md focus:border-green-600 focus:ring-2 focus:ring-green-400 transition"
                 placeholder="Passport Number" />
             </div>
 
             <div>
               <label class="block text-gray-700 font-medium">Email</label>
               <input 
-                
-                type="email" :value="userEmail"
-                class="w-full py-2 px-4 border border-gray-300 rounded-md focus:border-green-600 focus:ring-2 focus:ring-green-400 transition"
-                placeholder="Email" :readonly="userEmail !== ''" />
+                type="email" 
+                :value="userEmail"
+                class="w-full py-2 px-3 sm:py-2.5 sm:px-4 border border-gray-300 rounded-md focus:border-green-600 focus:ring-2 focus:ring-green-400 transition"
+                placeholder="Email" 
+                :readonly="userEmail !== ''" />
             </div>
 
             <div>
@@ -418,12 +424,12 @@
           </div>
 
           <!-- Divider -->
-          <div class="border-t border-gray-200 my-6"></div>
+          <div class="border-t border-gray-200 my-5 sm:my-6"></div>
 
           <!-- Reserve Button -->
           <button 
-          @click="book"
-          class="w-full bg-green-600 text-white py-3 rounded-lg font-semibold shadow-md hover:bg-green-700 transform hover:scale-105 transition duration-300">
+            @click="book"
+            class="w-full bg-green-600 text-white py-2.5 sm:py-3 rounded-lg font-semibold shadow-md hover:bg-green-700 transform hover:scale-105 transition duration-300">
             ✈ Turn In Your Booking
           </button>
         </div>
