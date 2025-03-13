@@ -50,6 +50,7 @@ doc_events = {
         "Doctype8": {
         "on_update": "ex_stay.api.hotel_packages.get_hotel_packages"
     },
+
 }
 
 

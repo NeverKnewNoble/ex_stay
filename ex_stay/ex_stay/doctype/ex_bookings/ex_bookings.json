@@ -37,6 +37,8 @@
   "taxes_and_charges",
   "section_break_clre",
   "hotel_package_selected",
+  "column_break_iycm",
+  "hotel_email",
   "property_information_tab",
   "code",
   "column_break_wjxz",
@@ -65,7 +67,8 @@
   {
    "fieldname": "email",
    "fieldtype": "Data",
-   "label": "Email"
+   "label": "Email",
+   "options": "Email"
   },
   {
    "fieldname": "property_information_tab",
@@ -300,6 +303,17 @@
    "fieldname": "currency",
    "fieldtype": "Data",
    "label": "Currency"
+  },
+  {
+   "fieldname": "column_break_iycm",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:doc.property_category == 'Hotel'",
+   "fetch_from": "code.custom_hotel_email",
+   "fieldname": "hotel_email",
+   "fieldtype": "Data",
+   "label": "Hotel Email"
   }
  ],
  "index_web_pages_for_search": 1,
@@ -313,7 +327,7 @@
    "link_fieldname": "custom_booking_link"
   }
  ],
- "modified": "2025-03-07 00:43:33.713963",
+ "modified": "2025-03-13 16:34:09.877955",
  "modified_by": "Administrator",
  "module": "ex_stay",
  "name": "Ex Bookings",

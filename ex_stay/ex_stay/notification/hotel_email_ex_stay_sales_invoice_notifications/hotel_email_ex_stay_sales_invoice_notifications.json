@@ -1,0 +1,32 @@
+{
+ "attach_print": 1,
+ "channel": "Email",
+ "condition": "doc.custom_is_from_booking==1",
+ "creation": "2025-03-13 16:13:37.699632",
+ "days_in_advance": 0,
+ "docstatus": 0,
+ "doctype": "Notification",
+ "document_type": "Sales Invoice",
+ "enabled": 1,
+ "event": "New",
+ "idx": 0,
+ "is_standard": 1,
+ "message": "<p>Thank you for partnering with <strong>Ex Stay</strong>. Please find attached the <strong>{{ doc.name }}</strong> for your reference.</p>\n\n<p>Kindly review the details and let us know if any modifications are needed. If everything is in order, please proceed with the necessary steps to confirm the reservation.</p>\n\n<p>If you have any questions or require further assistance, feel free to reach out. We look forward to working together and ensuring a seamless guest experience.</p>\n\n<p>Best regards,</p>\n<p><strong>Ex Stay Team</strong></p>",
+ "message_type": "HTML",
+ "modified": "2025-03-13 16:50:17.983571",
+ "modified_by": "Administrator",
+ "module": "ex_stay",
+ "name": "Hotel Email Ex Stay Sales Invoice Notifications",
+ "owner": "Administrator",
+ "print_format": "Ex Stay Sales Invoice",
+ "recipients": [
+  {
+   "receiver_by_document_field": "custom_hotel_email"
+  }
+ ],
+ "send_system_notification": 0,
+ "send_to_all_assignees": 0,
+ "sender": "Nortex",
+ "sender_email": "nortexnoble@gmail.com",
+ "subject": "Hotel  Sales Invoice \u2013 {{ doc.name }}"
+}

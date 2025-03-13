@@ -1,0 +1,28 @@
+{
+ "attach_print": 0,
+ "channel": "System Notification",
+ "creation": "2025-03-11 22:21:04.716096",
+ "days_in_advance": 0,
+ "docstatus": 0,
+ "doctype": "Notification",
+ "document_type": "Ex Bookings",
+ "enabled": 1,
+ "event": "New",
+ "idx": 0,
+ "is_standard": 1,
+ "message": "Booking Created, Please View The Information",
+ "message_type": "Plain Text",
+ "modified": "2025-03-13 16:50:16.145699",
+ "modified_by": "Administrator",
+ "module": "ex_stay",
+ "name": "Ex Stay System Booking Notifications",
+ "owner": "Administrator",
+ "recipients": [
+  {
+   "receiver_by_role": "Ex Stay User"
+  }
+ ],
+ "send_system_notification": 0,
+ "send_to_all_assignees": 0,
+ "subject": "Booking {{ doc.name }} made for {{ doc.title }}"
+}

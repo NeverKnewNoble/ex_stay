@@ -1,0 +1,29 @@
+{
+ "attach_print": 0,
+ "channel": "System Notification",
+ "creation": "2025-03-12 11:02:03.973928",
+ "days_in_advance": 0,
+ "docstatus": 0,
+ "doctype": "Notification",
+ "document_type": "Property Comments",
+ "enabled": 1,
+ "event": "Method",
+ "idx": 0,
+ "is_standard": 1,
+ "message": "The User Deleted Thier Comment.",
+ "message_type": "Plain Text",
+ "method": "on_trash",
+ "modified": "2025-03-13 16:50:17.009292",
+ "modified_by": "Administrator",
+ "module": "ex_stay",
+ "name": "System Deleted Comment Notifications",
+ "owner": "micgraphjosh@gmail.com",
+ "recipients": [
+  {
+   "receiver_by_role": "Ex Stay User"
+  }
+ ],
+ "send_system_notification": 0,
+ "send_to_all_assignees": 0,
+ "subject": "{{ doc.full_name }} Deleted Thier Comment {{ doc.name }}."
+}

@@ -1,0 +1,32 @@
+{
+ "attach_print": 1,
+ "channel": "Email",
+ "condition": "doc.custom_is_from_booking==1",
+ "creation": "2025-03-13 14:47:22.198135",
+ "days_in_advance": 0,
+ "docstatus": 0,
+ "doctype": "Notification",
+ "document_type": "Sales Invoice",
+ "enabled": 1,
+ "event": "New",
+ "idx": 0,
+ "is_standard": 1,
+ "message": "<p>Thank you for choosing <strong>Ex Stay</strong>. Please find attached your <strong>{{ doc.name }}</strong> for your reference.</p>\n\n<p>Please review the details and let us know if any changes are required. If everything looks good, kindly proceed with the necessary steps to confirm your booking.</p>\n\n<p>For any questions, feel free to reach out to us. We look forward to hosting you!</p>\n\n<p>Best regards,</p>\n<p><strong>Ex Stay Team</strong></p>",
+ "message_type": "HTML",
+ "modified": "2025-03-13 16:50:17.691263",
+ "modified_by": "Administrator",
+ "module": "ex_stay",
+ "name": "Email Ex Stay Sales Invoice Notifications",
+ "owner": "Administrator",
+ "print_format": "Ex Stay Sales Invoice",
+ "recipients": [
+  {
+   "receiver_by_document_field": "contact_email"
+  }
+ ],
+ "send_system_notification": 0,
+ "send_to_all_assignees": 0,
+ "sender": "Nortex",
+ "sender_email": "nortexnoble@gmail.com",
+ "subject": " Sales Invoice \u2013 {{ doc.name }}"
+}

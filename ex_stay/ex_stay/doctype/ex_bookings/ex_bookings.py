@@ -9,117 +9,6 @@ class ExBookings(Document):
     pass
 
 
-# # ***********FUNCTION TO CREATE SALES ORDER FROM EX BOOKINGS****************
-# @frappe.whitelist()
-# def create_sales_order_from_event(event_name):
-#     try:
-#         event_doc = frappe.get_doc('Ex Bookings', event_name)
-
-#         # Ensure item exists
-#         if not frappe.db.exists("Item", event_doc.code):
-#             return f"Item '{event_doc.code}' does not exist."
-
-#         so_doc = frappe.get_doc({
-#             'doctype': 'Sales Order',
-#             'customer': event_doc.customer,
-#             'custom_booking_link': event_doc.name,
-#             'delivery_date': frappe.utils.nowdate(),  
-#             'tax_category': event_doc.tax_category,
-#             'items': [{
-#                 'item_code': event_doc.code,
-#                 'qty': event_doc.guests,
-#                 'rate': event_doc.price_per_night
-#             }]
-#         })
-
-#         so_doc.insert()
-#         so_doc.submit()
-#         return so_doc.name
-
-#     except Exception as e:
-#         frappe.log_error(f"Error creating Sales Order: {e}\n{frappe.get_traceback()}", "Create Sales Order Error")
-#         return str(e)
-
-
-# @frappe.whitelist()
-# def get_sales_order_count(event_name):
-#     return frappe.db.count('Sales Order', filters={'custom_booking_link': event_name})
-
-
-# # ***********FUNCTION TO CREATE SALES INVOICE FROM EX BOOKINGS****************
-# @frappe.whitelist()
-# def create_sales_invoice_from_event(event_name):
-#     try:
-#         event_doc = frappe.get_doc('Ex Bookings', event_name)
-
-#         # Ensure item exists
-#         if not frappe.db.exists("Item", event_doc.code):
-#             return f"Item '{event_doc.code}' does not exist."
-
-#         si_doc = frappe.get_doc({
-#             'doctype': 'Sales Invoice',
-#             'customer': event_doc.customer,
-#             'custom_booking_link': event_doc.name,
-#             'posting_date': frappe.utils.nowdate(),
-#             'tax_category': event_doc.tax_category,
-#             'items': [{
-#                 'item_code': event_doc.code,
-#                 'qty': event_doc.guests,
-#                 'rate': event_doc.price_per_night
-#             }]
-#         })
-
-#         si_doc.insert()
-#         si_doc.submit()
-#         return si_doc.name
-
-#     except Exception as e:
-#         frappe.log_error(f"Error creating Sales Invoice: {e}\n{frappe.get_traceback()}", "Create Sales Invoice Error")
-#         return str(e)
-
-
-# @frappe.whitelist()
-# def get_sales_invoice_count(event_name):
-#     return frappe.db.count('Sales Invoice', filters={'custom_booking_link': event_name})
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # ***********FUNCTION TO CREATE SALES ORDER FROM EX BOOKINGS****************
 @frappe.whitelist()
@@ -143,10 +32,13 @@ def create_sales_order_from_event(event_name):
             'delivery_date': frappe.utils.nowdate(),
             'tax_category': event_doc.tax_category,
             'taxes_and_charges': event_doc.taxes_and_charges,
+            'custom_is_from_booking': 1,
             'items': [{
                 'item_code': event_doc.code,
                 'qty': event_doc.no_of_nights,
-                'rate': event_doc.price_per_night
+                'rate': event_doc.price_per_night,
+                'custom_hotel_package_name': event_doc.hotel_package_selected,
+                'custom_property_name': event_doc.title
             }]
         })
 
@@ -186,10 +78,14 @@ def create_sales_invoice_from_event(event_name):
             'posting_date': frappe.utils.nowdate(),
             'tax_category': event_doc.tax_category,
             'taxes_and_charges': event_doc.taxes_and_charges,
+            'custom_is_from_booking': 1, 
+            'custom_hotel_email': event_doc.hotel_email,
             'items': [{
                 'item_code': event_doc.code,
                 'qty': event_doc.no_of_nights,
-                'rate': event_doc.price_per_night
+                'rate': event_doc.price_per_night,
+                'custom_hotel_package_name': event_doc.hotel_package_selected,
+                'custom_property_name': event_doc.title
             }]
         })
 
@@ -229,3 +125,10 @@ def get_or_create_customer(customer_name, customer_email):
     frappe.db.commit()
 
     return new_customer.name  # Return the new customer name
+
+
+
+
+
+
+

@@ -1,0 +1,31 @@
+{
+ "attach_print": 0,
+ "channel": "Email",
+ "creation": "2025-03-13 12:13:43.072649",
+ "days_in_advance": 0,
+ "docstatus": 0,
+ "doctype": "Notification",
+ "document_type": "Ex Bookings",
+ "enabled": 1,
+ "event": "New",
+ "idx": 0,
+ "is_standard": 1,
+ "message": "    <p>Dear {{ doc.first_name }},</p>\n\n    <p>Thank you for your booking with Ex Stay! We are pleased to confirm your reservation.</p>\n    <p>Please Check the My Bookings Page on ex stay your application status.</p>\n\n    <h3>Booking Details</h3>\n    <p><strong>Guest Name:</strong> {{ doc.first_name }} {{ last_name }}</p>\n    <p><strong>Guest Country:</strong> {{ doc.guest_country }}</p>\n    <p><strong>Check-in Date:</strong> {{ doc.check_in }}</p>\n    <p><strong>Check-out Date:</strong> {{ doc.check_out }}</p>\n    <p><strong>Number of Guests:</strong> {{ doc.guests }}</p>\n    <p><strong>Number of Nights:</strong> {{ doc.no_of_nights }}</p>\n    <p><strong>Price per Night:</strong> {{ doc.price_per_night }}</p>\n\n    {% if doc.hotel_package_selected %}\n        <p><strong>Hotel Package Selected:</strong> {{ doc.hotel_package_selected }}</p>\n    {% endif %}\n\n    <h3>Property Details</h3>\n    <p><strong>Property Name:</strong> {{ doc.title }}</p>\n    <p><strong>Country:</strong> {{ doc.country }}</p>\n    <p><strong>City:</strong> {{ doc.city }}</p>\n    <p><strong>Location:</strong> {{ doc.location }}</p>\n\n    <p>We look forward to hosting you! If you have any questions, feel free to contact us.</p>\n\n    <p>Best regards,</p>\n    <p><strong>Ex Stay Team</strong></p>",
+ "message_type": "HTML",
+ "modified": "2025-03-13 16:50:17.197987",
+ "modified_by": "Administrator",
+ "module": "ex_stay",
+ "name": "Email Ex Stay Booking Notification",
+ "owner": "Administrator",
+ "recipients": [
+  {
+   "receiver_by_document_field": "email",
+   "receiver_by_role": ""
+  }
+ ],
+ "send_system_notification": 0,
+ "send_to_all_assignees": 0,
+ "sender": "Nortex",
+ "sender_email": "nortexnoble@gmail.com",
+ "subject": "Email Booking {{ doc.name }} made for {{ doc.title }} sent"
+}

@@ -52,9 +52,14 @@ export function useBooking(property) { // Accept property as a parameter
     return formatCurrency(0);
   });
 
-
+  const isBooking = ref(false);
 
   const book = async () => {
+
+    if (isBooking.value) return; // Prevent duplicate requests
+    isBooking.value = true; // Lock function while request is running
+
+
     try {
       console.log("Preparing booking data...");
 

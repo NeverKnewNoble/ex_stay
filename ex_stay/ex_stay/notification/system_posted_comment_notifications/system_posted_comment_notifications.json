@@ -1,0 +1,28 @@
+{
+ "attach_print": 0,
+ "channel": "System Notification",
+ "creation": "2025-03-12 10:59:01.570307",
+ "days_in_advance": 0,
+ "docstatus": 0,
+ "doctype": "Notification",
+ "document_type": "Property Comments",
+ "enabled": 1,
+ "event": "New",
+ "idx": 0,
+ "is_standard": 1,
+ "message": "There Is A New Comment Posted on the Property/Hotel, Please check the comment.",
+ "message_type": "Plain Text",
+ "modified": "2025-03-13 16:50:16.746531",
+ "modified_by": "Administrator",
+ "module": "ex_stay",
+ "name": "System Posted Comment Notifications",
+ "owner": "micgraphjosh@gmail.com",
+ "recipients": [
+  {
+   "receiver_by_role": "Ex Stay User"
+  }
+ ],
+ "send_system_notification": 0,
+ "send_to_all_assignees": 0,
+ "subject": "{{ doc.full_name }} posted a comment on {{ doc.item }}."
+}

@@ -1,17 +1,35 @@
 <template>
   <div class="w-full h-screen bg-gray-200 text-black">
     <!-- **Main Banner -->
-    <section class="w-full h-[680px] relative">
+    <section class="w-full h-[800px] relative">
       <!-- Background Image -->
-      <img
+      <!-- <img
         src="../assets/images/mountaintroup.jpg"
         class="w-full h-full object-cover"
         alt="homebanner"
-      />
+      /> -->
+      <video
+        class="w-full h-full object-cover"
+        autoplay
+        loop
+        muted
+        playsinline
+      >
+        <source src="../assets/images/sunny-beach.mp4" type="video/mp4" />
+      </video>
+
+      <!-- Dark Overlay -->
+      <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+
 
       <!-- Navbar -->
       <div class="absolute top-2 left-0 w-full">
         <Navbar />
+      </div>
+
+      <!-- Title -->
+      <div class="text-white text-[100px] absolute top-[300px] left-0 w-full flex items-center justify-center">
+        <h1>Welcome To Ex Stay</h1>
       </div>
 
       <!-- Search Bar -->

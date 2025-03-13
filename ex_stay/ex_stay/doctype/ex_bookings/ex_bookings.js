@@ -12,6 +12,10 @@ frappe.ui.form.on("Ex Bookings", {
 });
 
 
+
+
+
+
 // ******************DROPDOWN FOR SALES INVOICE AND SALES ORDER********************
 frappe.ui.form.on('Ex Bookings', {
     refresh: function(frm) {
