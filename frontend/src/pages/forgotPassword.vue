@@ -69,6 +69,7 @@ import { faFacebook, faInstagram, faLinkedin, faTwitter } from '@fortawesome/fre
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import beachImage from '@/assets/images/beachvue.jpg' // Ensure correct path
 import axios from 'axios'
+import { site_url } from "../components/utility/config.js";
 
 const router = useRouter()
 const email = ref("")
@@ -85,7 +86,7 @@ async function submit() {
     loading.value = true;
     try {
         const response = await axios.post(
-            'http://127.0.0.1:8000/api/method/ex_stay.api.forgot_password.forgot_password',
+            `${site_url}/api/method/ex_stay.api.forgot_password.forgot_password`,
             { email: email.value },
             {
                 headers: {

@@ -1,6 +1,7 @@
 import { ref, onMounted } from "vue";
 import { createResource } from "frappe-ui";
 import axios from "axios"; // Ensure axios is imported for API calls
+import { site_url } from "@/components/utility/config.js";
 
 export function useProperty(propertyTitle) {
   const property = ref(null);
@@ -26,7 +27,7 @@ export function useProperty(propertyTitle) {
     try {
       console.log("Fetching property offers...");
       const response = await axios.get(
-        "http://127.0.0.1:8000/api/method/ex_stay.api.property.get_property_details"
+        `${site_url}/api/method/ex_stay.api.property.get_property_details`
       );
 
       console.log("🔍 Full API Response:", response);
@@ -59,7 +60,7 @@ export function useProperty(propertyTitle) {
     try {
       console.log("Fetching hotel packages...");
       const response = await axios.get(
-        "http://127.0.0.1:8000/api/method/ex_stay.api.hotel_packages.get_hotel_packages"
+        `${site_url}/api/method/ex_stay.api.hotel_packages.get_hotel_packages`
       );
   
       console.log("🔍 Full API Response:", response);

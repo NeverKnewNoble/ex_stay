@@ -128,6 +128,7 @@ import { useRouter } from "vue-router";
 import Navbar from "../components/elements/navbar.vue";
 import listingCard from "../components/widgets/listingCard.vue";
 import FooterComponent from "../components/elements/footer.vue";
+import { site_url } from "../components/utility/config.js";
 
 export default {
   name: "HomePage",
@@ -148,7 +149,7 @@ export default {
     const getImageUrl = (imagePath) => {
       if (!imagePath) return "../assets/images/default-property.jpg";
       if (imagePath.startsWith("/files")) {
-        return `http://127.0.0.1:8000${imagePath}`;
+        return `${site_url}${imagePath}`;
       }
       return imagePath;
     };
@@ -156,7 +157,7 @@ export default {
     const fetchProperties = async () => {
       try {
         const response = await axios.get(
-          "http://127.0.0.1:8000/api/method/ex_stay.api.homeproperty.homeproperty"
+          `${site_url}/api/method/ex_stay.api.homeproperty.homeproperty`
         );
         properties.value = response.data.message;
         console.log(properties.value);
