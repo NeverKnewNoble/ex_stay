@@ -21,7 +21,18 @@ bench --site yoursite install-app ex_stay
 bench --site yoursite migrate
 bench restart
 ```
+---
 
+## **Backend Configuration: Define `site_url`**  
+
+Before running the application, ensure that the **backend** is correctly set up.  
+
+### **Define the `site_url`**  
+Inside `components/utility/config.js`, define the `site_url` variable:  
+
+```javascript
+export const site_url = "http://127.0.0.1:8000"; // Change this to your server URL
+```
 ---
 
 ## **User Role Setup**
