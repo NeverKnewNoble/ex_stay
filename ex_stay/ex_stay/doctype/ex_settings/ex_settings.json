@@ -6,88 +6,96 @@
  "engine": "InnoDB",
  "field_order": [
   "welcome_to_ex_stay_settings",
-  "please_check_the_notification_functions_needed",
-  "welcome_to_ex_stay_settings_section",
-  "hotel_reservation",
-  "receipts",
-  "column_break_dibu",
-  "proforma",
-  "confirmation_letter",
-  "whatsapp_section",
-  "whatsapp_confirmation_letter",
-  "column_break_ilwt",
-  "whatsapp_proforma"
+  "section_break_jeup",
+  "system_notifications",
+  "sys_booking_noti",
+  "sys_cancel_noti",
+  "sys_comment_noti",
+  "sys_deleted_noti",
+  "column_break_zazm",
+  "email_notifications",
+  "email_booking_noti",
+  "email_profoma_noti",
+  "email_sales_inv_noti",
+  "email_hotel_booking_noti"
  ],
  "fields": [
-  {
-   "fieldname": "welcome_to_ex_stay_settings_section",
-   "fieldtype": "Section Break",
-   "label": "Email "
-  },
-  {
-   "default": "0",
-   "fieldname": "receipts",
-   "fieldtype": "Check",
-   "label": "Receipts Notifications"
-  },
-  {
-   "fieldname": "column_break_dibu",
-   "fieldtype": "Column Break"
-  },
   {
    "fieldname": "welcome_to_ex_stay_settings",
    "fieldtype": "Heading",
    "label": "Welcome To Ex Stay Settings"
   },
   {
-   "default": "0",
-   "fieldname": "hotel_reservation",
-   "fieldtype": "Check",
-   "label": "Hotel Reservation Application Notifications"
+   "fieldname": "section_break_jeup",
+   "fieldtype": "Section Break"
   },
   {
-   "default": "0",
-   "fieldname": "proforma",
-   "fieldtype": "Check",
-   "label": "Proforma To Guests Notifications"
-  },
-  {
-   "default": "0",
-   "fieldname": "confirmation_letter",
-   "fieldtype": "Check",
-   "label": "Confirmation Letter To Guests Notifications"
-  },
-  {
-   "fieldname": "please_check_the_notification_functions_needed",
+   "fieldname": "system_notifications",
    "fieldtype": "Heading",
-   "label": "Please check the notification functions needed"
-  },
-  {
-   "fieldname": "whatsapp_section",
-   "fieldtype": "Section Break",
-   "label": "WhatsApp"
+   "label": "System Notifications"
   },
   {
    "default": "0",
-   "fieldname": "whatsapp_confirmation_letter",
+   "fieldname": "sys_booking_noti",
    "fieldtype": "Check",
-   "label": "Confirmation Letter To Guests Notifications "
+   "label": "Booking Notifications"
   },
   {
-   "fieldname": "column_break_ilwt",
+   "default": "0",
+   "fieldname": "sys_cancel_noti",
+   "fieldtype": "Check",
+   "label": "Cancelled Booking Notifications"
+  },
+  {
+   "default": "0",
+   "fieldname": "sys_comment_noti",
+   "fieldtype": "Check",
+   "label": "Comment Notifications"
+  },
+  {
+   "default": "0",
+   "fieldname": "sys_deleted_noti",
+   "fieldtype": "Check",
+   "label": "Deleted Comment Notifications"
+  },
+  {
+   "fieldname": "column_break_zazm",
    "fieldtype": "Column Break"
   },
   {
+   "fieldname": "email_notifications",
+   "fieldtype": "Heading",
+   "label": "Email Notifications"
+  },
+  {
    "default": "0",
-   "fieldname": "whatsapp_proforma",
+   "fieldname": "email_booking_noti",
    "fieldtype": "Check",
-   "label": "Proforma To Guests Notifications "
+   "label": "Booking Notifications"
+  },
+  {
+   "default": "0",
+   "fieldname": "email_profoma_noti",
+   "fieldtype": "Check",
+   "label": "Sales Order Notifications (Proforma)"
+  },
+  {
+   "default": "0",
+   "fieldname": "email_sales_inv_noti",
+   "fieldtype": "Check",
+   "label": "Sales Invoice Notifications"
+  },
+  {
+   "default": "0",
+   "fieldname": "email_hotel_booking_noti",
+   "fieldtype": "Check",
+   "label": "Booking Sales Invoice Notifications To Hotel"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-02-20 12:35:31.861659",
+ "modified": "2025-03-13 16:35:35.933522",
  "modified_by": "Administrator",
  "module": "ex_stay",
  "name": "Ex Settings",

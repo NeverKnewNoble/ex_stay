@@ -1,0 +1,28 @@
+    <p>Dear {{ doc.first_name }},</p>
+
+    <p>Thank you for your booking with Ex Stay! We are pleased to confirm your reservation.</p>
+    <p>Please Check the My Bookings Page on ex stay your application status.</p>
+
+    <h3>Booking Details</h3>
+    <p><strong>Guest Name:</strong> {{ doc.first_name }} {{ last_name }}</p>
+    <p><strong>Guest Country:</strong> {{ doc.guest_country }}</p>
+    <p><strong>Check-in Date:</strong> {{ doc.check_in }}</p>
+    <p><strong>Check-out Date:</strong> {{ doc.check_out }}</p>
+    <p><strong>Number of Guests:</strong> {{ doc.guests }}</p>
+    <p><strong>Number of Nights:</strong> {{ doc.no_of_nights }}</p>
+    <p><strong>Price per Night:</strong> {{ doc.price_per_night }}</p>
+
+    {% if doc.hotel_package_selected %}
+        <p><strong>Hotel Package Selected:</strong> {{ doc.hotel_package_selected }}</p>
+    {% endif %}
+
+    <h3>Property Details</h3>
+    <p><strong>Property Name:</strong> {{ doc.title }}</p>
+    <p><strong>Country:</strong> {{ doc.country }}</p>
+    <p><strong>City:</strong> {{ doc.city }}</p>
+    <p><strong>Location:</strong> {{ doc.location }}</p>
+
+    <p>We look forward to hosting you! If you have any questions, feel free to contact us.</p>
+
+    <p>Best regards,</p>
+    <p><strong>Ex Stay Team</strong></p>

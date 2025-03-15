@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\":\"148SCOK8kl\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Ex Stay</span>\",\"col\":12}},{\"id\":\"SZKUdC-JYr\",\"type\":\"paragraph\",\"data\":{\"text\":\"Welcome To Ex Stay, Providing You Quality Services\",\"col\":12}},{\"id\":\"K0k0BAZhZU\",\"type\":\"card\",\"data\":{\"card_name\":\"Masters\",\"col\":4}},{\"id\":\"ZwDccaVZyI\",\"type\":\"card\",\"data\":{\"card_name\":\"Bookings\",\"col\":4}}]",
+ "content": "[{\"id\":\"148SCOK8kl\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Ex Stay</span>\",\"col\":12}},{\"id\":\"SZKUdC-JYr\",\"type\":\"paragraph\",\"data\":{\"text\":\"Welcome To Ex Stay, Providing You Quality Services\",\"col\":12}},{\"id\":\"M94g_bUiOL\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Pending Bookings\",\"col\":4}},{\"id\":\"5wkPHl7GeB\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Completed Bookings\",\"col\":4}},{\"id\":\"Zn-9Kf-VPb\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Cancelled Bookings\",\"col\":4}},{\"id\":\"5RLkklEXhF\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Masters</b></span>\",\"col\":12}},{\"id\":\"K0k0BAZhZU\",\"type\":\"card\",\"data\":{\"card_name\":\"Property \",\"col\":4}},{\"id\":\"63oRcE1MbY\",\"type\":\"card\",\"data\":{\"card_name\":\"Taxes\",\"col\":4}},{\"id\":\"vU1dMgJya7\",\"type\":\"card\",\"data\":{\"card_name\":\"Settings\",\"col\":4}},{\"id\":\"v1TX2KOv99\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Operations</b></span>\",\"col\":12}},{\"id\":\"ZwDccaVZyI\",\"type\":\"card\",\"data\":{\"card_name\":\"Bookings\",\"col\":4}}]",
  "creation": "2025-02-11 10:04:13.217614",
  "custom_blocks": [],
  "docstatus": 0,
@@ -13,65 +13,6 @@
  "is_hidden": 0,
  "label": "Ex Stay",
  "links": [
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Masters",
-   "link_count": 5,
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Property Listings",
-   "link_count": 0,
-   "link_to": "Item",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Property Pricing",
-   "link_count": 0,
-   "link_to": "Item Price",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Ex Stay Settings",
-   "link_count": 0,
-   "link_to": "Ex Settings",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Tax Category",
-   "link_count": 0,
-   "link_to": "Tax Category",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Sales Taxes Type",
-   "link_count": 0,
-   "link_to": "Sales Taxes and Charges Template",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
   {
    "hidden": 0,
    "is_query_report": 0,
@@ -100,13 +41,103 @@
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Settings",
+   "link_count": 1,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Ex Stay Settings",
+   "link_count": 0,
+   "link_to": "Ex Settings",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Property ",
+   "link_count": 2,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Property Listings",
+   "link_count": 0,
+   "link_to": "Item",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Property Pricing",
+   "link_count": 0,
+   "link_to": "Item Price",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Taxes",
+   "link_count": 2,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Tax Category",
+   "link_count": 0,
+   "link_to": "Tax Category",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Sales Taxes Type",
+   "link_count": 0,
+   "link_to": "Sales Taxes and Charges Template",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
- "modified": "2025-02-28 09:50:17.672355",
+ "modified": "2025-03-13 08:41:26.431959",
  "modified_by": "Administrator",
  "module": "ex_stay",
  "name": "Ex Stay",
- "number_cards": [],
+ "number_cards": [
+  {
+   "label": "Pending Bookings",
+   "number_card_name": "Pending Bookings"
+  },
+  {
+   "label": "Cancelled Bookings",
+   "number_card_name": "Cancelled Bookings"
+  },
+  {
+   "label": "Completed Bookings",
+   "number_card_name": "Completed Bookings"
+  }
+ ],
  "owner": "Administrator",
  "parent_page": "",
  "public": 1,

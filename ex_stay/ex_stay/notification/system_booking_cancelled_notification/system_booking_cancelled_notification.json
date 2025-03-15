@@ -1,0 +1,30 @@
+{
+ "attach_print": 0,
+ "channel": "System Notification",
+ "condition": "doc.status==\"Cancelled\"",
+ "creation": "2025-03-12 10:44:38.035572",
+ "days_in_advance": 0,
+ "docstatus": 0,
+ "doctype": "Notification",
+ "document_type": "Ex Bookings",
+ "enabled": 1,
+ "event": "Value Change",
+ "idx": 0,
+ "is_standard": 1,
+ "message": "The User Has Cancelled His/Her Booking. Please Alert The Needed Personnel.",
+ "message_type": "Plain Text",
+ "modified": "2025-03-13 16:50:16.421705",
+ "modified_by": "Administrator",
+ "module": "ex_stay",
+ "name": "System Booking Cancelled Notification",
+ "owner": "micgraphjosh@gmail.com",
+ "recipients": [
+  {
+   "receiver_by_role": "Ex Stay User"
+  }
+ ],
+ "send_system_notification": 0,
+ "send_to_all_assignees": 0,
+ "subject": "Booking {{ doc.name }} Cancelled By {{ doc.email }}",
+ "value_changed": "status"
+}
