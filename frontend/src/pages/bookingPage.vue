@@ -208,7 +208,7 @@
                 placeholder="Place A Comment"
               />
               <button 
-                @click="sendCommnent"
+                @click="sendComment"
                 class="bg-green-700 px-3 py-3 rounded-full hover:bg-black flex items-center justify-center"
                 aria-label="Submit Comment"
               >
@@ -488,9 +488,8 @@ export default {
     } = useBooking(property); // Pass property to useBooking
 
     const { countries } = useCountries();
-    const { sendCommnent, alertMessage: commentAlertMessage, alertType: commentAlertType} = useSendComment(comment, property, userEmail);
     const { deleteComment, comments, fetchComments, alertMessage: commentdeleteAlertMessage, alertType: commentdeleteAlertType  } = getComments();
-  
+    const { sendComment, alertMessage: commentAlertMessage, alertType: commentAlertType} = useSendComment(comment, property, userEmail, fetchComments);
 
 
 
@@ -501,8 +500,9 @@ export default {
       return [...property.value.custom_packages].sort((a, b) => a.package_price - b.package_price);
     });
 
+
+
     // !Hotel Package selection Logic
-    // **Hotel Package function
     // const selectedPackage = ref(""); // Holds the selected package name
     const selectedPackagePrice = ref(0); // Holds the selected package price
 
@@ -562,7 +562,7 @@ export default {
       guestCount,
       countries,
       comment,
-      sendCommnent,
+      sendComment,
       fetchComments, 
       deleteComment,
       bookingAlertMessage, 
