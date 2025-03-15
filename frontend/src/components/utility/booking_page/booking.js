@@ -154,6 +154,19 @@ export function useBooking(property) { // Accept property as a parameter
         alertMessage.value = `🎉 Booking successful! Booking ID: ${bookResponse.name}`;
         alertType.value = "success";
         showReservationForm.value = false;
+
+
+        // ✅ Reset fields after successful booking
+        checkIn.value = "";
+        checkOut.value = "";
+        firstName.value = "";
+        lastName.value = "";
+        selectedCountry.value = "";
+        telephoneNumber.value = "";
+        passportNumber.value = "";
+        guestCount.value = "";
+        selectedPackage.value = "";
+        
       } else {
         console.error("❌ Booking failed:", bookResponse);
         alertMessage.value = "❌ Booking failed. Please try again.";
