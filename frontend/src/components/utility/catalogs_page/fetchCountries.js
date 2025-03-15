@@ -1,6 +1,7 @@
 // src/utils/fetchCountries.js
 import axios from "axios";
 import { ref } from "vue";
+import { site_url } from "@/components/utility/config.js";
 
 export function useFetchCountries() {
   const countries = ref([]);
@@ -8,7 +9,7 @@ export function useFetchCountries() {
   const fetchCountries = async () => {
     try {
       const countryResponse = await axios.get(
-        "http://127.0.0.1:8000/api/method/ex_stay.api.countryList.countryInFrappe"
+        `${site_url}/api/method/ex_stay.api.countryList.countryInFrappe`
       );
 
       if (countryResponse.data.message && countryResponse.data.message.data) {
