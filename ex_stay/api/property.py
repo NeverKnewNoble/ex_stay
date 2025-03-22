@@ -22,15 +22,14 @@ def get_property_details():
         item_prices = frappe.get_all(
             "Item Price",
             filters={"item_code": ["in", item_codes]},
-            fields=["item_code", "price_list_rate", "currency", "vat_inclusion"]
+            fields=["item_code", "price_list_rate", "currency"]
         )
 
         # Convert list to dictionary for quick lookup
         price_dict = {
             item["item_code"]: {
                 "price_list_rate": item["price_list_rate"],
-                "currency": item["currency"],
-                "vat_inclusion": item["vat_inclusion"]
+                "currency": item["currency"]
             }
             for item in item_prices
         }
@@ -52,7 +51,6 @@ def get_property_details():
             price_data = price_dict.get(prop["item_code"], {})
             prop["rate"] = price_data.get("price_list_rate")
             prop["currency"] = price_data.get("currency")
-            prop["vat_inclusion"] = price_data.get("vat_inclusion")
 
         return properties
 

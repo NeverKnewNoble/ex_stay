@@ -67,7 +67,6 @@ export function useFetchProperties() {
         properties.value.forEach((prop) => {
           prop.price_list_rate = priceDict[prop.item_code]?.price_list_rate || null;
           prop.currency = priceDict[prop.item_code]?.currency || null;
-          prop.vat_inclusion = priceDict[prop.item_code]?.vat_inclusion || null;
         });
 
       } else {
