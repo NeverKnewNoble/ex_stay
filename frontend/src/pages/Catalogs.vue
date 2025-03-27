@@ -90,27 +90,39 @@
         </section>
 
         <!-- Catalogue -->
-        <section class="w-full bg-white min-h-screen pt-10 px-[80px] pb-20 relative">
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 lg:gap-x-2">
-                <listingCard
-                    v-for="listing in paginatedListings"
-                    :key="listing.item_code"
-                    :title="listing.custom_title"
-                    :address="listing.custom_location"
-                    :location="listing.custom_city"
-                    :country="listing.custom_country"
-                    :price="`${listing.price_list_rate || 'N/A'}`"
-                    :currency="`${listing.currency}`"
-                    :imageUrl="getImageUrl(listing.custom_profile_picture)"
-                    @click="goToBookingPage(listing)"
-                />
+        <!-- Catalogue -->
+        <section class="w-full bg-white min-h-screen pt-10 px-6 sm:px-10 md:px-16 lg:px-[80px] pb-20 relative">
+            <div v-if="paginatedListings.length > 0">
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 lg:gap-x-4">
+                    <listingCard
+                        v-for="listing in paginatedListings"
+                        :key="listing.item_code"
+                        :title="listing.custom_title"
+                        :address="listing.custom_location"
+                        :location="listing.custom_city"
+                        :country="listing.custom_country"
+                        :price="listing.price_list_rate ? `${listing.price_list_rate}` : 'N/A'"
+                        :currency="listing.currency"
+                        :imageUrl="getImageUrl(listing.custom_profile_picture)"
+                        @click="goToBookingPage(listing)"
+                    />
+                </div>
+
+                <!-- Dynamic Pagination -->
+                <div class="flex items-center justify-center pt-10">
+                    <n-pagination v-model:page="page" :page-count="totalPages" />
+                </div>
             </div>
 
-            <!-- Dynamic Pagination -->
-            <div class="flex items-center justify-center pt-15">
-                <n-pagination v-model:page="page" :page-count="totalPages" />
+            <!-- No Listings Message -->
+            <div v-else class="flex flex-col items-center justify-center min-h-[50vh] text-center">
+                <p class="text-gray-600 text-lg sm:text-xl font-medium">No properties available at the moment.</p>
+                <p class="text-gray-500 text-sm sm:text-base">Try adjusting your search filters or check back later.</p>
             </div>
         </section>
+
+
+        
 
         <!-- Footer -->
         <FooterComponent />

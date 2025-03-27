@@ -223,43 +223,47 @@
           </div>
             <h2 class="font-bold mt-8 text-xl mb-3">Guest Reviews</h2>
             <div class="space-y-4">
-              <!-- ✅ Display comments only if they exist -->
-              <template v-if="comments.filter(c => c.item === property.item_code).length > 0">
-                <div 
-                  v-for="(comment, index) in comments.filter(c => c.item === property.item_code)" 
-                  :key="index" 
-                  class="flex items-center gap-2"
-                > 
-                  <div class="flex items-center justify-center">
-                  <img src="../assets/images/compic.png" class=" pt-3" alt="User Avatar" />
-                  </div>
-                  <div class="flex items-center justify-between w-full">
-                    <div>
-                      <p class="text-gray-600 text-sm">{{ comment.full_name }}</p>
-                      <p class="font-semibold">{{ comment.comment }}</p>
+              <div class="max-h-60 overflow-y-auto px-2 space-y-3 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+                <!-- ✅ Display comments only if they exist -->
+                <template v-if="comments.filter(c => c.item === property.item_code).length > 0">
+                  <div 
+                    v-for="(comment, index) in comments.filter(c => c.item === property.item_code)" 
+                    :key="index" 
+                    class="flex items-start gap-3 border-b pb-3"
+                  > 
+                    <!-- User Avatar -->
+                    <div class="flex-shrink-0">
+                      <img src="../assets/images/compic.png" class="w-10 h-10 rounded-full" alt="User Avatar" />
                     </div>
-                    
+
+                    <!-- Comment Content -->
+                    <div class="w-full">
+                      <p class="text-gray-600 text-sm">{{ comment.full_name }}</p>
+                      <p class="font-semibold text-gray-800">{{ comment.comment }}</p>
+                    </div>
+
+                    <!-- Delete Button -->
                     <template v-if="comment.email === userEmail">
                       <button 
                         @click="deleteComment.submit(comment.name)"
-                        class=" px-3 py-3 hover:opacity-100 hover:rounded-lg flex items-center justify-center"
+                        class="p-2 hover:opacity-100 hover:rounded-lg flex items-center justify-center"
                         aria-label="Delete Comment"
                       >
                         <img 
                           src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAAXNSR0IArs4c6QAAASFJREFUSEvtljFuwkAQRZ9FRUWOwBEQFwDOEIoUILgBEkqfUKcgRyAKDRKcAbgA4ggcASo6kozkjUYm9nrXlpxip/TOzNv9M+udiIosqoiLC7gGPAP1lM1egTfglucwLuB3YGJJOgemZYJHwCJPQuAJWNl8kyfuAltbkOd6D9iZ2H8DbgJjzxPZwqRUp7QT6+AW8GDLZlk/A8e/fLK6WurRKQje/9RV+ubOAlhLkpR6Fi+KdMkSiKTmqryoJKVIbcryCujkwpFNyXexrwAu2tVBaq1gaC6jRrjHv33h8kjIBCEm77WMQto+1GikJ5hSpPZ5Ib3Aa+DRh6ZiNkDf9c81AD4LgofA0hUs/u34CWw4buACiMyHtDiXgd6Rne1eGfgbWNpaHzl+XRoAAAAASUVORK5CYII="
                           alt="delete"
-                          class="w-5 h-5 opacity-25 "
+                          class="w-5 h-5 opacity-50 hover:opacity-100 transition"
                         />
                       </button>
                     </template>
-                    <p v-else></p>
-                  </div>                  
-                </div>
-              </template>
+                  </div>
+                </template>
 
-              <!-- ✅ Correct condition for empty comments -->
-              <p v-else class="text-gray-500 italic">No Comments available</p>
+                <!-- ✅ Correct condition for empty comments -->
+                <p v-else class="text-gray-500 italic text-center">No Comments available</p>
+              </div>
             </div>
+
           </div>
 
         </section>
