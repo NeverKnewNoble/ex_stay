@@ -12,7 +12,7 @@ To install the Ex Stay app in **Frappe**, follow these steps:
 Ensure you have **Frappe** and **Bench** installed. Then, run:
 
 ```bash
-bench get-app ex_stay https://github.com/NeverKnewNoble/Ex_Stay_Frappe.git
+bench get-app https://github.com/NeverKnewNoble/ex_stay.git
 bench --site yoursite install-app ex_stay
 ```
 
