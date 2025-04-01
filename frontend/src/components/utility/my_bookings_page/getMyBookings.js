@@ -22,15 +22,15 @@ export function useFetchMyBookings() {
 
     const FetchMyBookings = async () => {
         try {
-            console.log("Fetching bookings...");
+            // console.log("Fetching bookings...");
             const response = await myBookingResource.fetch();
 
             // Debugging API response
-            console.log("✅ Raw API Response:", response);
+            // console.log("✅ Raw API Response:", response);
 
             // Return response directly as it's already an array
             if (Array.isArray(response)) {
-                console.log("✅ Fetched bookings:", response);
+                // console.log("✅ Fetched bookings:", response);
                 return response;
             } else {
                 console.warn("⚠️ Unexpected response format:", response);

@@ -5,7 +5,14 @@ import frappeui from 'frappe-ui/vite'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [frappeui(), vue()],
+  plugins: [frappeui(), vue(
+    {
+      template: {
+        compilerOptions: {
+          isCustomElement: tag => tag === 'dotlottie-player'
+        }
+      }
+ } )],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'),

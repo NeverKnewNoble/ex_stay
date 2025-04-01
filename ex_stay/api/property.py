@@ -46,6 +46,19 @@ def get_property_details():
                 fields=["offer"]
             )
             prop["custom_apartment_offers"] = [offer["offer"] for offer in custom_apartment_offers]  # Store as a list
+
+            # Apartment Restrictions
+            custom_apartment_restrictions = frappe.get_all(
+                "Apartment restrictions",
+                filters={
+                    "parent": prop["item_code"],
+                    "parenttype": "Item",
+                    "parentfield": "custom_apartment_restrictions"
+                },
+                fields=["restriction"]
+            )
+            prop["custom_apartment_restrictions"] = [res["restriction"] for res in custom_apartment_restrictions]
+
             
             # Attach pricing details
             price_data = price_dict.get(prop["item_code"], {})

@@ -90,10 +90,9 @@
         </section>
 
         <!-- Catalogue -->
-        <!-- Catalogue -->
         <section class="w-full bg-white min-h-screen pt-10 px-6 sm:px-10 md:px-16 lg:px-[80px] pb-20 relative">
             <div v-if="paginatedListings.length > 0">
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 lg:gap-x-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-5">
                     <listingCard
                         v-for="listing in paginatedListings"
                         :key="listing.item_code"
@@ -150,6 +149,7 @@ export default {
   setup() {
     const router = useRouter();
     const showFilters = ref(false);
+    const isScrollingDown = ref(false);
 
     // Fetch properties
     const { properties, fetchProperties } = useFetchProperties();
@@ -204,6 +204,7 @@ export default {
       showFilters,
       properties,
       countries,
+      isScrollingDown,
       page,
       perPage,
       tempSelectedCounty,

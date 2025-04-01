@@ -17,7 +17,7 @@ export function getComments() {
 
     const fetchComments = async () => {
         try {
-            console.log("Fetching comments...");
+            // console.log("Fetching comments...");
             const response = await commentResource.fetch();
         
 
@@ -30,7 +30,7 @@ export function getComments() {
                     name: comment.name
                 }));                
 
-                console.log("Comments:", comments.value);
+                // console.log("Comments:", comments.value);
             } else{
                 console.error("Wrong Format of Response....");
             }
@@ -47,7 +47,7 @@ export function getComments() {
             return { name: commentName }; 
         },
         onSuccess(data) {
-            console.log("✅ Comment Deleted:", data);
+            // console.log("✅ Comment Deleted:", data);
             alertMessage.value = `Comment deleted successfully.`;
             alertType.value = "success";
             fetchComments(); // Refresh comments after deletion

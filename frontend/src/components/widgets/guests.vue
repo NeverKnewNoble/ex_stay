@@ -7,7 +7,7 @@
       type="text"
       readonly
       :value="guestSummary"
-      class="bg-transparent focus:outline-none text-black font-medium border-none flex-grow text-sm sm:text-base px-2"
+      class="bg-transparent focus:outline-none text-black border-none flex-grow text-sm px-2"
     />
 
     <!-- Decrement Button -->
