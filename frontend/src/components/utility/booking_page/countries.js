@@ -15,7 +15,7 @@ export function useCountries() {
 
   onMounted(async () => {
     try {
-      console.log("Fetching country list...");
+      // console.log("Fetching country list...");
       const response = await countriesResource.fetch();
 
       if (Array.isArray(response)) {
@@ -23,7 +23,7 @@ export function useCountries() {
           label: country.name,
           value: country.name,}
         ));
-        console.log("✅ Fetched Countries:", countries.value);
+        // console.log("✅ Fetched Countries:", countries.value);
       } else {
         console.error("❌ No countries found or invalid response format.");
       }

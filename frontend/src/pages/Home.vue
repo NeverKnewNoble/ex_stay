@@ -61,12 +61,12 @@
     </section>
 
     <!-- **Places -->
-    <section class="w-full bg-white min-h-screen pt-10 px-15 pb-20">
+    <section class="w-full bg-white min-h-screen pt-10 px-[100px] pb-20">
       <h2 class="text-[50px] mt-[100px] font-semibold text-center text-green-600 mb-10">
         Experience Comfort Like Never Before
       </h2>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 lg:gap-x-2">
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-5">
         <listingCard
           v-for="property in paginatedProperties"
           :key="property.item_code"
@@ -160,9 +160,9 @@ export default {
           `${site_url}/api/method/ex_stay.api.homeproperty.homeproperty`
         );
         properties.value = response.data.message;
-        console.log(properties.value);
+        // console.log(properties.value);
       } catch (error) {
-        console.error("Error fetching properties:", error);
+        // console.error("Error fetching properties:", error);
       }
     };
 

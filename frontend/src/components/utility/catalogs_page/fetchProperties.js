@@ -22,10 +22,10 @@ export function useFetchProperties() {
 
   const fetchProperties = async () => {
     try {
-      console.log("Fetching properties...");
+      // console.log("Fetching properties...");
       const response = await propertiesResource.fetch();
 
-      console.log(response.data);
+      // console.log(response.data);
 
       if (Array.isArray(response) && response.length > 0) {
         properties.value = response;
@@ -38,7 +38,7 @@ export function useFetchProperties() {
         }
 
         // Fetch item prices
-        console.log("Fetching Item Prices...");
+        // console.log("Fetching Item Prices...");
         const pricesResource = createResource({
           url: "frappe.client.get_list",
           params: {
@@ -49,7 +49,7 @@ export function useFetchProperties() {
         });
 
         const pricesResponse = await pricesResource.fetch();
-        console.log("✅ Fetched Prices:", pricesResponse);
+        // console.log("✅ Fetched Prices:", pricesResponse);
 
         // Convert price list to a dictionary for quick lookup
         const priceDict = {};
@@ -61,7 +61,7 @@ export function useFetchProperties() {
             };
           });
         }
-        console.log("✅ Price Mapping Dictionary:", priceDict);
+        // console.log("✅ Price Mapping Dictionary:", priceDict);
 
         // Attach prices to properties
         properties.value.forEach((prop) => {

@@ -1,10 +1,10 @@
 <template>
-  <div class="max-w-sm rounded-2xl overflow-hidden shadow-lg hover:drop-shadow-2xl transition-all bg-white ">
-    <div class="w-full h-[260px]">
-      <img :src="imageSrc" alt="Location Image" class="w-full h-full object-cover" />
+  <div class="max-w-sm overflow-hidden transition-all bg-white ">
+    <div class="w-full h-[360px]">
+      <img :src="imageSrc" alt="Location Image" class="w-full h-full object-cover rounded-2xl " />
     </div>
 
-    <div class="p-4">
+    <div class="pt-5">
       <h3 class="text-xl font-semibold text-gray-800">{{ title }}</h3>
       <p>{{ country }} <span class="text-gray-500">  | {{ location }}, {{ address }}</span></p>
       <!-- <p class="text-gray-500 text-sm">{{ distance }} kilometers away</p> -->
@@ -23,7 +23,11 @@ export default {
     location: String,
     country: String,
     address: String,
-    price: String,
+    // price: String,
+    price: {
+    type: [String, Number],
+    required: true
+    },
     imageUrl: String,
     currency: String,
   },

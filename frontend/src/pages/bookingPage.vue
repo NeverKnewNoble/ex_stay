@@ -187,11 +187,24 @@
               <p v-for="(offer, index) in property.custom_apartment_offers" 
                 :key="index" 
                 class="flex items-center gap-1 mb-4 text-gray-700">
-                <img src="../assets/images/checklist.png" alt="Check Icon"> 
+                <BadgeCheck class="w-8 h-8 text-green-600"/> 
                 {{ offer }}
               </p>
             </template>
             <p v-else class="text-gray-500 italic">No offers available</p>
+          </div>
+
+          <h2 class="font-bold text-xl mb-4 mt-2">Restrictions</h2>
+          <div class="grid grid-cols-2 text-gray-700">
+            <template v-if="property && property.custom_apartment_restrictions && property.custom_apartment_restrictions.length > 0">
+              <p v-for="(restriction, index) in property.custom_apartment_restrictions" 
+                :key="index" 
+                class="flex items-center gap-1 mb-4 text-gray-700">
+                <CircleX class="w-8 h-8 text-red-600"/>
+                {{ restriction }}
+              </p>
+            </template>
+            <p v-else class="text-gray-500 italic">No Restrictions Provided</p>
           </div>
 
           <hr class="mb-10" />
@@ -212,11 +225,7 @@
                 class="bg-green-700 px-3 py-3 rounded-full hover:bg-black flex items-center justify-center"
                 aria-label="Submit Comment"
               >
-                <img 
-                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAAXNSR0IArs4c6QAAAuVJREFUSEvtllmIzWEYxn+PLURZbiyJ4sJWkpKLkTVXRJQQQ1lupixZQsnYZWmGssUVyQXFBRe2UpqihBskYS7IbnKBsb7+7/Sd6Zu/OXPOzDmaG+/V/3zb8z7v+3zPd0QrhVoJl//ARau8mfUB1gLLgIfAOElfMgBFL7WZDQI2AKVAu4jJGEm3iw5sZiOBjcBMoE0jpRsmyZnXRcGMzWwSsA6YkgJzdk+BeWG8l6Q3BQGbmSc8A1gPjE4BXgV2SrphZl7ynWG+o6RvLQI2M+/Z/MBwSARowPmkp9sl3cuMm9meILBaSZ3iBPMqtZn5JlfnaqBfdMBP4DSwS9LjdF/N7DiwBHglyVVeH00Cm1k3YDmwEuge7fOSnQB2S3oRMRwi6VH0+xwwC3ggaXhOYDPrDawJLLtEGz4Bh4EKSe8igIGAl/W+pG3R+HVgIlAlqSQrcLiDLpgFiSg6RAvfApUOKsnB68LMeiY3Y0tI0M2hr6TP0fxdwK/ZRUnTGgU2s/HANaBttOAlsA84Kqk2OtB7vioYRaYi6yTtjQ83s+fAAOCkpIXZgL2PFdHkL2ATcEzSx8DQjWFx8l0OxGLxigyQ9DUFXJNUynVSmVTKE/1bXGbWHpgTlDsiWvMdOAN4v9woGogkrFsp6UAK1Cv3I5jUZklb8xHXhFDKqXm422ugvyRPsD5C/9+HgRWSDuYEjnrphu8lWpSotnO8Mfouk+RKbxBBqE/CYKmkU3kDRwn0AD5kAXbQ/ZKepRiPAu6EsamSLjUbOAjLbTFb+NwV4BBwSdJvM/NH43LYUCKp6l8Ax2dW+/VLWuT3/UiYGBo7mo/l5dU5GLthnE3+ZcxuQge9JbkI66NQ4FvAXEnVZtYVcJMoAwanetLgSSyEsfd0R3JAuSQ3mrSiJ4cEpgefHpte0xLG/hrNk3SzCbHVTZmZ22VN7O+ZPc0FvuB3urGDciVRCOOlkvxhL0rkzbgoaC1RdbGB/wCh9gUuioQc1QAAAABJRU5ErkJggg=="
-                  alt="Submit"
-                  class="w-5 h-5"
-                />
+              <SendHorizontal class="text-white"/>
               </button>
 
             </div>
@@ -233,7 +242,8 @@
                   > 
                     <!-- User Avatar -->
                     <div class="flex-shrink-0">
-                      <img src="../assets/images/compic.png" class="w-10 h-10 rounded-full" alt="User Avatar" />
+                      <MessageSquareMore   class="w-10 h-10 "/>
+                      <!-- <img src="../assets/images/compic.png" class="w-10 h-10 rounded-full" alt="User Avatar" /> -->
                     </div>
 
                     <!-- Comment Content -->
@@ -249,11 +259,7 @@
                         class="p-2 hover:opacity-100 hover:rounded-lg flex items-center justify-center"
                         aria-label="Delete Comment"
                       >
-                        <img 
-                          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAAXNSR0IArs4c6QAAASFJREFUSEvtljFuwkAQRZ9FRUWOwBEQFwDOEIoUILgBEkqfUKcgRyAKDRKcAbgA4ggcASo6kozkjUYm9nrXlpxip/TOzNv9M+udiIosqoiLC7gGPAP1lM1egTfglucwLuB3YGJJOgemZYJHwCJPQuAJWNl8kyfuAltbkOd6D9iZ2H8DbgJjzxPZwqRUp7QT6+AW8GDLZlk/A8e/fLK6WurRKQje/9RV+ubOAlhLkpR6Fi+KdMkSiKTmqryoJKVIbcryCujkwpFNyXexrwAu2tVBaq1gaC6jRrjHv33h8kjIBCEm77WMQto+1GikJ5hSpPZ5Ib3Aa+DRh6ZiNkDf9c81AD4LgofA0hUs/u34CWw4buACiMyHtDiXgd6Rne1eGfgbWNpaHzl+XRoAAAAASUVORK5CYII="
-                          alt="delete"
-                          class="w-5 h-5 opacity-50 hover:opacity-100 transition"
-                        />
+                        <X class="w-5 h-5 opacity-50 hover:opacity-100 transition"/>
                       </button>
                     </template>
                   </div>
@@ -276,20 +282,21 @@
             <!-- Date Pickers -->
             <div class="mb-4">
               <label class="block">Check-In Date</label>
-              
-              <DatePicker 
-              placeholder="Select Check In Date" 
-              v-model="checkIn" 
-              clearable 
-              class="w-full text-[15px] h-[40px] rounded-sm focus:border-green-800" 
+              <input
+                type="date"
+                v-model="checkIn" 
+                :min="today"
+                class="w-full text-[15px] text-gray-500 h-[40px] rounded-sm focus:border-green-800"
               />
+              
+
              
               <label class="block mt-3">Check-Out Date</label>
-              <DatePicker 
-              placeholder="Select Check Out Date" 
-              v-model="checkOut" 
-              clearable 
-              class="w-full h-[40px] text-[15px] rounded-sm focus:border-green-800" 
+              <input
+                type="date"
+                v-model="checkOut"  
+                :min="today"
+                class="w-full text-[15px] text-gray-500 h-[40px] rounded-sm focus:border-green-800"
               />
 
               <div v-if="property.custom_property_category === 'Hotel'">
@@ -457,7 +464,7 @@
 <script>
 import { ref, onMounted, computed } from "vue";
 import { useRoute } from "vue-router";
-import { DatePicker } from "frappe-ui";
+import { DatePicker, TextInput } from "frappe-ui";
 import FooterComponent from "../components/elements/footer.vue";
 import NavBar from "../components/elements/navbar.vue";
 import GuestDropdown from "../components/widgets/guests.vue";
@@ -468,6 +475,8 @@ import { useProperty } from "../components/utility/booking_page/property";
 import { useCountries } from "../components/utility/booking_page/countries";
 import { useSendComment } from "../components/utility/booking_page/sendcomment";
 import { getComments } from "../components/utility/booking_page/fetchcomments";
+import { CircleX, BadgeCheck, SendHorizontal, X, MessageSquareMore } from 'lucide-vue-next';
+
 
 export default {
   name: "BookingPage",
@@ -476,12 +485,30 @@ export default {
     FooterComponent,
     GuestDropdown,
     DatePicker,
+    TextInput,
     HouseLoading,
+    CircleX,
+    BadgeCheck,
+    SendHorizontal,
+    X,
+    MessageSquareMore   
+  },
+  data() {
+    return {
+      today: new Date().toISOString().split("T")[0], // Get today's date in YYYY-MM-DD format
+    };
+  },
+  methods: {
+    disablePastDates(date) {
+      return date < new Date().setHours(0, 0, 0, 0); // Disable all past dates
+    }
   },
   setup() {
     const route = useRoute();
     const propertyTitle = route.query.title || "";
     const comment= ref("");
+    const placeholder = ref('Select a date');
+
 
 
     
@@ -539,9 +566,12 @@ export default {
     };
 
 
+
+
     return {
       showReservationForm,
       userEmail,
+      // datepicker,
       comments,
       property,
       images,

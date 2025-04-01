@@ -61,7 +61,7 @@ export function useBooking(property) { // Accept property as a parameter
 
 
     try {
-      console.log("Preparing booking data...");
+      // console.log("Preparing booking data...");
 
       // Validation
       if (!firstName.value) {
@@ -138,7 +138,7 @@ export function useBooking(property) { // Accept property as a parameter
         hotel_package_selected: selectedPackage.value || "",
       };
 
-      console.log("📩 Booking Payload:", bookingData);
+      // console.log("📩 Booking Payload:", bookingData);
 
       const bookResponse = await createResource({
         url: 'frappe.client.insert',
@@ -147,10 +147,10 @@ export function useBooking(property) { // Accept property as a parameter
         },
       }).fetch();
 
-      console.log("📩 API Response:", bookResponse);
+      // console.log("📩 API Response:", bookResponse);
 
       if (bookResponse && bookResponse.name) {
-        console.log("✅ Booking successful!", bookResponse);
+        // console.log("✅ Booking successful!", bookResponse);
         alertMessage.value = `🎉 Booking successful! Booking ID: ${bookResponse.name}`;
         alertType.value = "success";
         showReservationForm.value = false;
@@ -168,12 +168,12 @@ export function useBooking(property) { // Accept property as a parameter
         selectedPackage.value = "";
         
       } else {
-        console.error("❌ Booking failed:", bookResponse);
+        // console.error("❌ Booking failed:", bookResponse);
         alertMessage.value = "❌ Booking failed. Please try again.";
         alertType.value = "error";
       }
     } catch (err) {
-      console.error("🚨 Unable to book reservation", err);
+      // console.error("🚨 Unable to book reservation", err);
     }
   };
 

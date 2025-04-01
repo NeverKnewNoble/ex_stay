@@ -25,17 +25,17 @@ export function useProperty(propertyTitle) {
 
   const fetchPropertyOffers = async () => {
     try {
-      console.log("Fetching property offers...");
+      // console.log("Fetching property offers...");
       const response = await axios.get(
         `${site_url}/api/method/ex_stay.api.property.get_property_details`
       );
 
-      console.log("🔍 Full API Response:", response);
+      // console.log("🔍 Full API Response:", response);
 
       const offersData = response.data?.message || response.data;
 
       if (Array.isArray(offersData)) {
-        console.log("✅ Offers Fetched:", offersData);
+        // console.log("✅ Offers Fetched:", offersData);
 
         const offersDict = {};
         offersData.forEach((property) => {
@@ -44,7 +44,7 @@ export function useProperty(propertyTitle) {
 
         if (property.value) {
           property.value.custom_apartment_offers = offersDict[property.value.item_code] || [];
-          console.log("✅ Updated Property with Offers:", property.value.custom_apartment_offers);
+          // console.log("✅ Updated Property with Offers:", property.value.custom_apartment_offers);
         } else {
           console.warn("⚠️ Property is null, delaying offer assignment...");
         }
@@ -56,20 +56,54 @@ export function useProperty(propertyTitle) {
     }
   };
 
+  const fetchPropertyRestrictions = async () => {
+    try {
+      // console.log("Fetching property restrictions...");
+      const response = await axios.get(
+        `${site_url}/api/method/ex_stay.api.property.get_property_details`
+      );
+  
+      // console.log("🔍 Full API Response:", response);
+  
+      const restrictionsData = response.data?.message || response.data;
+  
+      if (Array.isArray(restrictionsData)) {
+        // console.log("✅ Restrictions Fetched:", restrictionsData);
+  
+        const restrictionsDict = {};
+        restrictionsData.forEach((property) => {
+          restrictionsDict[property.item_code] = property.custom_apartment_restrictions || [];
+        });
+  
+        if (property.value) {
+          property.value.custom_apartment_restrictions = restrictionsDict[property.value.item_code] || [];
+          // console.log("✅ Updated Property with Restrictions:", property.value.custom_apartment_restrictions);
+        } else {
+          console.warn("⚠️ Property is null, delaying restriction assignment...");
+        }
+      } else {
+        console.error("❌ Invalid response format for restrictions.", response.data);
+      }
+    } catch (error) {
+      console.error("🚨 Error fetching property restrictions:", error);
+    }
+  };
+  
+
   const fetchHotelPackages = async () => {
     try {
-      console.log("Fetching hotel packages...");
+      // console.log("Fetching hotel packages...");
       const response = await axios.get(
         `${site_url}/api/method/ex_stay.api.hotel_packages.get_hotel_packages`
       );
   
-      console.log("🔍 Full API Response:", response);
+      // console.log("🔍 Full API Response:", response);
   
       // Extract data correctly
       const hotelPackagesData = response.data?.message?.message || [];
   
       if (Array.isArray(hotelPackagesData)) {
-        console.log("✅ Hotel Packages Fetched:", hotelPackagesData);
+        // console.log("✅ Hotel Packages Fetched:", hotelPackagesData);
   
         const packagesDict = {};
         hotelPackagesData.forEach((price) => {
@@ -81,7 +115,7 @@ export function useProperty(propertyTitle) {
           prop.custom_packages = packagesDict[prop.item_code] || [];
         });
   
-        console.log("✅ Updated Properties with Packages:", properties.value);
+        // console.log("✅ Updated Properties with Packages:", properties.value);
       } else {
         console.error("❌ Invalid response format for hotel packages.", response.data);
       }
@@ -95,17 +129,23 @@ export function useProperty(propertyTitle) {
 
   onMounted(async () => {
     try {
-      console.log("Fetching properties...");
+      // console.log("Fetching properties...");
       const response = await propertiesResource.fetch();
 
       if (Array.isArray(response) && response.length > 0) {
         properties.value = response; // Assign fetched properties to the ref
-        console.log("✅ Fetched Properties:", properties.value);
+        // console.log("✅ Fetched Properties:", properties.value);
 
         // Process child table: Extract `offer` values from `custom_apartment_offers`
         properties.value.forEach((prop) => {
           prop.custom_apartment_offers = prop.custom_apartment_offers
             ? prop.custom_apartment_offers.map((offer) => offer.offer)
+            : [];
+        });
+
+        properties.value.forEach((prop) => {
+          prop.custom_apartment_restrictions = prop.custom_apartment_restrictions
+            ? prop.custom_apartment_restrictions.map((restriction) => restriction.restriction)
             : [];
         });
 
@@ -123,7 +163,7 @@ export function useProperty(propertyTitle) {
         });
 
         // Fetch Prices
-        console.log("Fetching Item Prices...");
+        // console.log("Fetching Item Prices...");
         const pricesResponse = await pricesResource.fetch();
 
         // Convert price list to a dictionary for quick lookup
@@ -147,7 +187,7 @@ export function useProperty(propertyTitle) {
           prop.tax = priceDict[prop.item_code]?.tax || null;
         });
 
-        console.log("🔍 Full Prices Response:", pricesResponse);
+        // console.log("🔍 Full Prices Response:", pricesResponse);
 
 
         // Find Property by Title
@@ -168,6 +208,7 @@ export function useProperty(propertyTitle) {
 
           // Fetch property offers only after property is assigned
           await fetchPropertyOffers();
+          await fetchPropertyRestrictions();
           await fetchHotelPackages();
 
         } else {

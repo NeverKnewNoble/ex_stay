@@ -14,7 +14,7 @@ export function useFetchCountries() {
 
       if (countryResponse.data.message && countryResponse.data.message.data) {
         countries.value = countryResponse.data.message.data;
-        console.log("Fetched Countries:", countries.value);
+        // console.log("Fetched Countries:", countries.value);
       } else {
         console.log("No countries found.");
       }

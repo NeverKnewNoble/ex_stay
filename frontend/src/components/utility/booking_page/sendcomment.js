@@ -24,7 +24,7 @@ export function useSendComment(comment, property, userEmail, fetchComments) {
                 comment: comment.value || "",
             };
 
-            console.log("Comment data:", commentData);
+            // console.log("Comment data:", commentData);
 
             const commentResponse = await createResource({
                 url: "frappe.client.insert",
@@ -33,7 +33,7 @@ export function useSendComment(comment, property, userEmail, fetchComments) {
                 },
             }).fetch();
 
-            console.log("API Response:", commentResponse);
+            // console.log("API Response:", commentResponse);
 
             if (commentResponse && commentResponse.name) {
                 comment.value = ""; // Clear input field
@@ -44,15 +44,15 @@ export function useSendComment(comment, property, userEmail, fetchComments) {
                 if (fetchComments && typeof fetchComments === "function") {
                     fetchComments(); // Refresh comments
                 } else {
-                    console.warn("⚠️ fetchComments is not defined, unable to refresh comments.");
+                    // console.warn("⚠️ fetchComments is not defined, unable to refresh comments.");
                 }
             } else {
-                console.error("❌ Comment posting failed:", commentResponse);
+                // console.error("❌ Comment posting failed:", commentResponse);
                 alertMessage.value = "Comment posting failed. Please try again.";
                 alertType.value = "error";
             }
         } catch (err) {
-            console.error("🚨 Unable to post comment", err);
+            // console.error("🚨 Unable to post comment", err);
         }
     };
 
