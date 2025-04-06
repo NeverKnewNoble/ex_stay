@@ -3,7 +3,7 @@ import { ref, computed } from "vue";
 
 export function useFilterAndPagination(properties) {
   const page = ref(1);
-  const perPage = ref(8); // Listings per page
+  const perPage = ref(40); // Listings per page
 
   // Temporary filter values before applying
   const tempSelectedCounty = ref("");
