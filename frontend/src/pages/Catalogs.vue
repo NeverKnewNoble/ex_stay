@@ -12,12 +12,24 @@
         <section class="w-full bg-white relative overflow-hidden px-[80px]">
             <h1 class="pt-[80px] text-[50px] text-[#6ea589]">Catalogue</h1>
 
-            <button 
-                @click="toggleFilters" 
-                class="bg-white text-[#6ea589] w-[150px] rounded-sm border-[#6ea589] border py-2"
-            >
-                Active Filters
-            </button>
+            <!-- Active Filters -->
+            <div class="relative inline-block">
+                <button 
+                    @click="toggleFilters" 
+                    class="bg-white text-[#6ea589] w-[150px] rounded-sm border-[#6ea589] border py-2 relative"
+                >
+                    Active Filters
+                </button>
+
+                <!-- Red badge -->
+                <span
+                    v-if="activeFilterCount > 0"
+                    class="absolute top-[-6px] right-[-6px] bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center "
+                >
+                    {{ activeFilterCount }}
+                </span>
+            </div>
+
 
             <!-- Overlay Filter Section -->
             <transition name="fade-slide">
@@ -129,7 +141,7 @@
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed  } from "vue";
 import { useRouter } from "vue-router";
 import NavBar from '../components/elements/navbar.vue';
 import FooterComponent from '../components/elements/footer.vue';
@@ -175,6 +187,18 @@ export default {
       applyFilters,
       resetFilter,
     } = useFilterAndPagination(properties);
+
+    // Active filters count
+    const activeFilterCount = computed(() => {
+        let count = 0;
+
+        if (selectedCounty.value) count++;
+        if (city.value) count++;
+        if (fromPrice.value) count++;
+        if (toPrice.value) count++;
+
+        return count;
+    });
 
     // Image utilities
     const { getImageUrl } = useImageUtils();
@@ -223,6 +247,7 @@ export default {
       resetFilter,
       getImageUrl,
       goToBookingPage,
+      activeFilterCount
     };
   },
 };

@@ -36,24 +36,28 @@
   },
   {
    "default": "0",
+   "description": "When checked, system notifications for bookings will be enabled.",
    "fieldname": "sys_booking_noti",
    "fieldtype": "Check",
    "label": "Booking Notifications"
   },
   {
    "default": "0",
+   "description": "When checked, cancelled bookings system notifications will be enabled.",
    "fieldname": "sys_cancel_noti",
    "fieldtype": "Check",
    "label": "Cancelled Booking Notifications"
   },
   {
    "default": "0",
+   "description": "When checked, system notifications for comments made in comment sections will be enabled.",
    "fieldname": "sys_comment_noti",
    "fieldtype": "Check",
    "label": "Comment Notifications"
   },
   {
    "default": "0",
+   "description": "When checked, system notifications for deleted comments made in comment sections will be enabled.",
    "fieldname": "sys_deleted_noti",
    "fieldtype": "Check",
    "label": "Deleted Comment Notifications"
@@ -69,24 +73,28 @@
   },
   {
    "default": "0",
+   "description": "When checked, email notifications for bookings will be enabled.",
    "fieldname": "email_booking_noti",
    "fieldtype": "Check",
    "label": "Booking Notifications"
   },
   {
    "default": "0",
+   "description": "When checked, email notifications for sales orders created and sent to customers will be enabled.",
    "fieldname": "email_profoma_noti",
    "fieldtype": "Check",
    "label": "Sales Order Notifications (Proforma)"
   },
   {
    "default": "0",
+   "description": "When checked, email notifications for sales invoices created and sent to customers will be enabled.",
    "fieldname": "email_sales_inv_noti",
    "fieldtype": "Check",
    "label": "Sales Invoice Notifications"
   },
   {
    "default": "0",
+   "description": "When checked, email notifications for sales orders created and sent to the hotel hosted will be enabled.",
    "fieldname": "email_hotel_booking_noti",
    "fieldtype": "Check",
    "label": "Booking Sales Invoice Notifications To Hotel"
@@ -95,7 +103,7 @@
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-03-13 16:35:35.933522",
+ "modified": "2025-04-06 18:51:18.370841",
  "modified_by": "Administrator",
  "module": "ex_stay",
  "name": "Ex Settings",
