@@ -460,7 +460,6 @@
 
 
 
-
 <script>
 import { ref, onMounted, computed } from "vue";
 import { useRoute } from "vue-router";
@@ -617,4 +616,3 @@ export default {
 };
 
 </script>
-
