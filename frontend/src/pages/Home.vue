@@ -2,12 +2,7 @@
   <div class="w-full h-screen bg-gray-200 text-black">
     <!-- **Main Banner -->
     <section class="w-full h-[800px] relative">
-      <!-- Background Image -->
-      <!-- <img
-        src="../assets/images/mountaintroup.jpg"
-        class="w-full h-full object-cover"
-        alt="homebanner"
-      /> -->
+      <!-- Background Video -->
       <video
         class="w-full h-full object-cover"
         autoplay
@@ -21,25 +16,24 @@
       <!-- Dark Overlay -->
       <div class="absolute inset-0 bg-black bg-opacity-50"></div>
 
-
       <!-- Navbar -->
       <div class="absolute top-2 left-0 w-full">
         <Navbar />
       </div>
 
       <!-- Title -->
-      <div class="text-white text-[100px] absolute top-[300px] left-0 w-full flex items-center justify-center">
+      <div class="text-white text-[40px] md:text-[60px] lg:text-[100px] absolute top-[300px] left-0 w-full flex items-center justify-center px-4 text-center">
         <h1>Welcome To Ex Stay</h1>
       </div>
 
       <!-- Search Bar -->
-      <div class="absolute top-[500px] left-0 w-full flex items-center justify-center">
-        <div class="relative">
+      <div class="absolute top-[500px] left-0 w-full flex items-center justify-center px-4">
+        <div class="relative w-full max-w-[950px]">
           <input
             type="text"
             v-model="searchQuery"
             placeholder="Search For Your Destination"
-            class="bg-gray-100 sm:w-[680px] md:w-[950px] lg:w-[950px] py-[12px] focus:bg-white border-none transition rounded-full pl-5 pr-12 focus:border-none"
+            class="bg-gray-100 w-full py-[12px] focus:bg-white border-none transition rounded-full pl-5 pr-12 focus:border-none"
           />
           <button
             @click="searchProperties"
@@ -61,12 +55,12 @@
     </section>
 
     <!-- **Places -->
-    <section class="w-full bg-white min-h-screen pt-10 px-[100px] pb-20">
-      <h2 class="text-[50px] mt-[100px] font-semibold text-center text-green-600 mb-10">
+    <section class="w-full bg-white min-h-screen pt-10 px-4 md:px-[100px] pb-20">
+      <h2 class="text-[30px] md:text-[50px] mt-[50px] md:mt-[100px] font-semibold text-center text-green-600 mb-10">
         Experience Comfort Like Never Before
       </h2>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-5">
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4 md:gap-5">
         <listingCard
           v-for="property in paginatedProperties"
           :key="property.item_code"
@@ -88,12 +82,12 @@
     </section>
 
     <!-- Search Results Modal -->
-    <div v-if="showSearchResults" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-      <div class="bg-white rounded-lg p-6 max-w-4xl w-full shadow-lg relative">
+    <div v-if="showSearchResults" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center p-4">
+      <div class="bg-white rounded-lg p-4 md:p-6 w-full max-w-4xl shadow-lg relative">
         <button @click="closeSearchResults" class="absolute top-2 right-2 text-gray-600 hover:text-gray-900">
           ✖
         </button>
-        <h2 class="text-2xl font-semibold text-green-600 text-center mb-5">
+        <h2 class="text-xl md:text-2xl font-semibold text-green-600 text-center mb-5">
           Results for "{{ searchQuery }}"
         </h2>
         <div v-if="filteredProperties.length">
